@@ -1,4 +1,4 @@
-namespace Ping.Server {
+namespace MortiseFrame.Vista {
 
     public enum CameraFSMStatus {
 

@@ -4,15 +4,34 @@ namespace MortiseFrame.Vista {
 
     public class CameraEntity {
 
+        // ID
         int id;
+        public int ID => id;
 
+        // Pos
         FVector2 pos;
+
+        // Driver
         CameraDriver driver;
 
+        // Confiner
         Bounds confiner;
+
+        // ViewSize
         Bounds viewSize;
         public FVector2 ViewSizeMax => viewSize.Max + pos;
         public FVector2 ViewSizeMin => viewSize.Min + pos;
+
+        // FSM
+        CameraFSMComponent fsmCom;
+
+        public CameraEntity() {
+            fsmCom = new CameraFSMComponent();
+        }
+
+        public void Inject(CameraDriver driver) {
+            this.driver = driver;
+        }
 
         public void Driver_Set(CameraDriver driver) {
             this.driver = driver;

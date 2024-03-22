@@ -1,6 +1,6 @@
 using MortiseFrame.Abacus;
 
-namespace Ping.Server {
+namespace MortiseFrame.Vista{
 
     public class CameraFSMComponent {
 

@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.mortise.abacus": {
+      "version": "ssh://git@github.com/onovich/Abacus.git?path=/Assets/com.mortise.abacus#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "edc15453eb0fe2036f3ecd19a00f046d90760877"
+    },
     "com.unity.collab-proxy": {
       "version": "2.2.0",
       "depth": 0,

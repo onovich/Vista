@@ -30,7 +30,7 @@ namespace MortiseFrame.Vista {
         CameraFSMComponent fsmCom;
         public CameraFSMComponent FSMCom => fsmCom;
 
-        public Camera2DEntity() {
+        public Camera2DEntity(int id, FVector2 pos, Bounds confiner, Bounds deadZone, Bounds viewSize) {
             fsmCom = new CameraFSMComponent();
         }
 

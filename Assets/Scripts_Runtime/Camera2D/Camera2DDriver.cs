@@ -2,7 +2,7 @@ using MortiseFrame.Abacus;
 
 namespace MortiseFrame.Vista {
 
-    public class CameraDriver {
+    public class Camera2DDriver {
 
         FVector2 pos;
         public FVector2 Pos => pos;

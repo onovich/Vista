@@ -8,7 +8,7 @@ namespace MortiseFrame.Vista{
 
         public bool Idle_isEntering { get; set; }
 
-        public bool MovingByDriver_isEntering { get; set; }
+        public bool MovingToTarget_isEntering { get; set; }
 
         public bool FadingIn_isEntering { get; set; }
         public float FadingIn_timer { get; set; }
@@ -25,9 +25,9 @@ namespace MortiseFrame.Vista{
             Idle_isEntering = true;
         }
 
-        public void EnterMovingByDriver(FVector2 movingDir) {
-            Status = CameraFSMStatus.MovingByDriver;
-            MovingByDriver_isEntering = true;
+        public void EnterMovingToTarget(FVector2 movingDir) {
+            Status = CameraFSMStatus.MovingToTarget;
+            MovingToTarget_isEntering = true;
             this.movingDir = movingDir;
         }
 

@@ -2,7 +2,7 @@ using MortiseFrame.Abacus;
 
 namespace MortiseFrame.Vista {
 
-    public class CameraEntity {
+    public class Camera2DEntity {
 
         // ID
         int id;

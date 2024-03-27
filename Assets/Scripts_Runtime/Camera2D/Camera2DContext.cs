@@ -3,7 +3,7 @@ using System;
 
 namespace MortiseFrame.Vista {
 
-    public class CameraContext {
+    public class Camera2DContext {
 
         SortedList<int, CameraEntity> cameras;
         IDService idService;
@@ -12,12 +12,6 @@ namespace MortiseFrame.Vista {
             cameras = new SortedList<int, CameraEntity>();
             idService = new IDService();
         }
-
-
-
-
-
-
 
     }
 

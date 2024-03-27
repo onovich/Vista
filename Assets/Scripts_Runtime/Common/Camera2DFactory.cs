@@ -1,6 +1,6 @@
 namespace MortiseFrame.Vista {
 
-    public class CameraFactory {
+    public class Camera2DFactory {
 
 
 

@@ -4,7 +4,7 @@ namespace MortiseFrame.Vista {
 
         None,
         Idle,
-        MovingByDriver,
+        MovingToTarget,
         FadingIn,
         FadingOut,
 

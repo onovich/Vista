@@ -17,6 +17,9 @@ namespace MortiseFrame.Vista {
         // Confiner
         Bounds confiner;
 
+        // DeadZone
+        Bounds deadZone;
+
         // ViewSize
         Bounds viewSize;
         public FVector2 ViewSizeMax => viewSize.Max + pos;

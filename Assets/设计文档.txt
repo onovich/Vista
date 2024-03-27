@@ -1,5 +1,5 @@
 # 术语
-1. Driver 是 Vector2/ Vector3, 用于 IOC
+1. Driver 是 Bounds / Cube, 用于 IOC; Driver 有体积
 2. DeadZone 是基于屏幕坐标的 Bounds / Cube
 3. Confiner 是基于世界坐标的 Bounds / Cube
 4. Camera Pos 基于世界坐标

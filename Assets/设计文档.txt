@@ -1,0 +1,29 @@
+# 术语
+1. Driver 是 Vector2/ Vector3, 用于 IOC
+2. DeadZone 是基于屏幕坐标的 Bounds / Cube
+3. Confiner 是基于世界坐标的 Bounds / Cube
+4. Camera Pos 基于世界坐标
+5. FOV 是(垂直)视场角(默认采用Degree)
+6. AspectRatio 是宽高比
+7. Distance 是相机到屏幕的距离
+8. View 是相机的视野大小, View.Y = 2 * Mathf.Tan(FOV / 2) * Distance, View.X = Rect.Y * AspectRatio
+
+# 状态
+1. 根据 Driver(如玩家)的位置, 更新相机位置, 此时受到 DeadZone 和 Confiner 的限制
+2. 根据 Target(如NPC 或 虚拟轨道)的位置, 更新相机位置，此时受到 和 Confiner 的限制
+
+# DeadZone 和 Confiner 限制
+1. Driver 超出 DeadZone 时, 相机根据 Offset 移动
+2. View 不允许超出 Confiner
+
+# 接口
+1. MoveTo(Vector3 pos, float duration, EasingType) 移动到指定位置, 可选缓动方式, 可用于演出
+2. LookAt(Vector3 pos, float duration, EasingType) 朝向指定位置, 可选缓动方式, 可用于演出
+3. ZoomTo(float size, float duration, EasingType) 缩放到指定大小, 可选缓动方式, 可用于演出
+4. SetDeadZone(Bounds/ Cube) 设置DeadZone
+5. SetConfiner(Bounds/ Cube) 设置Confiner
+6. RecordDriverPos(Vector3 pos) 记录Driver的位置
+7. Tick(float dt) 根据 状态，基于 DriverPos 或 Target, 更新相机位置
+
+# 其它待设计
+1. 距离约束、转角约束、FOV约束

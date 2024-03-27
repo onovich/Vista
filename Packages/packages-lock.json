@@ -5,7 +5,14 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "273b51171cc5ed314b409060c849822cdbe2ff8d"
+      "hash": "5262ff720014052e6cb7898d3bd039e1c3aa3f2e"
+    },
+    "com.mortise.swing": {
+      "version": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "21e32ce6f359df6ec6559e31a0a5005dba2eaff6"
     },
     "com.unity.collab-proxy": {
       "version": "2.2.0",

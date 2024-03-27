@@ -5,11 +5,11 @@ namespace MortiseFrame.Vista {
 
     public class Camera2DContext {
 
-        SortedList<int, CameraEntity> cameras;
+        SortedList<int, Camera2DEntity> cameras;
         IDService idService;
 
-        public CameraContext() {
-            cameras = new SortedList<int, CameraEntity>();
+        public Camera2DContext() {
+            cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
         }
 

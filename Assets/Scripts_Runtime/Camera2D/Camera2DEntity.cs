@@ -1,4 +1,5 @@
 using MortiseFrame.Abacus;
+using MortiseFrame.Swing;
 
 namespace MortiseFrame.Vista {
 
@@ -12,7 +13,7 @@ namespace MortiseFrame.Vista {
         FVector2 pos;
 
         // Driver
-        CameraDriver driver;
+        Camera2DDriver driver;
 
         // Confiner
         Bounds confiner;
@@ -27,16 +28,17 @@ namespace MortiseFrame.Vista {
 
         // FSM
         CameraFSMComponent fsmCom;
+        public CameraFSMComponent FSMCom => fsmCom;
 
-        public CameraEntity() {
+        public Camera2DEntity() {
             fsmCom = new CameraFSMComponent();
         }
 
-        public void Inject(CameraDriver driver) {
+        public void Inject(Camera2DDriver driver) {
             this.driver = driver;
         }
 
-        public void Driver_Set(CameraDriver driver) {
+        public void Driver_Set(Camera2DDriver driver) {
             this.driver = driver;
         }
 
@@ -49,14 +51,13 @@ namespace MortiseFrame.Vista {
             this.pos = pos;
         }
 
-        public void MoveByDir(FVector2 dir) {
-            var _pos = pos + dir;
-            Pos_Set(_pos);
+        public void MoveToTarget(FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
+            fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode);
         }
 
-        public void MoveByDriver(CameraDriver driver) {
-            var driverMin = driver.DeadZoneMin;
-            var driverMax = driver.DeadZoneMax;
+        public void MoveByDriver(Camera2DDriver driver) {
+            var driverMin = deadZone.Min;
+            var driverMax = deadZone.Max;
 
             var xDiffMin = driverMin.x - ViewSizeMin.x;
             var yDiffMin = driverMin.y - ViewSizeMin.y;

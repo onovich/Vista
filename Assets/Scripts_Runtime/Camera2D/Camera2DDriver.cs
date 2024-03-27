@@ -7,7 +7,7 @@ namespace MortiseFrame.Vista {
         FVector2 pos;
         public FVector2 Pos => pos;
 
-        public CameraDriver(FVector2 pos) {
+        public Camera2DDriver(FVector2 pos) {
             this.pos = pos;
         }
 

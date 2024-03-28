@@ -1,0 +1,19 @@
+{
+    "name": "MortiseFrame.Vista.Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8bae2f23322789e429cb9222c6dc46dc",
+        "GUID:34f97fff043d156448cd365d5c925dc5",
+        "GUID:3e1313b9d6abf4d0394d17448e7e610f",
+        "GUID:c7a1d41357ba98345ab1406e0233b825"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

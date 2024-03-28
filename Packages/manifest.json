@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.mortise.abacus": "ssh://git@github.com/onovich/Abacus.git?path=/Assets/com.mortise.abacus#main",
+    "com.mortise.abacus.extension": "ssh://git@github.com/onovich/AbacusExtension.git?path=/Assets/com.mortise.abacus.extension#main",
     "com.mortise.swing": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.development": "1.0.1",

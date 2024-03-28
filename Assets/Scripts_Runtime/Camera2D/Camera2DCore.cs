@@ -1,4 +1,5 @@
 using MortiseFrame.Abacus;
+using MortiseFrame.Swing;
 
 namespace MortiseFrame.Vista {
 
@@ -18,6 +19,22 @@ namespace MortiseFrame.Vista {
             var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos, deadZoneSize, deadZonePos, viewSize);
             ctx.AddCamera(camera, camera.ID);
             return camera;
+        }
+
+        public void RemoveCamera(Camera2DEntity camera) {
+            ctx.RemoveCamera(camera);
+        }
+
+        public void MoveCameraToTarget(Camera2DEntity camera, FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
+            camera.MoveToTarget(target, duration, easingType, easingMode);
+        }
+
+        public void MoveCameraByDriver(Camera2DEntity camera, Camera2DDriver driver) {
+            camera.MoveByDriver(driver);
+        }
+
+        public void Clear() {
+            ctx.Clear();
         }
 
     }

@@ -56,13 +56,15 @@ namespace MortiseFrame.Vista {
         }
 
         public void MoveByDriver(Camera2DDriver driver) {
-            var driverMin = deadZone.Min;
-            var driverMax = deadZone.Max;
+            var driverMin = driver.ColliderBox.Min;
+            var driverMax = driver.ColliderBox.Max;
+            var deadZoneMin = deadZone.Min;
+            var deadZoneMax = deadZone.Max;
 
-            var xDiffMin = driverMin.x - ViewSizeMin.x;
-            var yDiffMin = driverMin.y - ViewSizeMin.y;
-            var xDiffMax = driverMax.x - ViewSizeMax.x;
-            var yDiffMax = driverMax.y - ViewSizeMax.y;
+            var xDiffMin = driverMin.x - deadZoneMin.x;
+            var yDiffMin = driverMin.y - deadZoneMin.y;
+            var xDiffMax = driverMax.x - deadZoneMax.x;
+            var yDiffMax = driverMax.y - deadZoneMax.y;
 
             var _pos = pos;
 
@@ -76,8 +78,6 @@ namespace MortiseFrame.Vista {
 
             Pos_Set(_pos);
         }
-
-
 
     }
 

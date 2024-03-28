@@ -7,8 +7,12 @@ namespace MortiseFrame.Vista {
         FVector2 pos;
         public FVector2 Pos => pos;
 
-        public Camera2DDriver(FVector2 pos) {
+        Bounds colliderBox;
+        public Bounds ColliderBox => colliderBox;
+
+        public Camera2DDriver(FVector2 pos, FVector2 size) {
             this.pos = pos;
+            colliderBox = new Bounds(pos, size);
         }
 
         public void SetPos(FVector2 pos) {

@@ -9,6 +9,9 @@ namespace MortiseFrame.Vista {
         IDService idService;
         public IDService IDService => idService;
 
+        Camera2DEntity currentCamera;
+        public Camera2DEntity CurrentCamera => currentCamera;
+
         public Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
@@ -31,6 +34,15 @@ namespace MortiseFrame.Vista {
 
         public bool TryGetCamera(int id, out Camera2DEntity camera) {
             return cameras.TryGetValue(id, out camera);
+        }
+
+        public void SetCurrentCamera(Camera2DEntity camera) {
+            currentCamera = camera;
+        }
+
+        public void Clear() {
+            cameras.Clear();
+            currentCamera = null;
         }
 
     }

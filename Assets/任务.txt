@@ -1,2 +1,2 @@
-1. Driver 重构, 重新考虑 IoC 方式, 考虑是否注入 Transform 
+1. Driver 重构, 重新考虑 IoC 方式, 考虑是否注入 Transform; 是否不需要 Entity, 而应作为状态机的状态 
 2. Camera 重构, 重新考虑 IoC 方式, 考虑是否注入 Camera

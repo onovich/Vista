@@ -1,3 +1,4 @@
+using System;
 using MortiseFrame.Abacus;
 using MortiseFrame.Swing;
 
@@ -58,8 +59,8 @@ namespace MortiseFrame.Vista {
         }
 
         // Move
-        public void MoveToTarget(FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
-            fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode);
+        public void MoveToTarget(FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+            fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode, onComplete);
         }
 
         public void MoveByDriver(Camera2DDriver driver) {

@@ -1,3 +1,4 @@
+using System;
 using MortiseFrame.Abacus;
 using MortiseFrame.Swing;
 
@@ -26,8 +27,8 @@ namespace MortiseFrame.Vista {
             ctx.RemoveCamera(camera);
         }
 
-        public void MoveCameraToTarget(Camera2DEntity camera, FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
-            camera.MoveToTarget(target, duration, easingType, easingMode);
+        public void MoveCameraToTarget(Camera2DEntity camera, FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+            camera.MoveToTarget(target, duration, easingType, easingMode, onComplete);
         }
 
         public void MoveCameraByDriver(Camera2DEntity camera, Camera2DDriver driver) {

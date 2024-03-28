@@ -1,3 +1,4 @@
+using System;
 using MortiseFrame.Abacus;
 using MortiseFrame.Swing;
 
@@ -16,6 +17,7 @@ namespace MortiseFrame.Vista {
         public float MovingToTarget_duration { get; set; }
         public EasingType MovingToTarget_easingType { get; set; }
         public EasingMode MovingToTarget_easingMode { get; set; }
+        public Action MovingToTarget_onComplete { get; set; }
 
         public bool FadingIn_isEntering { get; set; }
         public float FadingIn_timer { get; set; }
@@ -30,13 +32,15 @@ namespace MortiseFrame.Vista {
             Idle_isEntering = true;
         }
 
-        public void EnterMovingToTarget(FVector2 startPos, FVector2 targetPos, float duration, EasingType easingType, EasingMode easingMode) {
+        public void EnterMovingToTarget(FVector2 startPos, FVector2 targetPos, float duration, EasingType easingType, EasingMode easingMode, Action onComplete = null) {
             Status = CameraFSMStatus.MovingToTarget;
             MovingToTarget_isEntering = true;
             MovingToTarget_startPos = startPos;
             MovingToTarget_targetPos = targetPos;
             MovingToTarget_current = 0f;
             MovingToTarget_duration = duration;
+            MovingToTarget_easingType = easingType;
+            MovingToTarget_onComplete = onComplete;
         }
 
         public void MovingToTarget_IncTimer(float dt) {
@@ -45,6 +49,10 @@ namespace MortiseFrame.Vista {
 
         public bool MovingToTarget_IsDone() {
             return MovingToTarget_current >= MovingToTarget_duration;
+        }
+
+        public void MovingToTarget_OnComplete() {
+            MovingToTarget_onComplete?.Invoke();
         }
 
         public void EnterFadeIn(float duration) {

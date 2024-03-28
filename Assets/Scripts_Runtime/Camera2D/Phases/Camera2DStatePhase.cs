@@ -56,6 +56,7 @@ namespace MortiseFrame.Vista {
 
             fsmCom.MovingToTarget_IncTimer(dt);
             if (fsmCom.MovingToTarget_IsDone()) {
+                fsmCom.MovingToTarget_OnComplete();
                 fsmCom.EnterIdle();
             }
         }

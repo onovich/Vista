@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraOriginPos: {x: 0, y: 0}
-  confinerSize: {x: 8, y: 8}
+  confinerSize: {x: 12, y: 12}
   confinerPos: {x: 0, y: 0}
   deadZoneSize: {x: 2, y: 2}
   deadZonePos: {x: 0, y: 0}

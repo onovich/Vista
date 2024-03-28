@@ -2,7 +2,7 @@ using MortiseFrame.Swing;
 
 namespace MortiseFrame.Vista {
 
-    public static class Camera2DFSMController {
+    public static class Camera2DStatePhase {
 
         public static void FSMTick(Camera2DEntity camera, float dt) {
 

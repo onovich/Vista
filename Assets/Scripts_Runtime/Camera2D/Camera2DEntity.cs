@@ -52,15 +52,12 @@ namespace MortiseFrame.Vista {
             this.driver = driver;
         }
 
-        // Move
+        // Pos
         public void Pos_Set(FVector2 pos) {
-            var confinerMin = confiner.Min;
-            var confinerMax = confiner.Max;
-            pos.x = FMath.Clamp(pos.x, confinerMin.x, confinerMax.x);
-            pos.y = FMath.Clamp(pos.y, confinerMin.y, confinerMax.y);
             this.pos = pos;
         }
 
+        // Move
         public void MoveToTarget(FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
             fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode);
         }
@@ -76,17 +73,13 @@ namespace MortiseFrame.Vista {
             var xDiffMax = driverMax.x - deadZoneMax.x;
             var yDiffMax = driverMax.y - deadZoneMax.y;
 
-            var _pos = pos;
-
             if (xDiffMin < 0 || xDiffMax > 0) {
-                _pos.x += xDiffMin;
+                pos.x += xDiffMin;
             }
 
             if (yDiffMin < 0 || yDiffMax > 0) {
-                _pos.y += yDiffMin;
+                pos.y += yDiffMin;
             }
-
-            Pos_Set(_pos);
         }
 
     }

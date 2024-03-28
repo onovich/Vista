@@ -12,7 +12,8 @@ namespace MortiseFrame.Vista {
         }
 
         public void Tick(Camera2DEntity camera, float dt) {
-            Camera2DFSMController.FSMTick(camera, dt);
+            Camera2DStatePhase.FSMTick(camera, dt);
+            Camera2DConstraintPhase.Tick(ctx, dt);
         }
 
         public Camera2DEntity CreateCamera2D(FVector2 pos, FVector2 confinerSize, FVector2 confinerPos, FVector2 deadZoneSize, FVector2 deadZonePos, FVector2 viewSize) {

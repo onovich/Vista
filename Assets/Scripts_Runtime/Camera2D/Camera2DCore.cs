@@ -33,6 +33,10 @@ namespace MortiseFrame.Vista {
             camera.MoveByDriver(driver);
         }
 
+        public void SetCurrentCamera(Camera2DEntity camera) {
+            ctx.SetCurrentCamera(camera);
+        }
+
         public void Clear() {
             ctx.Clear();
         }

@@ -11,18 +11,23 @@ namespace MortiseFrame.Vista {
 
         // Pos
         FVector2 pos;
+        public FVector2 Pos => pos;
 
         // Driver
         Camera2DDriver driver;
+        public Camera2DDriver Driver => driver;
 
         // Confiner
         Bounds confiner;
+        public Bounds Confiner => confiner;
 
         // DeadZone
         Bounds deadZone;
+        public Bounds DeadZone => deadZone;
 
         // ViewSize
         Bounds viewSize;
+        public Bounds ViewSize => viewSize;
         public FVector2 ViewSizeMax => viewSize.Max + pos;
         public FVector2 ViewSizeMin => viewSize.Min + pos;
 
@@ -32,6 +37,11 @@ namespace MortiseFrame.Vista {
 
         public Camera2DEntity(int id, FVector2 pos, Bounds confiner, Bounds deadZone, Bounds viewSize) {
             fsmCom = new CameraFSMComponent();
+            this.id = id;
+            this.pos = pos;
+            this.confiner = confiner;
+            this.deadZone = deadZone;
+            this.viewSize = viewSize;
         }
 
         public void Inject(Camera2DDriver driver) {

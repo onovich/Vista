@@ -13,14 +13,35 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Vector2 deadZonePos;
         [SerializeField] Vector2 viewSize;
 
+        [SerializeField] RoleEntity role;
+
         void Start() {
+            VLog.Log = Debug.Log;
+            VLog.Warning = Debug.LogWarning;
+            VLog.Error = Debug.LogError;
+
             ctx = new CameraInfraContext();
-            ctx.CreateCamera2D(cameraOriginPos.ToFVector2(), confinerSize.ToFVector2(), confinerPos.ToFVector2(), deadZoneSize.ToFVector2(), deadZonePos.ToFVector2(), viewSize.ToFVector2());
+            ctx.CreateMainCamera(cameraOriginPos.ToFVector2(), confinerSize.ToFVector2(), confinerPos.ToFVector2(), deadZoneSize.ToFVector2(), deadZonePos.ToFVector2(), viewSize.ToFVector2());
+            ctx.SetCurrentCamera(ctx.mainCamera);
         }
 
         void Update() {
             var dt = Time.deltaTime;
             CameraInfra.Tick(ctx, dt);
+        }
+
+        void OnDrawGizmos() {
+            if (ctx == null || ctx.mainCamera == null) return;
+            var camera = ctx.mainCamera;
+            var confiner = camera.Confiner;
+            var deadZone = camera.DeadZone;
+            var viewSize = camera.ViewSize;
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(confiner.Center.ToVector3(), confiner.Size.ToVector3());
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(deadZone.Center.ToVector3(), deadZone.Size.ToVector3());
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(viewSize.Center.ToVector3(), viewSize.Size.ToVector3());
         }
 
     }

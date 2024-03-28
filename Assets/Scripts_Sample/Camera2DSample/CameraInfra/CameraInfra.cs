@@ -5,7 +5,7 @@ namespace MortiseFrame.Vista.Sample {
 
     public static class CameraInfra {
 
-        public static void Tick(CameraInfraContext ctx, float dt) {
+        public static void Tick(MainContext ctx, float dt) {
             var camera = ctx.mainCamera;
             ctx.core.Tick(camera, dt);
         }

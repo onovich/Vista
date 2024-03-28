@@ -5,7 +5,7 @@ namespace MortiseFrame.Vista.Sample {
 
     public class Camera2DSampleEntry : MonoBehaviour {
 
-        CameraInfraContext ctx;
+        MainContext ctx;
         [SerializeField] Vector2 cameraOriginPos;
         [SerializeField] Vector2 confinerSize;
         [SerializeField] Vector2 confinerPos;
@@ -20,12 +20,22 @@ namespace MortiseFrame.Vista.Sample {
             VLog.Warning = Debug.LogWarning;
             VLog.Error = Debug.LogError;
 
-            ctx = new CameraInfraContext();
+            ctx = new MainContext();
             ctx.CreateMainCamera(cameraOriginPos.ToFVector2(), confinerSize.ToFVector2(), confinerPos.ToFVector2(), deadZoneSize.ToFVector2(), deadZonePos.ToFVector2(), viewSize.ToFVector2());
             ctx.SetCurrentCamera(ctx.mainCamera);
+            ctx.SetRole(role);
+
+            LogicBusiness.EnterGame(ctx);
         }
 
         void Update() {
+            var dt = Time.deltaTime;
+            LogicBusiness.ProcessInput(ctx);
+            LogicBusiness.RoleMove(ctx, dt);
+            LogicBusiness.ResetInput(ctx);
+        }
+
+        void LateUpdate() {
             var dt = Time.deltaTime;
             CameraInfra.Tick(ctx, dt);
         }

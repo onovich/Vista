@@ -171,7 +171,7 @@ MonoBehaviour:
   confinerSize: {x: 12, y: 12}
   confinerPos: {x: 0, y: 0}
   deadZoneSize: {x: 2, y: 2}
-  deadZonePos: {x: 0, y: 0}
+  softZoneSize: {x: 6, y: 6}
   viewSize: {x: 4, y: 4}
   role: {fileID: 931528809}
 --- !u!1 &705507993
@@ -365,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef09899f5c2bd0c448e8f84d05734c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

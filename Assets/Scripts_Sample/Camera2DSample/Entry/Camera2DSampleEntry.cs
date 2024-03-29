@@ -9,7 +9,7 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Vector2 confinerSize;
         [SerializeField] Vector2 confinerPos;
         [SerializeField] Vector2 deadZoneSize;
-        [SerializeField] Vector2 deadZonePos;
+        [SerializeField] Vector2 softZoneSize;
         [SerializeField] Vector2 viewSize;
 
         [SerializeField] RoleEntity role;
@@ -20,7 +20,7 @@ namespace MortiseFrame.Vista.Sample {
             VLog.Error = Debug.LogError;
 
             ctx = new MainContext();
-            ctx.CreateMainCamera(cameraOriginPos, confinerSize, confinerPos, deadZoneSize, deadZonePos, viewSize);
+            ctx.CreateMainCamera(cameraOriginPos, confinerSize, confinerPos, deadZoneSize, softZoneSize, viewSize);
             ctx.SetCurrentCamera(ctx.mainCamera);
             ctx.SetRole(role);
 
@@ -44,12 +44,15 @@ namespace MortiseFrame.Vista.Sample {
             var camera = ctx.mainCamera;
             var confiner = camera.Confiner;
             var deadZone = camera.DeadZone;
+            var softZone = camera.SoftZone;
             var viewSize = camera.ViewSize;
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(confiner.center, confiner.size);
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(deadZone.center, deadZone.size);
             Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(softZone.center, softZone.size);
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(viewSize.center, viewSize.size);
         }
 

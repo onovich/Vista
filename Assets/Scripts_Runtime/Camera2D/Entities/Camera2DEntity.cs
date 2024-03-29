@@ -39,12 +39,13 @@ namespace MortiseFrame.Vista {
         CameraMovingComponent fsmCom;
         public CameraMovingComponent FSMCom => fsmCom;
 
-        public Camera2DEntity(int id, Vector2 pos, Bounds confiner, Bounds deadZone, Bounds viewSize) {
+        public Camera2DEntity(int id, Vector2 pos, Bounds confiner, Bounds deadZone, Bounds softZone, Bounds viewSize) {
             fsmCom = new CameraMovingComponent();
             this.id = id;
             this.pos = pos;
             this.confiner = confiner;
             this.deadZone = deadZone;
+            this.softZone = softZone;
             this.viewSize = viewSize;
         }
 

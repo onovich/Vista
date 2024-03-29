@@ -1,4 +1,3 @@
-using MortiseFrame.Abacus;
 using UnityEngine;
 
 namespace MortiseFrame.Vista.Sample {
@@ -18,7 +17,7 @@ namespace MortiseFrame.Vista.Sample {
             isGameStart = false;
         }
 
-        public Camera2DEntity CreateMainCamera(FVector2 pos, FVector2 confinerSize, FVector2 confinerPos, FVector2 deadZoneSize, FVector2 deadZonePos, FVector2 viewSize) {
+        public Camera2DEntity CreateMainCamera(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos, Vector2 deadZoneSize, Vector2 deadZonePos, Vector2 viewSize) {
             mainCamera = core.CreateCamera2D(pos, confinerSize, confinerPos, deadZoneSize, deadZonePos, viewSize);
             return mainCamera;
         }

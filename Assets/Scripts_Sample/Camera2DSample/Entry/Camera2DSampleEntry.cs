@@ -1,4 +1,3 @@
-using MortiseFrame.Abacus.Extension;
 using UnityEngine;
 
 namespace MortiseFrame.Vista.Sample {
@@ -21,7 +20,7 @@ namespace MortiseFrame.Vista.Sample {
             VLog.Error = Debug.LogError;
 
             ctx = new MainContext();
-            ctx.CreateMainCamera(cameraOriginPos.ToFVector2(), confinerSize.ToFVector2(), confinerPos.ToFVector2(), deadZoneSize.ToFVector2(), deadZonePos.ToFVector2(), viewSize.ToFVector2());
+            ctx.CreateMainCamera(cameraOriginPos, confinerSize, confinerPos, deadZoneSize, deadZonePos, viewSize);
             ctx.SetCurrentCamera(ctx.mainCamera);
             ctx.SetRole(role);
 
@@ -47,11 +46,11 @@ namespace MortiseFrame.Vista.Sample {
             var deadZone = camera.DeadZone;
             var viewSize = camera.ViewSize;
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(confiner.Center.ToVector3(), confiner.Size.ToVector3());
+            Gizmos.DrawWireCube(confiner.center, confiner.size);
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(deadZone.Center.ToVector3(), deadZone.Size.ToVector3());
+            Gizmos.DrawWireCube(deadZone.center, deadZone.size);
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(viewSize.Center.ToVector3(), viewSize.Size.ToVector3());
+            Gizmos.DrawWireCube(viewSize.center, viewSize.size);
         }
 
     }

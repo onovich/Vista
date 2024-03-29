@@ -1,10 +1,9 @@
 namespace MortiseFrame.Vista {
 
-    public enum CameraFSMStatus {
+    public enum CameraFadingStatus {
 
         None,
         Idle,
-        MovingToTarget,
         FadingIn,
         FadingOut,
 

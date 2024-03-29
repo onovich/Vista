@@ -1,25 +1,11 @@
 {
   "dependencies": {
-    "com.mortise.abacus": {
-      "version": "ssh://git@github.com/onovich/Abacus.git?path=/Assets/com.mortise.abacus#main",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "5262ff720014052e6cb7898d3bd039e1c3aa3f2e"
-    },
-    "com.mortise.abacus.extension": {
-      "version": "ssh://git@github.com/onovich/AbacusExtension.git?path=/Assets/com.mortise.abacus.extension#main",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "18e9f31d1c98f29d84aaf5406a78ecbeafdbd4e4"
-    },
     "com.mortise.swing": {
-      "version": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing",
+      "version": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing#unity-edition",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "21e32ce6f359df6ec6559e31a0a5005dba2eaff6"
+      "hash": "f149c2471fce60e10dbd53f9dd1ffc161010afdc"
     },
     "com.unity.collab-proxy": {
       "version": "2.2.0",

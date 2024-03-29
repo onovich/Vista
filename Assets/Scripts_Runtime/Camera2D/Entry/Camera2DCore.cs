@@ -1,5 +1,5 @@
 using System;
-using MortiseFrame.Abacus;
+using UnityEngine;
 using MortiseFrame.Swing;
 
 namespace MortiseFrame.Vista {
@@ -12,12 +12,12 @@ namespace MortiseFrame.Vista {
             ctx = new Camera2DContext();
         }
 
-        public void Tick(Camera2DEntity camera, float dt) {
-            Camera2DStatePhase.FSMTick(camera, dt);
+        public void Tick(float dt) {
+            Camera2DMovingPhase.FSMTick(ctx, dt);
             Camera2DConstraintPhase.Tick(ctx, dt);
         }
 
-        public Camera2DEntity CreateCamera2D(FVector2 pos, FVector2 confinerSize, FVector2 confinerPos, FVector2 deadZoneSize, FVector2 deadZonePos, FVector2 viewSize) {
+        public Camera2DEntity CreateCamera2D(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos, Vector2 deadZoneSize, Vector2 deadZonePos, Vector2 viewSize) {
             var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos, deadZoneSize, deadZonePos, viewSize);
             ctx.AddCamera(camera, camera.ID);
             return camera;
@@ -27,12 +27,12 @@ namespace MortiseFrame.Vista {
             ctx.RemoveCamera(camera);
         }
 
-        public void MoveCameraToTarget(Camera2DEntity camera, FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
-            camera.MoveToTarget(target, duration, easingType, easingMode, onComplete);
+        public void SetMoveToTarget(Camera2DEntity camera, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+            camera.SetMoveToTarget(target, duration, easingType, easingMode, onComplete);
         }
 
-        public void MoveCameraByDriver(Camera2DEntity camera, Camera2DDriver driver) {
-            camera.MoveByDriver(driver);
+        public void SetMoveByDriver(Camera2DEntity camera, Transform driver) {
+            camera.SetMoveByDriver(driver);
         }
 
         public void SetCurrentCamera(Camera2DEntity camera) {

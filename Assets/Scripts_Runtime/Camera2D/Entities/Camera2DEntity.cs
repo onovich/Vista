@@ -1,6 +1,6 @@
 using System;
-using MortiseFrame.Abacus;
 using MortiseFrame.Swing;
+using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
@@ -11,12 +11,8 @@ namespace MortiseFrame.Vista {
         public int ID => id;
 
         // Pos
-        FVector2 pos;
-        public FVector2 Pos => pos;
-
-        // Driver
-        Camera2DDriver driver;
-        public Camera2DDriver Driver => driver;
+        Vector2 pos;
+        public Vector2 Pos => pos;
 
         // Confiner
         Bounds confiner;
@@ -29,15 +25,15 @@ namespace MortiseFrame.Vista {
         // ViewSize
         Bounds viewSize;
         public Bounds ViewSize => viewSize;
-        public FVector2 ViewSizeMax => viewSize.Max + pos;
-        public FVector2 ViewSizeMin => viewSize.Min + pos;
+        public Vector2 ViewSizeMax => (Vector2)viewSize.max + pos;
+        public Vector2 ViewSizeMin => (Vector2)viewSize.min + pos;
 
         // FSM
-        CameraFSMComponent fsmCom;
-        public CameraFSMComponent FSMCom => fsmCom;
+        CameraMovingComponent fsmCom;
+        public CameraMovingComponent FSMCom => fsmCom;
 
-        public Camera2DEntity(int id, FVector2 pos, Bounds confiner, Bounds deadZone, Bounds viewSize) {
-            fsmCom = new CameraFSMComponent();
+        public Camera2DEntity(int id, Vector2 pos, Bounds confiner, Bounds deadZone, Bounds viewSize) {
+            fsmCom = new CameraMovingComponent();
             this.id = id;
             this.pos = pos;
             this.confiner = confiner;
@@ -45,34 +41,32 @@ namespace MortiseFrame.Vista {
             this.viewSize = viewSize;
         }
 
-        public void Inject(Camera2DDriver driver) {
-            this.driver = driver;
-        }
-
-        public void Driver_Set(Camera2DDriver driver) {
-            this.driver = driver;
-        }
-
         // Pos
-        public void Pos_Set(FVector2 pos) {
+        public void Pos_Set(Vector2 pos) {
             this.pos = pos;
         }
 
         // Move
-        public void MoveToTarget(FVector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+        public void SetMoveToTarget(Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
             fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode, onComplete);
         }
 
-        public void MoveByDriver(Camera2DDriver driver) {
-            var driverMin = driver.ColliderBox.Min;
-            var driverMax = driver.ColliderBox.Max;
-            var deadZoneMin = deadZone.Min;
-            var deadZoneMax = deadZone.Max;
+        public void SetMoveByDriver(Transform driver) {
+            fsmCom.EnterMovingByDriver(driver);
+        }
 
-            var xDiffMin = driverMin.x - deadZoneMin.x;
-            var yDiffMin = driverMin.y - deadZoneMin.y;
-            var xDiffMax = driverMax.x - deadZoneMax.x;
-            var yDiffMax = driverMax.y - deadZoneMax.y;
+        public void MoveToTarget(Vector2 startPos, Vector2 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
+            pos = EasingHelper.Easing2D(startPos, targetPos, current, duration, easingType, easingMode);
+        }
+
+        public void MoveByDriver(Vector2 driverScreenPos) {
+            var deadZoneMin = (Vector2)deadZone.min + pos;
+            var deadZoneMax = (Vector2)deadZone.max + pos;
+
+            var xDiffMin = driverScreenPos.x - deadZoneMin.x;
+            var yDiffMin = driverScreenPos.y - deadZoneMin.y;
+            var xDiffMax = driverScreenPos.x - deadZoneMax.x;
+            var yDiffMax = driverScreenPos.y - deadZoneMax.y;
 
             if (xDiffMin < 0 || xDiffMax > 0) {
                 pos.x += xDiffMin;

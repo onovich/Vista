@@ -1,4 +1,4 @@
-using MortiseFrame.Abacus;
+using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
@@ -16,12 +16,12 @@ namespace MortiseFrame.Vista {
             var confiner = camera.Confiner;
             var viewSize = camera.ViewSize;
             var pos = camera.Pos;
-            var halfSize = viewSize.Size * 0.5f;
-            var min = confiner.Min + halfSize;
-            var max = confiner.Max - halfSize;
-            var x = FMath.Clamp(pos.x, min.x, max.x);
-            var y = FMath.Clamp(pos.y, min.y, max.y);
-            camera.Pos_Set(new FVector2(x, y));
+            var halfSize = viewSize.size * 0.5f;
+            var min = confiner.min + halfSize;
+            var max = confiner.max - halfSize;
+            var x = Mathf.Clamp(pos.x, min.x, max.x);
+            var y = Mathf.Clamp(pos.y, min.y, max.y);
+            camera.Pos_Set(new Vector2(x, y));
         }
 
     }

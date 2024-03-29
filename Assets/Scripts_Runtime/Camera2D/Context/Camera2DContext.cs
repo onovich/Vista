@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
@@ -12,9 +13,16 @@ namespace MortiseFrame.Vista {
         Camera2DEntity currentCamera;
         public Camera2DEntity CurrentCamera => currentCamera;
 
+        Camera mainCamera;
+        public Camera MainCamera => mainCamera;
+
         public Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
+        }
+
+        public void Inject(Camera mainCamera) {
+            this.mainCamera = mainCamera;
         }
 
         public void AddCamera(Camera2DEntity camera, int id) {

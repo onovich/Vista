@@ -1,7 +1,3 @@
-using System;
-using MortiseFrame.Swing;
-using UnityEngine;
-
 namespace MortiseFrame.Vista {
 
     public class CameraFadingComponent {

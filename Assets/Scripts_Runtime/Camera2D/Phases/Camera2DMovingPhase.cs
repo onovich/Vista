@@ -1,5 +1,3 @@
-using MortiseFrame.Swing;
-
 namespace MortiseFrame.Vista {
 
     public static class Camera2DMovingPhase {
@@ -52,7 +50,6 @@ namespace MortiseFrame.Vista {
             var driverWorldPos = driver.position;
             var driverScreenPos = PositionUtil.WorldToScreenPos(mainCamera, driverWorldPos);
             current.MoveByDriver(driverScreenPos);
-
         }
 
         static void TickMovingToTarget(Camera2DContext ctx, float dt) {

@@ -1,3 +1,4 @@
+using MortiseFrame.Swing;
 using UnityEngine;
 
 namespace MortiseFrame.Vista.Sample {
@@ -12,8 +13,8 @@ namespace MortiseFrame.Vista.Sample {
 
         public bool isGameStart;
 
-        public MainContext() {
-            core = new Camera2DCore();
+        public MainContext(Camera mainCamera, Vector2 screenSize) {
+            core = new Camera2DCore(mainCamera, screenSize);
             isGameStart = false;
         }
 
@@ -24,6 +25,14 @@ namespace MortiseFrame.Vista.Sample {
 
         public void SetCurrentCamera(Camera2DEntity camera) {
             core.SetCurrentCamera(camera);
+        }
+
+        public void SetMoveToTarget(Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, System.Action onComplete = null) {
+            core.SetMoveToTarget(mainCamera, target, duration, easingType, easingMode, onComplete);
+        }
+
+        public void SetMoveByDriver(Transform driver) {
+            core.SetMoveByDriver(mainCamera, driver);
         }
 
         public void SetRole(RoleEntity role) {

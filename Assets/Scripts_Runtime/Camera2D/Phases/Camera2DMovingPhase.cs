@@ -48,8 +48,8 @@ namespace MortiseFrame.Vista {
 
             var mainCamera = ctx.MainCamera;
             var driverWorldPos = driver.position;
-            var driverScreenPos = PositionUtil.WorldToScreenPos(mainCamera, driverWorldPos);
-            current.MoveByDriver(driverScreenPos);
+            var driverScreenPos = PositionUtil.WorldToScreen(mainCamera, driverWorldPos);
+            Camera2DDomain.MoveByDriver(ctx, current, driverScreenPos);
         }
 
         static void TickMovingToTarget(Camera2DContext ctx, float dt) {
@@ -66,7 +66,8 @@ namespace MortiseFrame.Vista {
             var easingType = fsmCom.MovingToTarget_easingType;
             var easingMode = fsmCom.MovingToTarget_easingMode;
 
-            camera.MoveToTarget(startPos, targetPos, current, duration, easingType, easingMode);
+            Camera2DDomain.MoveToTarget(ctx, camera, startPos, targetPos, current, duration, easingType, easingMode);
+            ctx.MainCamera.transform.position = camera.Pos;
 
             fsmCom.MovingToTarget_IncTimer(dt);
             if (fsmCom.MovingToTarget_IsDone()) {

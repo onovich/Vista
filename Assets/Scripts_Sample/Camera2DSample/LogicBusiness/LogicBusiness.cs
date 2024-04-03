@@ -6,23 +6,26 @@ namespace MortiseFrame.Vista.Sample {
 
         public static void EnterGame(MainContext ctx) {
             ctx.isGameStart = true;
+
+            ctx.SetMoveByDriver(ctx.roleEntity.transform);
         }
 
         public static void ProcessInput(MainContext ctx) {
             if (!ctx.isGameStart) return;
 
             if (Input.GetKey(KeyCode.W)) {
-                ctx.roleMoveAxis = Vector2.up;
+                ctx.roleMoveAxis += Vector2.up;
             }
             if (Input.GetKey(KeyCode.S)) {
-                ctx.roleMoveAxis = Vector2.down;
+                ctx.roleMoveAxis += Vector2.down;
             }
             if (Input.GetKey(KeyCode.A)) {
-                ctx.roleMoveAxis = Vector2.left;
+                ctx.roleMoveAxis += Vector2.left;
             }
             if (Input.GetKey(KeyCode.D)) {
-                ctx.roleMoveAxis = Vector2.right;
+                ctx.roleMoveAxis += Vector2.right;
             }
+            ctx.roleMoveAxis.Normalize();
         }
 
         public static void ResetInput(MainContext ctx) {

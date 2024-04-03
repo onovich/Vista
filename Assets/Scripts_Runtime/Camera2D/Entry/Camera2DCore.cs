@@ -8,8 +8,10 @@ namespace MortiseFrame.Vista {
 
         Camera2DContext ctx;
 
-        public Camera2DCore() {
+        public Camera2DCore(Camera mainCamera, Vector2 screenSize) {
             ctx = new Camera2DContext();
+            ctx.Inject(mainCamera);
+            ctx.Init(screenSize);
         }
 
         public void Tick(float dt) {
@@ -18,7 +20,7 @@ namespace MortiseFrame.Vista {
         }
 
         public Camera2DEntity CreateCamera2D(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos, Vector2 deadZoneSize, Vector2 softZoneSize, Vector2 viewSize) {
-            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos, deadZoneSize, softZoneSize, viewSize);
+            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos, deadZoneSize);
             ctx.AddCamera(camera, camera.ID);
             return camera;
         }
@@ -28,11 +30,11 @@ namespace MortiseFrame.Vista {
         }
 
         public void SetMoveToTarget(Camera2DEntity camera, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
-            camera.SetMoveToTarget(target, duration, easingType, easingMode, onComplete);
+            Camera2DDomain.FSM_SetMoveToTarget(ctx, camera, target, duration, easingType, easingMode, onComplete);
         }
 
         public void SetMoveByDriver(Camera2DEntity camera, Transform driver) {
-            camera.SetMoveByDriver(driver);
+            Camera2DDomain.FSM_SetMoveByDriver(ctx, camera, driver);
         }
 
         public void SetCurrentCamera(Camera2DEntity camera) {

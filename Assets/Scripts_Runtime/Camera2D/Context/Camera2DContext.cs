@@ -16,9 +16,16 @@ namespace MortiseFrame.Vista {
         Camera mainCamera;
         public Camera MainCamera => mainCamera;
 
+        Vector2 screenSize;
+        public Vector2 ScreenSize => screenSize;
+
         public Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
+        }
+
+        public void Init(Vector2 screenSize) {
+            this.screenSize = screenSize;
         }
 
         public void Inject(Camera mainCamera) {

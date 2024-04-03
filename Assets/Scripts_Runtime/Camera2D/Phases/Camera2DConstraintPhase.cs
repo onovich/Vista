@@ -9,16 +9,17 @@ namespace MortiseFrame.Vista {
             if (camera == null) {
                 return;
             }
-            ApplyConfiner(camera);
+            ApplyConfiner(ctx, camera);
+            var pos = camera.Pos;
+            ctx.MainCamera.transform.position = pos;
         }
 
-        static void ApplyConfiner(Camera2DEntity camera) {
+        static void ApplyConfiner(Camera2DContext ctx, Camera2DEntity camera) {
             var confiner = camera.Confiner;
-            var viewSize = camera.ViewSize;
+            var screenHalfSize = ctx.ScreenSize * 0.5f;
             var pos = camera.Pos;
-            var halfSize = viewSize.size * 0.5f;
-            var min = confiner.min + halfSize;
-            var max = confiner.max - halfSize;
+            var min = (Vector2)confiner.min + screenHalfSize;
+            var max = (Vector2)confiner.max - screenHalfSize;
             var x = Mathf.Clamp(pos.x, min.x, max.x);
             var y = Mathf.Clamp(pos.y, min.y, max.y);
             camera.Pos_Set(new Vector2(x, y));

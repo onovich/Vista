@@ -6,8 +6,8 @@ namespace MortiseFrame.Vista.Sample {
 
         MainContext ctx;
         [SerializeField] Vector2 cameraOriginPos;
-        [SerializeField] Vector2 confinerSize;
-        [SerializeField] Vector2 confinerPos;
+        [SerializeField] Vector2 confinerWorldSize;
+        [SerializeField] Vector2 confinerWorldPos;
         [SerializeField] Vector2 deadZoneSize;
         [SerializeField] Vector2 softZoneSize;
         [SerializeField] Vector2 viewSize;
@@ -19,8 +19,11 @@ namespace MortiseFrame.Vista.Sample {
             VLog.Warning = Debug.LogWarning;
             VLog.Error = Debug.LogError;
 
-            ctx = new MainContext();
-            ctx.CreateMainCamera(cameraOriginPos, confinerSize, confinerPos, deadZoneSize, softZoneSize, viewSize);
+            Camera mainCamera = Camera.main;
+
+            var screenSize = new Vector2(Screen.width, Screen.height);
+            ctx = new MainContext(mainCamera, screenSize);
+            ctx.CreateMainCamera(cameraOriginPos, confinerWorldSize, confinerWorldPos, deadZoneSize, softZoneSize, viewSize);
             ctx.SetCurrentCamera(ctx.mainCamera);
             ctx.SetRole(role);
 
@@ -39,21 +42,25 @@ namespace MortiseFrame.Vista.Sample {
             CameraInfra.Tick(ctx, dt);
         }
 
+        void OnGUI() {
+
+        }
+
         void OnDrawGizmos() {
             if (ctx == null || ctx.mainCamera == null) return;
             var camera = ctx.mainCamera;
             var confiner = camera.Confiner;
-            var deadZone = camera.DeadZone;
-            var softZone = camera.SoftZone;
-            var viewSize = camera.ViewSize;
+            var screenSize = new Vector2(Screen.width, Screen.height);
+            var deadZoneScreenSize = camera.DeadZone_GetSize();
+            var deadZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize);
+
+            // Confiner 是世界坐标,不会跟随相机动
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(confiner.center, confiner.size);
+            Gizmos.DrawWireCube((Vector2)confiner.center, confiner.size);
+
+            // DeadZone, SoftZone, ViewSize 是相对坐标，会随着相机移动
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(deadZone.center, deadZone.size);
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(softZone.center, softZone.size);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(viewSize.center, viewSize.size);
+            Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
         }
 
     }

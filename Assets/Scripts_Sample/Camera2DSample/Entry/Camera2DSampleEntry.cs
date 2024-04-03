@@ -16,6 +16,8 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Transform[] targets;
         [SerializeField] Panel_2DSampleNavigation navPanel;
 
+        int targetIndex = 0;
+
         void Start() {
             VLog.Log = Debug.Log;
             VLog.Warning = Debug.LogWarning;
@@ -58,9 +60,14 @@ namespace MortiseFrame.Vista.Sample {
                 CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
             };
             navPanel.action_moveToNextTarget = () => {
-                var target = targets[Random.Range(0, targets.Length)];
+                targetIndex = GetNextTargetIndex(targetIndex);
+                var target = targets[targetIndex];
                 CameraInfra.SetMoveToTarget(ctx, target.position, 1f);
             };
+        }
+
+        int GetNextTargetIndex(int current) {
+            return (current + 1) % targets.Length;
         }
 
         void Unbinding() {

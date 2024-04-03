@@ -18,8 +18,8 @@ namespace MortiseFrame.Vista.Sample {
             isGameStart = false;
         }
 
-        public Camera2DEntity CreateMainCamera(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos, Vector2 deadZoneSize, Vector2 softZoneSize, Vector2 viewSize) {
-            mainCamera = core.CreateCamera2D(pos, confinerSize, confinerPos, deadZoneSize, softZoneSize, viewSize);
+        public Camera2DEntity CreateMainCamera(Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin, Vector2 deadZoneSize, Vector2 softZoneSize, Vector2 viewSize) {
+            mainCamera = core.CreateCamera2D(pos, confinerWorldMax, confinerWorldMin, deadZoneSize, softZoneSize, viewSize);
             return mainCamera;
         }
 

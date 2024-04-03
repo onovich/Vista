@@ -15,8 +15,7 @@ namespace MortiseFrame.Vista {
         public Vector2 Pos => pos;
 
         // Confiner
-        Bounds confiner;
-        public Bounds Confiner => confiner;
+        Camera2DConfinerComponent confinerComponent;
 
         // DeadZone
         Camera2DDeadZoneComponent deadZoneComponent;
@@ -29,11 +28,11 @@ namespace MortiseFrame.Vista {
         CameraMovingComponent fsmCom;
         public CameraMovingComponent FSMCom => fsmCom;
 
-        public Camera2DEntity(int id, Vector2 pos, Bounds confiner, Vector2 deadZoneNormalizedSize, Vector2 screenSize) {
+        public Camera2DEntity(int id, Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin, Vector2 deadZoneNormalizedSize, Vector2 screenSize) {
             fsmCom = new CameraMovingComponent();
             this.id = id;
             this.pos = pos;
-            this.confiner = confiner;
+            this.confinerComponent = new Camera2DConfinerComponent(confinerWorldMax, confinerWorldMin);
             this.deadZoneComponent = new Camera2DDeadZoneComponent(deadZoneNormalizedSize, screenSize);
         }
 
@@ -49,6 +48,19 @@ namespace MortiseFrame.Vista {
 
         public Vector2 DeadZone_GetSize() {
             return deadZoneComponent.DeadZoneScreenMax - deadZoneComponent.DeadZoneScreenMin;
+        }
+
+        // Confiner
+        public Vector2 Confiner_Clamp(Vector2 pos, float orthographicSize, float aspect) {
+            return confinerComponent.Clamp(pos, orthographicSize, aspect);
+        }
+
+        public Vector2 Confiner_GetCenter() {
+            return (confinerComponent.ConfinerWorldMax + confinerComponent.ConfinerWorldMin) / 2f;
+        }
+
+        public Vector2 Confiner_GetSize() {
+            return confinerComponent.ConfinerWorldMax - confinerComponent.ConfinerWorldMin;
         }
 
     }

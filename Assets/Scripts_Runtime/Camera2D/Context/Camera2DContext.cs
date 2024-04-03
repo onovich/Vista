@@ -19,6 +19,12 @@ namespace MortiseFrame.Vista {
         Vector2 viewSize;
         public Vector2 ViewSize => viewSize;
 
+        float orthographicSize;
+        public float OrthographicSize => orthographicSize;
+
+        float aspect;
+        public float Aspect => aspect;
+
         public Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
@@ -30,6 +36,8 @@ namespace MortiseFrame.Vista {
 
         public void Inject(Camera mainCamera) {
             this.mainCamera = mainCamera;
+            this.orthographicSize = mainCamera.orthographicSize;
+            this.aspect = mainCamera.aspect;
         }
 
         public void AddCamera(Camera2DEntity camera, int id) {

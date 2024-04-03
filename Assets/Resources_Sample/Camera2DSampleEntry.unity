@@ -252,8 +252,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraOriginPos: {x: 0, y: 0}
-  confinerWorldSize: {x: 20, y: 14}
-  confinerWorldPos: {x: 0, y: 1}
+  confinerWorldMax: {x: 10, y: 8}
+  confinerWorldMin: {x: -10, y: -6}
   deadZoneSize: {x: 0.2, y: 0.2}
   softZoneSize: {x: 0.6, y: 0.6}
   viewSize: {x: 4, y: 4}

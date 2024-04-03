@@ -25,7 +25,7 @@ namespace MortiseFrame.Vista {
             var deadZoneHalfSize = deadZoneSize / 2f;
             deadZoneScreenMin = screenCenter - deadZoneHalfSize;
             deadZoneScreenMax = screenCenter + deadZoneHalfSize;
-            Enable_Set(true);
+            enable = true;
         }
 
         public void Enable_Set(bool enable) {

@@ -13,6 +13,7 @@ namespace MortiseFrame.Vista.Sample {
             ctx.core.DrawGizmos();
         }
 
+        // Camera
         public static Camera2DEntity CreateMainCamera(MainContext ctx, Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
             var mainCamera = ctx.core.CreateCamera2D(pos, confinerWorldMax, confinerWorldMin);
             ctx.mainCamera = mainCamera;
@@ -23,6 +24,7 @@ namespace MortiseFrame.Vista.Sample {
             ctx.core.SetCurrentCamera(camera);
         }
 
+        // Move
         public static void SetMoveToTarget(MainContext ctx, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, System.Action onComplete = null) {
             ctx.core.SetMoveToTarget(ctx.mainCamera, target, duration, easingType, easingMode, onComplete);
         }

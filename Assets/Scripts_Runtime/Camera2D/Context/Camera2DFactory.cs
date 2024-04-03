@@ -13,9 +13,9 @@ namespace MortiseFrame.Vista {
             // 屏幕坐标系
             var screenSize = ctx.ViewSize;
             var camera = new Camera2DEntity();
-            camera.ID_Set(id);
-            camera.Pos_Set(pos);
-            camera.Confiner_Set(confinerWorldMax, confinerWorldMin);
+            camera.SetID(id);
+            camera.SetPos(pos);
+            camera.SetConfiner(confinerWorldMax, confinerWorldMin);
             return camera;
         }
 

@@ -36,62 +36,70 @@ namespace MortiseFrame.Vista {
         }
 
         // ID
-        public void ID_Set(int id) {
+        public void SetID(int id) {
             this.id = id;
         }
 
         // Pos
-        public void Pos_Set(Vector2 pos) {
+        public void SetPos(Vector2 pos) {
             this.pos = pos;
         }
 
         // DeadZone
-        public void DeadZone_Set(Vector2 deadZoneNormalizedSize, Vector2 viewSize) {
+        public void SetDeadZone(Vector2 deadZoneNormalizedSize, Vector2 viewSize) {
             deadZoneComponent.Zone_Set(deadZoneNormalizedSize, viewSize);
         }
-        public Vector2 DeadZone_GetScreenDiff(Vector2 screenPos) {
+        public Vector2 GetDeadZoneScreenDiff(Vector2 screenPos) {
             return deadZoneComponent.ScreenDiff_Get(screenPos);
         }
 
-        public Vector2 DeadZone_GetSize() {
+        public Vector2 GetDeadZoneSize() {
             return deadZoneComponent.DeadZoneScreenMax - deadZoneComponent.DeadZoneScreenMin;
         }
 
-        public bool DeadZone_IsEnable() {
+        public bool IsDeadZoneEnable() {
             return deadZoneComponent.Enable;
         }
 
+        public void EnableDeadZone(bool enable) {
+            deadZoneComponent.Enable_Set(enable);
+        }
+
         // SoftZone
-        public void SoftZone_Set(Vector2 softZoneNormalizedSize, Vector2 viewSize) {
+        public void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize) {
             softZoneComponent.Zone_Set(softZoneNormalizedSize, viewSize);
         }
 
-        public Vector2 SoftZone_GetScreenDiff(Vector2 screenPos) {
+        public Vector2 GetSoftZoneScreenDiff(Vector2 screenPos) {
             return softZoneComponent.ScreenDiff_Get(screenPos);
         }
 
-        public Vector2 SoftZone_GetSize() {
+        public Vector2 GetSoftZoneSize() {
             return softZoneComponent.DeadZoneScreenMax - softZoneComponent.DeadZoneScreenMin;
         }
 
-        public bool SoftZone_IsEnable() {
+        public bool IsSoftZoneEnable() {
             return softZoneComponent.Enable;
         }
 
+        public void EnableSoftZone(bool enable) {
+            softZoneComponent.Enable_Set(enable);
+        }
+
         // Confiner
-        public void Confiner_Set(Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
+        public void SetConfiner(Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
             this.confinerComponent = new Camera2DConfinerComponent(confinerWorldMax, confinerWorldMin);
         }
 
-        public Vector2 Confiner_Clamp(Vector2 pos, float orthographicSize, float aspect) {
+        public Vector2 ClampConfiner(Vector2 pos, float orthographicSize, float aspect) {
             return confinerComponent.Clamp(pos, orthographicSize, aspect);
         }
 
-        public Vector2 Confiner_GetCenter() {
+        public Vector2 GetConfinerCenter() {
             return (confinerComponent.ConfinerWorldMax + confinerComponent.ConfinerWorldMin) / 2f;
         }
 
-        public Vector2 Confiner_GetSize() {
+        public Vector2 GetConfinerSize() {
             return confinerComponent.ConfinerWorldMax - confinerComponent.ConfinerWorldMin;
         }
 

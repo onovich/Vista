@@ -25,6 +25,9 @@ namespace MortiseFrame.Vista {
         float aspect;
         public float Aspect => aspect;
 
+        bool inited;
+        public bool Inited => inited;
+
         public Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
@@ -32,6 +35,7 @@ namespace MortiseFrame.Vista {
 
         public void Init(Vector2 screenSize) {
             this.viewSize = screenSize;
+            inited = true;
         }
 
         public void Inject(Camera mainCamera) {

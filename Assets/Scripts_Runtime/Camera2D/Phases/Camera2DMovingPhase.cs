@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace MortiseFrame.Vista {
 
     public static class Camera2DMovingPhase {
@@ -67,7 +69,7 @@ namespace MortiseFrame.Vista {
             var easingMode = fsmCom.MovingToTarget_easingMode;
 
             Camera2DDomain.MoveToTarget(ctx, camera, startPos, targetPos, current, duration, easingType, easingMode);
-            ctx.MainCamera.transform.position = camera.Pos;
+            ctx.MainCamera.transform.position = new Vector3(camera.Pos.x, camera.Pos.y, ctx.MainCamera.transform.position.z);
 
             fsmCom.MovingToTarget_IncTimer(dt);
             if (fsmCom.MovingToTarget_IsDone()) {

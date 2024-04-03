@@ -18,8 +18,8 @@ namespace MortiseFrame.Vista {
             var pos = camera.Pos;
             var aspect = ctx.Aspect;
             var orthographicSize = ctx.MainCamera.orthographicSize;
-            pos = camera.Confiner_Clamp(pos, orthographicSize, aspect);
-            camera.Pos_Set(pos);
+            pos = camera.ClampConfiner(pos, orthographicSize, aspect);
+            camera.SetPos(pos);
         }
 
     }

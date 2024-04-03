@@ -13,6 +13,8 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Vector2 viewSize;
 
         [SerializeField] RoleEntity role;
+        [SerializeField] Transform[] targets;
+        [SerializeField] Panel_2DSampleNavigation navPanel;
 
         void Start() {
             VLog.Log = Debug.Log;
@@ -21,13 +23,53 @@ namespace MortiseFrame.Vista.Sample {
 
             Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
-            var screenSize = new Vector2(Screen.width, Screen.height);
-            ctx = new MainContext(mainCamera, screenSize);
-            CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
+            var viewSize = new Vector2(Screen.width, Screen.height);
+            ctx = new MainContext(mainCamera, viewSize);
+            var camera = CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
             CameraInfra.SetCurrentCamera(ctx, ctx.mainCamera);
+            camera.SetDeadZone(deadZoneSize, viewSize);
+            camera.SetSoftZone(softZoneSize, viewSize);
+            camera.EnableDeadZone(true);
+            camera.EnableSoftZone(true);
             ctx.SetRole(role);
 
+            CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+
+            Binding();
+
             LogicBusiness.EnterGame(ctx);
+        }
+
+        void Binding() {
+            var camera = ctx.mainCamera;
+            navPanel.action_enableDeadZone = () => {
+                camera.EnableDeadZone(true);
+            };
+            navPanel.action_disableDeadZone = () => {
+                camera.EnableDeadZone(false);
+            };
+            navPanel.action_enableSoftZone = () => {
+                camera.EnableSoftZone(true);
+            };
+            navPanel.action_disableSoftZone = () => {
+                camera.EnableSoftZone(false);
+            };
+            navPanel.action_followDriver = () => {
+                CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+            };
+            navPanel.action_moveToNextTarget = () => {
+                var target = targets[Random.Range(0, targets.Length)];
+                CameraInfra.SetMoveToTarget(ctx, target.position, 1f);
+            };
+        }
+
+        void Unbinding() {
+            navPanel.action_enableDeadZone = null;
+            navPanel.action_disableDeadZone = null;
+            navPanel.action_enableSoftZone = null;
+            navPanel.action_disableSoftZone = null;
+            navPanel.action_followDriver = null;
+            navPanel.action_moveToNextTarget = null;
         }
 
         void Update() {
@@ -40,6 +82,10 @@ namespace MortiseFrame.Vista.Sample {
         void LateUpdate() {
             var dt = Time.deltaTime;
             CameraInfra.Tick(ctx, dt);
+        }
+
+        void OnDestroy() {
+            Unbinding();
         }
 
         void OnGUI() {

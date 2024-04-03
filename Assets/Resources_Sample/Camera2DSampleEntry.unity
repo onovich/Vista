@@ -379,6 +379,11 @@ MonoBehaviour:
   softZoneSize: {x: 0.6, y: 0.6}
   viewSize: {x: 4, y: 4}
   role: {fileID: 931528809}
+  targets:
+  - {fileID: 771785478}
+  - {fileID: 826399709}
+  - {fileID: 345231898}
+  navPanel: {fileID: 1764399396}
 --- !u!1 &214594862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2202,6 +2207,7 @@ GameObject:
   - component: {fileID: 1764399393}
   - component: {fileID: 1764399394}
   - component: {fileID: 1764399395}
+  - component: {fileID: 1764399396}
   m_Layer: 5
   m_Name: Panel_Navigation
   m_TagString: Untagged
@@ -2268,6 +2274,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1764399396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764399392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a214be165ef7ae42a56908b70645945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  btn_enableDeadZone: {fileID: 169015425}
+  btn_disableDeadZone: {fileID: 1766367901}
+  btn_enableSoftZone: {fileID: 1367327478}
+  btn_disableSoftZone: {fileID: 557521916}
+  btn_followDriver: {fileID: 1317401114}
+  btn_moveToNextTarget: {fileID: 1438239220}
 --- !u!1 &1766367899
 GameObject:
   m_ObjectHideFlags: 0
@@ -2561,7 +2585,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move By Driver
+  m_Text: Follow  Driver
 --- !u!222 &2036108313
 CanvasRenderer:
   m_ObjectHideFlags: 0

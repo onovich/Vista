@@ -45,6 +45,22 @@ namespace MortiseFrame.Vista {
             ctx.Clear();
         }
 
+        public void DrawGizmos() {
+            var camera = ctx.CurrentCamera;
+
+            // Confiner 是世界坐标,不会跟随相机动
+            Gizmos.color = Color.green;
+            var confinerCenter = camera.Confiner_GetCenter();
+            var confinerSize = camera.Confiner_GetSize();
+            Gizmos.DrawWireCube(confinerCenter, confinerSize);
+
+            // DeadZone, SoftZone, ViewSize 是相对坐标，会随着相机移动
+            Gizmos.color = Color.red;
+            var deadZoneScreenSize = camera.DeadZone_GetSize();
+            var deadZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize);
+            Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
+        }
+
     }
 
 }

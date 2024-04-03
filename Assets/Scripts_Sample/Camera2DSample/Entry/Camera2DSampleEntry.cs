@@ -23,8 +23,8 @@ namespace MortiseFrame.Vista.Sample {
 
             var screenSize = new Vector2(Screen.width, Screen.height);
             ctx = new MainContext(mainCamera, screenSize);
-            ctx.CreateMainCamera(cameraOriginPos, confinerWorldMax, confinerWorldMin, deadZoneSize, softZoneSize, viewSize);
-            ctx.SetCurrentCamera(ctx.mainCamera);
+            CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin, deadZoneSize, softZoneSize, viewSize);
+            CameraInfra.SetCurrentCamera(ctx, ctx.mainCamera);
             ctx.SetRole(role);
 
             LogicBusiness.EnterGame(ctx);
@@ -47,20 +47,10 @@ namespace MortiseFrame.Vista.Sample {
         }
 
         void OnDrawGizmos() {
-            if (ctx == null || ctx.mainCamera == null) return;
-            var camera = ctx.mainCamera;
-
-            // Confiner 是世界坐标,不会跟随相机动
-            Gizmos.color = Color.green;
-            var confinerCenter = camera.Confiner_GetCenter();
-            var confinerSize = camera.Confiner_GetSize();
-            Gizmos.DrawWireCube(confinerCenter, confinerSize);
-
-            // DeadZone, SoftZone, ViewSize 是相对坐标，会随着相机移动
-            Gizmos.color = Color.red;
-            var deadZoneScreenSize = camera.DeadZone_GetSize();
-            var deadZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize);
-            Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
+            if (ctx == null || ctx.core == null || ctx.mainCamera == null) {
+                return;
+            }
+            CameraInfra.DrawGizmos(ctx);
         }
 
     }

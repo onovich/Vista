@@ -18,23 +18,6 @@ namespace MortiseFrame.Vista.Sample {
             isGameStart = false;
         }
 
-        public Camera2DEntity CreateMainCamera(Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin, Vector2 deadZoneSize, Vector2 softZoneSize, Vector2 viewSize) {
-            mainCamera = core.CreateCamera2D(pos, confinerWorldMax, confinerWorldMin, deadZoneSize, softZoneSize, viewSize);
-            return mainCamera;
-        }
-
-        public void SetCurrentCamera(Camera2DEntity camera) {
-            core.SetCurrentCamera(camera);
-        }
-
-        public void SetMoveToTarget(Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, System.Action onComplete = null) {
-            core.SetMoveToTarget(mainCamera, target, duration, easingType, easingMode, onComplete);
-        }
-
-        public void SetMoveByDriver(Transform driver) {
-            core.SetMoveByDriver(mainCamera, driver);
-        }
-
         public void SetRole(RoleEntity role) {
             roleEntity = role;
         }

@@ -9,6 +9,28 @@ namespace MortiseFrame.Vista.Sample {
             ctx.core.Tick(dt);
         }
 
+        public static void DrawGizmos(MainContext ctx) {
+            ctx.core.DrawGizmos();
+        }
+
+        public static Camera2DEntity CreateMainCamera(MainContext ctx, Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin, Vector2 deadZoneSize, Vector2 softZoneSize, Vector2 viewSize) {
+            var mainCamera = ctx.core.CreateCamera2D(pos, confinerWorldMax, confinerWorldMin, deadZoneSize, softZoneSize, viewSize);
+            ctx.mainCamera = mainCamera;
+            return mainCamera;
+        }
+
+        public static void SetCurrentCamera(MainContext ctx, Camera2DEntity camera) {
+            ctx.core.SetCurrentCamera(camera);
+        }
+
+        public static void SetMoveToTarget(MainContext ctx, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, System.Action onComplete = null) {
+            ctx.core.SetMoveToTarget(ctx.mainCamera, target, duration, easingType, easingMode, onComplete);
+        }
+
+        public static void SetMoveByDriver(MainContext ctx, Transform driver) {
+            ctx.core.SetMoveByDriver(ctx.mainCamera, driver);
+        }
+
     }
 
 }

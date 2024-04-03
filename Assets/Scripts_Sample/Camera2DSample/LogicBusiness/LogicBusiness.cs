@@ -6,8 +6,7 @@ namespace MortiseFrame.Vista.Sample {
 
         public static void EnterGame(MainContext ctx) {
             ctx.isGameStart = true;
-
-            ctx.SetMoveByDriver(ctx.roleEntity.transform);
+            CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
         }
 
         public static void ProcessInput(MainContext ctx) {

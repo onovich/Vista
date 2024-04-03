@@ -1,14 +1,14 @@
 namespace MortiseFrame.Vista {
 
-    public class IDService {
+    internal class IDService {
 
         byte cameraIDRecord;
 
-        public IDService() {
+        internal IDService() {
             cameraIDRecord = 0;
         }
 
-        public int PickCameraID() {
+        internal int PickCameraID() {
             return ++cameraIDRecord;
         }
 

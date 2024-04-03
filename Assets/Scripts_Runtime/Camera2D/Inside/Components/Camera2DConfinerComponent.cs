@@ -2,20 +2,20 @@ using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
-    public class Camera2DConfinerComponent {
+    internal class Camera2DConfinerComponent {
 
         Vector2 confinerWorldMin;
-        public Vector2 ConfinerWorldMin => confinerWorldMin;
+        internal Vector2 ConfinerWorldMin => confinerWorldMin;
 
         Vector2 confinerWorldMax;
-        public Vector2 ConfinerWorldMax => confinerWorldMax;
+        internal Vector2 ConfinerWorldMax => confinerWorldMax;
 
-        public Camera2DConfinerComponent(Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
+        internal Camera2DConfinerComponent(Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
             this.confinerWorldMin = confinerWorldMin;
             this.confinerWorldMax = confinerWorldMax;
         }
 
-        public Vector2 Clamp(Vector2 pos, float orthographicSize, float aspect) {
+        internal Vector2 Clamp(Vector2 pos, float orthographicSize, float aspect) {
 
             float verticalExtents = orthographicSize;
             float horizontalExtents = orthographicSize * aspect;

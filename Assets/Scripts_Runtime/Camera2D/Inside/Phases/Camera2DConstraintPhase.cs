@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
-    public static class Camera2DConstraintPhase {
+    internal static class Camera2DConstraintPhase {
 
-        public static void Tick(Camera2DContext ctx, float dt) {
+        internal static void Tick(Camera2DContext ctx, float dt) {
             var camera = ctx.CurrentCamera;
             if (camera == null) {
                 return;
@@ -18,7 +18,7 @@ namespace MortiseFrame.Vista {
             var pos = camera.Pos;
             var aspect = ctx.Aspect;
             var orthographicSize = ctx.MainCamera.orthographicSize;
-            pos = camera.ClampConfiner(pos, orthographicSize, aspect);
+            pos = camera.ClampByConfiner(pos, orthographicSize, aspect);
             camera.SetPos(pos);
         }
 

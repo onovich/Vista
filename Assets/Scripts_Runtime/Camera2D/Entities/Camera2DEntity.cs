@@ -25,21 +25,21 @@ namespace MortiseFrame.Vista {
 
         // FSM
         CameraMovingComponent fsmCom;
-        public CameraMovingComponent FSMCom => fsmCom;
+        internal CameraMovingComponent FSMCom => fsmCom;
 
-        public Camera2DEntity() {
+        internal Camera2DEntity() {
             fsmCom = new CameraMovingComponent();
             deadZoneComponent = new Camera2DDeadZoneComponent();
             softZoneComponent = new Camera2DDeadZoneComponent();
         }
 
         // ID
-        public void SetID(int id) {
+        internal void SetID(int id) {
             this.id = id;
         }
 
         // Pos
-        public void SetPos(Vector2 pos) {
+        internal void SetPos(Vector2 pos) {
             this.pos = pos;
         }
 
@@ -90,7 +90,7 @@ namespace MortiseFrame.Vista {
             this.confinerComponent = new Camera2DConfinerComponent(confinerWorldMax, confinerWorldMin);
         }
 
-        public Vector2 ClampConfiner(Vector2 pos, float orthographicSize, float aspect) {
+        internal Vector2 ClampByConfiner(Vector2 pos, float orthographicSize, float aspect) {
             return confinerComponent.Clamp(pos, orthographicSize, aspect);
         }
 

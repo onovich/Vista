@@ -49,26 +49,7 @@ namespace MortiseFrame.Vista {
 
         public void DrawGizmos() {
             var camera = ctx.CurrentCamera;
-
-            // Confiner 是世界坐标,不会跟随相机动
-            Gizmos.color = Color.green;
-            var confinerCenter = camera.GetConfinerCenter();
-            var confinerSize = camera.GetConfinerSize();
-            Gizmos.DrawWireCube(confinerCenter, confinerSize);
-
-            // DeadZone, SoftZone 是屏幕坐标
-            if (camera.IsDeadZoneEnable()) {
-                Gizmos.color = Color.red;
-                var deadZoneScreenSize = camera.GetDeadZoneSize();
-                var deadZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, ctx.ViewSize);
-                Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
-            }
-            if (camera.IsSoftZoneEnable()) {
-                Gizmos.color = Color.blue;
-                var softZoneScreenSize = camera.GetSoftZoneSize();
-                var softZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, ctx.ViewSize);
-                Gizmos.DrawWireCube((Vector2)camera.Pos, softZoneWorldSize);
-            }
+            DrawGizmosHelper.DrawGizmos(ctx, ctx.MainCamera);
         }
 
     }

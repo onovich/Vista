@@ -1,6 +1,6 @@
 namespace MortiseFrame.Vista {
 
-    public enum CameraFadingStatus {
+    internal enum CameraFadingStatus {
 
         None,
         Idle,

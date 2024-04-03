@@ -1,7 +1,8 @@
 using UnityEngine;
 
 namespace MortiseFrame.Vista {
-    public static class PositionUtil {
+
+    public static class CameraMathUtil {
 
         public static Vector2 WorldToScreenPos(Camera camera, Vector3 worldPos) {
             var screenPos = camera.WorldToScreenPoint(worldPos);

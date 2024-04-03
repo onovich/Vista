@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
-    public static class Camera2DMovingPhase {
+    internal static class Camera2DMovingPhase {
 
-        public static void FSMTick(Camera2DContext ctx, float dt) {
+        internal static void FSMTick(Camera2DContext ctx, float dt) {
 
             var current = ctx.CurrentCamera;
             var fsmCom = current.FSMCom;

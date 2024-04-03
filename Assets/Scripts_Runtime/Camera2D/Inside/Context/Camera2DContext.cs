@@ -4,54 +4,54 @@ using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
-    public class Camera2DContext {
+    internal class Camera2DContext {
 
         SortedList<int, Camera2DEntity> cameras;
         IDService idService;
-        public IDService IDService => idService;
+        internal IDService IDService => idService;
 
         Camera2DEntity currentCamera;
-        public Camera2DEntity CurrentCamera => currentCamera;
+        internal Camera2DEntity CurrentCamera => currentCamera;
 
         Camera mainCamera;
-        public Camera MainCamera => mainCamera;
+        internal Camera MainCamera => mainCamera;
 
         Vector2 viewSize;
-        public Vector2 ViewSize => viewSize;
+        internal Vector2 ViewSize => viewSize;
 
         float orthographicSize;
-        public float OrthographicSize => orthographicSize;
+        internal float OrthographicSize => orthographicSize;
 
         float aspect;
-        public float Aspect => aspect;
+        internal float Aspect => aspect;
 
         bool inited;
-        public bool Inited => inited;
+        internal bool Inited => inited;
 
-        public Camera2DContext() {
+        internal Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
         }
 
-        public void Init(Vector2 screenSize) {
+        internal void Init(Vector2 screenSize) {
             this.viewSize = screenSize;
             inited = true;
         }
 
-        public void Inject(Camera mainCamera) {
+        internal void Inject(Camera mainCamera) {
             this.mainCamera = mainCamera;
             this.orthographicSize = mainCamera.orthographicSize;
             this.aspect = mainCamera.aspect;
         }
 
-        public void AddCamera(Camera2DEntity camera, int id) {
+        internal void AddCamera(Camera2DEntity camera, int id) {
             bool succ = cameras.TryAdd(id, camera);
             if (!succ) {
                 throw new Exception("Camera2DContext.AddCamera: failed to add camera");
             }
         }
 
-        public void RemoveCamera(Camera2DEntity camera) {
+        internal void RemoveCamera(Camera2DEntity camera) {
             int id = camera.ID;
             bool succ = cameras.Remove(id);
             if (!succ) {
@@ -59,15 +59,15 @@ namespace MortiseFrame.Vista {
             }
         }
 
-        public bool TryGetCamera(int id, out Camera2DEntity camera) {
+        internal bool TryGetCamera(int id, out Camera2DEntity camera) {
             return cameras.TryGetValue(id, out camera);
         }
 
-        public void SetCurrentCamera(Camera2DEntity camera) {
+        internal void SetCurrentCamera(Camera2DEntity camera) {
             currentCamera = camera;
         }
 
-        public void Clear() {
+        internal void Clear() {
             cameras.Clear();
             currentCamera = null;
         }

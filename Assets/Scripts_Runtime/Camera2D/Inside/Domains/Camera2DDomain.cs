@@ -4,28 +4,28 @@ using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
-    public static class Camera2DDomain {
+    internal static class Camera2DDomain {
 
         // FSM
-        public static void FSM_SetMoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+        internal static void FSM_SetMoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
             var fsmCom = camera.FSMCom;
             var pos = camera.Pos;
             fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode, onComplete);
         }
 
-        public static void FSM_SetMoveByDriver(Camera2DContext ctx, Camera2DEntity camera, Transform driver) {
+        internal static void FSM_SetMoveByDriver(Camera2DContext ctx, Camera2DEntity camera, Transform driver) {
             var fsmCom = camera.FSMCom;
             fsmCom.EnterMovingByDriver(driver);
         }
 
         //  Move
-        public static void MoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 startPos, Vector2 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
+        internal static void MoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 startPos, Vector2 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
             var pos = EasingHelper.Easing2D(startPos, targetPos, current, duration, easingType, easingMode);
             camera.SetPos(pos);
             ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
-        public static void MoveByDriver(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 driverWorldPos, float deltaTime) {
+        internal static void MoveByDriver(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 driverWorldPos, float deltaTime) {
             bool deadZoneEnable = currentCamera.IsDeadZoneEnable();
             bool softZoneEnable = currentCamera.IsSoftZoneEnable();
             Vector2 cameraWorldPos = currentCamera.Pos;
@@ -38,7 +38,7 @@ namespace MortiseFrame.Vista {
                 return;
             }
 
-            var driverScreenPos = PositionUtil.WorldToScreenPos(mainCamera, driverWorldPos);
+            var driverScreenPos = CameraMathUtil.WorldToScreenPos(mainCamera, driverWorldPos);
             var deadZoneDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPos);
 
             // Driver 在 DeadZone 内：不跟随
@@ -49,7 +49,7 @@ namespace MortiseFrame.Vista {
             // Driver 在 SoftZone 内
             //// - SoftZone 禁用时：硬跟随 DeadZone Diff
             if (!softZoneEnable) {
-                var deadZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = CameraMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
 
                 RefreshCameraPos(ctx, currentCamera, mainCamera, targetPos);
@@ -59,7 +59,7 @@ namespace MortiseFrame.Vista {
             //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
             var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
             if (softZoneDiff == Vector2.zero) {
-                var deadZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = CameraMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
 
                 float damping = currentCamera.SoftZoneDampingFactor;
@@ -69,7 +69,7 @@ namespace MortiseFrame.Vista {
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
-            var softZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
+            var softZoneWorldDiff = CameraMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
             cameraWorldPos += softZoneWorldDiff;
             RefreshCameraPos(ctx, currentCamera, mainCamera, cameraWorldPos);
 

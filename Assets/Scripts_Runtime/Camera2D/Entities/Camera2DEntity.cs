@@ -20,10 +20,8 @@ namespace MortiseFrame.Vista {
         // DeadZone
         Camera2DDeadZoneComponent deadZoneComponent;
         Camera2DDeadZoneComponent softZoneComponent;
-
-        // DampingFactor
-        float dampingFactor = 1f;
-        public float DampingFactor => dampingFactor;
+        float softZoneDampingFactor = 0f;
+        public float SoftZoneDampingFactor => softZoneDampingFactor;
 
         // FSM
         CameraMovingComponent fsmCom;
@@ -66,8 +64,9 @@ namespace MortiseFrame.Vista {
         }
 
         // SoftZone
-        public void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize) {
+        public void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize, float dampingFactor) {
             softZoneComponent.Zone_Set(softZoneNormalizedSize, viewSize);
+            this.softZoneDampingFactor = dampingFactor;
         }
 
         public Vector2 GetSoftZoneScreenDiff(Vector2 screenPos) {

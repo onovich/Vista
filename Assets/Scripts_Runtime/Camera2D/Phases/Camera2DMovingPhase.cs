@@ -51,7 +51,7 @@ namespace MortiseFrame.Vista {
             var mainCamera = ctx.MainCamera;
             var driverWorldPos = driver.position;
 
-            Camera2DDomain.MoveByDriver(ctx, current, mainCamera, driverWorldPos);
+            Camera2DDomain.MoveByDriver(ctx, current, mainCamera, driverWorldPos, dt);
         }
 
         static void TickMovingToTarget(Camera2DContext ctx, float dt) {

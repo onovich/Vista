@@ -25,21 +25,48 @@ namespace MortiseFrame.Vista {
             ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
-        public static void MoveByDriver(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 driverWorldPos) {
-            bool isEnable = currentCamera.IsDeadZoneEnable();
+        public static void MoveByDriver(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 driverWorldPos, float deltaTime) {
+            bool deadZoneEnable = currentCamera.IsDeadZoneEnable();
+            bool softZoneEnable = currentCamera.IsSoftZoneEnable();
             Vector2 cameraWorldPos = currentCamera.Pos;
+            Vector2 targetPos = cameraWorldPos;
 
-            if (!isEnable) {
-                cameraWorldPos = driverWorldPos;
+            // 死区禁用时: 硬跟随 Driver
+            if (!deadZoneEnable) {
+                targetPos = driverWorldPos;
+                RefreshCameraPos(ctx, currentCamera, mainCamera, targetPos);
+                return;
             }
 
-            if (isEnable) {
-                var driverScreenPos = PositionUtil.WorldToScreenPos(mainCamera, driverWorldPos);
-                var sreenDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPos);
-                var worldDiff = PositionUtil.ScreenToWorldSize(ctx.MainCamera, sreenDiff, ctx.ViewSize);
-                cameraWorldPos += worldDiff;
+            var driverScreenPos = PositionUtil.WorldToScreenPos(mainCamera, driverWorldPos);
+            var deadZoneDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPos);
+
+            // Driver 在 DeadZone 内：不跟随
+            if (deadZoneDiff == Vector2.zero && softZoneEnable) {
+                return;
             }
 
+            // Driver 在 SoftZone 内：阻尼跟随
+            var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
+
+            if (softZoneDiff == Vector2.zero) {
+                var deadZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                targetPos += deadZoneWorldDiff;
+
+                float damping = currentCamera.SoftZoneDampingFactor;
+                cameraWorldPos += (targetPos - cameraWorldPos) * damping * deltaTime;
+                RefreshCameraPos(ctx, currentCamera, mainCamera, cameraWorldPos);
+                return;
+            }
+
+            // Driver 在 DeadZone 外：硬跟随 Diff
+            var softZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
+            cameraWorldPos += softZoneWorldDiff;
+            RefreshCameraPos(ctx, currentCamera, mainCamera, cameraWorldPos);
+
+        }
+
+        static void RefreshCameraPos(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 cameraWorldPos) {
             currentCamera.SetPos(cameraWorldPos);
             ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
         }

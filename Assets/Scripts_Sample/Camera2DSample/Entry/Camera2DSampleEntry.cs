@@ -10,7 +10,7 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Vector2 confinerWorldMin;
         [SerializeField] Vector2 deadZoneSize;
         [SerializeField] Vector2 softZoneSize;
-        [SerializeField] Vector2 viewSize;
+        [SerializeField] float softZoneDampingFactor;
 
         [SerializeField] RoleEntity role;
         [SerializeField] Transform[] targets;
@@ -30,7 +30,7 @@ namespace MortiseFrame.Vista.Sample {
             var camera = CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
             CameraInfra.SetCurrentCamera(ctx, ctx.mainCamera);
             camera.SetDeadZone(deadZoneSize, viewSize);
-            camera.SetSoftZone(softZoneSize, viewSize);
+            camera.SetSoftZone(softZoneSize, viewSize, softZoneDampingFactor);
             camera.EnableDeadZone(true);
             camera.EnableSoftZone(true);
             ctx.SetRole(role);
@@ -93,10 +93,6 @@ namespace MortiseFrame.Vista.Sample {
 
         void OnDestroy() {
             Unbinding();
-        }
-
-        void OnGUI() {
-
         }
 
         void OnDrawGizmos() {

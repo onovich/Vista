@@ -6,6 +6,18 @@ namespace MortiseFrame.Vista {
 
     public static class Camera2DDomain {
 
+        // Dead Zone
+        public static void DeadZone_Set(Camera2DContext ctx, Camera2DEntity camera, Vector2 deadZoneNormalizedSize) {
+            var viewSize = ctx.ViewSize;
+            camera.DeadZone_Set(deadZoneNormalizedSize, viewSize);
+        }
+
+        // Soft Zone
+        public static void SoftZone_Set(Camera2DContext ctx, Camera2DEntity camera, Vector2 softZoneNormalizedSize) {
+            var viewSize = ctx.ViewSize;
+            camera.SoftZone_Set(softZoneNormalizedSize, viewSize);
+        }
+
         // FSM
         public static void FSM_SetMoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
             var fsmCom = camera.FSMCom;
@@ -25,14 +37,22 @@ namespace MortiseFrame.Vista {
             ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
-        public static void MoveByDriver(Camera2DContext ctx, Camera2DEntity camera, Vector2 driverScreenPos) {
-            var cameraWorldPos = camera.Pos;
+        public static void MoveByDriver(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 driverWorldPos) {
+            bool isEnable = currentCamera.DeadZone_IsEnable();
+            Vector2 cameraWorldPos = currentCamera.Pos;
 
-            var sreenDiff = camera.DeadZone_GetScreenDiff(driverScreenPos);
-            var worldDiff = PositionUtil.ScreenToWorldSize(ctx.MainCamera, sreenDiff);
-            cameraWorldPos += worldDiff;
+            if (!isEnable) {
+                cameraWorldPos = driverWorldPos;
+            }
 
-            camera.Pos_Set(cameraWorldPos);
+            if (isEnable) {
+                var driverScreenPos = PositionUtil.WorldToScreenPos(mainCamera, driverWorldPos);
+                var sreenDiff = currentCamera.DeadZone_GetScreenDiff(driverScreenPos);
+                var worldDiff = PositionUtil.ScreenToWorldSize(ctx.MainCamera, sreenDiff);
+                cameraWorldPos += worldDiff;
+            }
+
+            currentCamera.Pos_Set(cameraWorldPos);
             ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
         }
 

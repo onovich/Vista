@@ -23,7 +23,7 @@ namespace MortiseFrame.Vista.Sample {
 
             var screenSize = new Vector2(Screen.width, Screen.height);
             ctx = new MainContext(mainCamera, screenSize);
-            CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin, deadZoneSize, softZoneSize, viewSize);
+            CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
             CameraInfra.SetCurrentCamera(ctx, ctx.mainCamera);
             ctx.SetRole(role);
 

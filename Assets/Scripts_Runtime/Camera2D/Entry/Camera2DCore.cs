@@ -19,10 +19,18 @@ namespace MortiseFrame.Vista {
             Camera2DConstraintPhase.Tick(ctx, dt);
         }
 
-        public Camera2DEntity CreateCamera2D(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos, Vector2 deadZoneSize, Vector2 softZoneSize, Vector2 viewSize) {
-            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos, deadZoneSize);
+        public Camera2DEntity CreateCamera2D(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos) {
+            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos);
             ctx.AddCamera(camera, camera.ID);
             return camera;
+        }
+
+        public void SetDeadZone(Camera2DEntity camera, Vector2 deadZoneNormalizedSize) {
+            Camera2DDomain.DeadZone_Set(ctx, camera, deadZoneNormalizedSize);
+        }
+
+        public void SetSoftZone(Camera2DEntity camera, Vector2 softZoneNormalizedSize) {
+            Camera2DDomain.SoftZone_Set(ctx, camera, softZoneNormalizedSize);
         }
 
         public void RemoveCamera(Camera2DEntity camera) {

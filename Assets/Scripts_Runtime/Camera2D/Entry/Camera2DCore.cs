@@ -21,6 +21,7 @@ namespace MortiseFrame.Vista {
             }
             Camera2DMovingPhase.FSMTick(ctx, dt);
             Camera2DConstraintPhase.Tick(ctx, dt);
+            Camera2DShakePhase.Tick(ctx, dt);
         }
 
         // Camera

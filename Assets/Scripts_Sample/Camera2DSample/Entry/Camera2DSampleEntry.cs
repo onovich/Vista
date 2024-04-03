@@ -1,3 +1,4 @@
+using MortiseFrame.Swing;
 using UnityEngine;
 
 namespace MortiseFrame.Vista.Sample {
@@ -5,15 +6,33 @@ namespace MortiseFrame.Vista.Sample {
     public class Camera2DSampleEntry : MonoBehaviour {
 
         MainContext ctx;
+
+        [Header("Camera2D Config")]
         [SerializeField] Vector2 cameraOriginPos;
+
+        [Header("Confiner Config")]
         [SerializeField] Vector2 confinerWorldMax;
         [SerializeField] Vector2 confinerWorldMin;
+
+        [Header("DeadZone Config")]
         [SerializeField] Vector2 deadZoneSize;
         [SerializeField] Vector2 softZoneSize;
         [SerializeField] float softZoneDampingFactor;
 
+        [Header("Driver Config")]
         [SerializeField] RoleEntity role;
+
+        [Header("Target Config")]
         [SerializeField] Transform[] targets;
+
+        [Header("Shake Config")]
+        [SerializeField] float shakeFrequency;
+        [SerializeField] float shakeAmplitude;
+        [SerializeField] float shakeDuration;
+        [SerializeField] EasingType shakeEasingType;
+        [SerializeField] EasingMode shakeEasingMode;
+
+        [Header("UI")]
         [SerializeField] Panel_2DSampleNavigation navPanel;
 
         int targetIndex = 0;
@@ -74,6 +93,13 @@ namespace MortiseFrame.Vista.Sample {
                 cameraState = 1;
                 RefreshInfo(camera);
             };
+            navPanel.action_shakeOnce = () => {
+                ShakeOnce(camera);
+            };
+        }
+
+        void ShakeOnce(Camera2DEntity camera) {
+            camera.ShakeOnce(shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
         }
 
         void RefreshInfo(Camera2DEntity camera) {
@@ -110,6 +136,7 @@ namespace MortiseFrame.Vista.Sample {
             navPanel.action_disableSoftZone = null;
             navPanel.action_followDriver = null;
             navPanel.action_moveToNextTarget = null;
+            navPanel.action_shakeOnce = null;
         }
 
         void Update() {

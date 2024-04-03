@@ -1,6 +1,6 @@
 namespace MortiseFrame.Vista {
 
-    internal class CameraFadingComponent {
+    internal class Camera2DFadingComponent {
 
         internal CameraFadingStatus Status { get; private set; }
 
@@ -13,7 +13,7 @@ namespace MortiseFrame.Vista {
         internal float FadingOut_timer { get; set; }
 
 
-        internal CameraFadingComponent() { }
+        internal Camera2DFadingComponent() { }
 
         internal void EnterIdle() {
             Status = CameraFadingStatus.Idle;

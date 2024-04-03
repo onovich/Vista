@@ -24,13 +24,18 @@ namespace MortiseFrame.Vista {
         public float SoftZoneDampingFactor => softZoneDampingFactor;
 
         // FSM
-        CameraMovingComponent fsmCom;
-        internal CameraMovingComponent FSMCom => fsmCom;
+        Camera2DMovingComponent fsmCom;
+        internal Camera2DMovingComponent FSMCom => fsmCom;
+
+        // Shake
+        Camera2DShakeComponent shakeComponent;
+        internal Camera2DShakeComponent ShakeComponent => shakeComponent;
 
         internal Camera2DEntity() {
-            fsmCom = new CameraMovingComponent();
+            fsmCom = new Camera2DMovingComponent();
             deadZoneComponent = new Camera2DDeadZoneComponent();
             softZoneComponent = new Camera2DDeadZoneComponent();
+            shakeComponent = new Camera2DShakeComponent();
         }
 
         // ID
@@ -100,6 +105,11 @@ namespace MortiseFrame.Vista {
 
         public Vector2 GetConfinerSize() {
             return confinerComponent.ConfinerWorldMax - confinerComponent.ConfinerWorldMin;
+        }
+
+        // Shake
+        public void ShakeOnce(float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
+            shakeComponent.ShakeOnce(frequency, amplitude, duration, type, mode);
         }
 
     }

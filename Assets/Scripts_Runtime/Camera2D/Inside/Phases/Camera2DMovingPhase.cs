@@ -10,6 +10,10 @@ namespace MortiseFrame.Vista {
             var fsmCom = current.FSMCom;
             var status = fsmCom.Status;
 
+            if (current == null) {
+                return;
+            }
+
             if (status == CameraMovingStatus.Idle) {
                 TickIdle(ctx, dt);
                 return;

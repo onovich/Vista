@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MortiseFrame.Vista {
 
-    internal class CameraMovingComponent {
+    internal class Camera2DMovingComponent {
 
         internal CameraMovingStatus Status { get; private set; }
 
@@ -22,7 +22,7 @@ namespace MortiseFrame.Vista {
         internal EasingMode MovingToTarget_easingMode { get; set; }
         internal Action MovingToTarget_onComplete { get; set; }
 
-        internal CameraMovingComponent() { }
+        internal Camera2DMovingComponent() { }
 
         internal void EnterIdle() {
             Status = CameraMovingStatus.Idle;

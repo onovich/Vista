@@ -11,7 +11,6 @@ namespace MortiseFrame.Vista {
             var fsmCom = camera.FSMCom;
             var pos = camera.Pos;
             fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode, onComplete);
-            VLog.Log("Camera2DEntity.SetMoveToTarget");
         }
 
         public static void FSM_SetMoveByDriver(Camera2DContext ctx, Camera2DEntity camera, Transform driver) {

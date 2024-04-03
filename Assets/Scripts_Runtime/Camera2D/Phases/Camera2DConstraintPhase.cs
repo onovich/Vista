@@ -11,12 +11,12 @@ namespace MortiseFrame.Vista {
             }
             ApplyConfiner(ctx, camera);
             var pos = camera.Pos;
-            ctx.MainCamera.transform.position = pos;
+            ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
         static void ApplyConfiner(Camera2DContext ctx, Camera2DEntity camera) {
             var confiner = camera.Confiner;
-            var screenHalfSize = ctx.ScreenSize * 0.5f;
+            var screenHalfSize = ctx.ViewSize * 0.5f;
             var pos = camera.Pos;
             var min = (Vector2)confiner.min + screenHalfSize;
             var max = (Vector2)confiner.max - screenHalfSize;

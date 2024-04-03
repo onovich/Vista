@@ -23,21 +23,18 @@ namespace MortiseFrame.Vista {
         public static void MoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 startPos, Vector2 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
             var pos = EasingHelper.Easing2D(startPos, targetPos, current, duration, easingType, easingMode);
             camera.Pos_Set(pos);
-            ctx.MainCamera.transform.position = pos;
+            ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
         public static void MoveByDriver(Camera2DContext ctx, Camera2DEntity camera, Vector2 driverScreenPos) {
-            var pos = camera.Pos;
-            var screenSize = ctx.ScreenSize;
+            var cameraWorldPos = camera.Pos;
 
             var sreenDiff = camera.DeadZone_GetScreenDiff(driverScreenPos);
             var worldDiff = PositionUtil.ScreenToWorldSize(ctx.MainCamera, sreenDiff);
+            cameraWorldPos += worldDiff;
 
-            pos += worldDiff;
-            VLog.Log("Camera2DEntity.MoveByDriver" + " screenDiff: " + sreenDiff + " worldDiff: " + worldDiff + " pos: " + pos);
-
-            camera.Pos_Set(pos);
-            ctx.MainCamera.transform.position = pos;
+            camera.Pos_Set(cameraWorldPos);
+            ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
         }
 
     }

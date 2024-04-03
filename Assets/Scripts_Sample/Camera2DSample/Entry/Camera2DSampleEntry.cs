@@ -19,7 +19,7 @@ namespace MortiseFrame.Vista.Sample {
             VLog.Warning = Debug.LogWarning;
             VLog.Error = Debug.LogError;
 
-            Camera mainCamera = Camera.main;
+            Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
             var screenSize = new Vector2(Screen.width, Screen.height);
             ctx = new MainContext(mainCamera, screenSize);

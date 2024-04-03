@@ -49,6 +49,7 @@ namespace MortiseFrame.Vista {
             var mainCamera = ctx.MainCamera;
             var driverWorldPos = driver.position;
             var driverScreenPos = PositionUtil.WorldToScreen(mainCamera, driverWorldPos);
+
             Camera2DDomain.MoveByDriver(ctx, current, driverScreenPos);
         }
 

@@ -57,15 +57,18 @@ namespace MortiseFrame.Vista {
             Gizmos.DrawWireCube(confinerCenter, confinerSize);
 
             // DeadZone, SoftZone 是屏幕坐标
-            Gizmos.color = Color.red;
-            var deadZoneScreenSize = camera.GetDeadZoneSize();
-            var deadZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, ctx.ViewSize);
-            Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
-
-            Gizmos.color = Color.blue;
-            var softZoneScreenSize = camera.GetSoftZoneSize();
-            var softZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, ctx.ViewSize);
-            Gizmos.DrawWireCube((Vector2)camera.Pos, softZoneWorldSize);
+            if (camera.IsDeadZoneEnable()) {
+                Gizmos.color = Color.red;
+                var deadZoneScreenSize = camera.GetDeadZoneSize();
+                var deadZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, ctx.ViewSize);
+                Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
+            }
+            if (camera.IsSoftZoneEnable()) {
+                Gizmos.color = Color.blue;
+                var softZoneScreenSize = camera.GetSoftZoneSize();
+                var softZoneWorldSize = PositionUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, ctx.ViewSize);
+                Gizmos.DrawWireCube((Vector2)camera.Pos, softZoneWorldSize);
+            }
         }
 
     }

@@ -14,6 +14,7 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Button btn_disableSoftZone;
         [SerializeField] Button btn_followDriver;
         [SerializeField] Button btn_moveToNextTarget;
+        [SerializeField] Text txt_infoTxt;
 
         public Action action_enableDeadZone;
         public Action action_disableDeadZone;
@@ -41,6 +42,10 @@ namespace MortiseFrame.Vista.Sample {
             btn_moveToNextTarget.onClick.AddListener(() => {
                 action_moveToNextTarget?.Invoke();
             });
+        }
+
+        public void SetInfoTxt(string txt) {
+            txt_infoTxt.text = txt;
         }
 
         void OnDestroy() {

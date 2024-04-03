@@ -17,6 +17,7 @@ namespace MortiseFrame.Vista.Sample {
         [SerializeField] Panel_2DSampleNavigation navPanel;
 
         int targetIndex = 0;
+        int cameraState = 0;
 
         void Start() {
             VLog.Log = Debug.Log;
@@ -38,6 +39,7 @@ namespace MortiseFrame.Vista.Sample {
             CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
 
             Binding();
+            RefreshInfo(camera);
 
             LogicBusiness.EnterGame(ctx);
         }
@@ -46,24 +48,55 @@ namespace MortiseFrame.Vista.Sample {
             var camera = ctx.mainCamera;
             navPanel.action_enableDeadZone = () => {
                 camera.EnableDeadZone(true);
+                RefreshInfo(camera);
             };
             navPanel.action_disableDeadZone = () => {
                 camera.EnableDeadZone(false);
+                RefreshInfo(camera);
             };
             navPanel.action_enableSoftZone = () => {
                 camera.EnableSoftZone(true);
+                RefreshInfo(camera);
             };
             navPanel.action_disableSoftZone = () => {
                 camera.EnableSoftZone(false);
+                RefreshInfo(camera);
             };
             navPanel.action_followDriver = () => {
                 CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+                cameraState = 0;
+                RefreshInfo(camera);
             };
             navPanel.action_moveToNextTarget = () => {
                 targetIndex = GetNextTargetIndex(targetIndex);
                 var target = targets[targetIndex];
                 CameraInfra.SetMoveToTarget(ctx, target.position, 1f);
+                cameraState = 1;
+                RefreshInfo(camera);
             };
+        }
+
+        void RefreshInfo(Camera2DEntity camera) {
+            var deadZoneEnable = camera.IsDeadZoneEnable();
+            var softZoneEnable = camera.IsSoftZoneEnable();
+
+            if (cameraState == 0) {
+                if (!deadZoneEnable) {
+                    navPanel.SetInfoTxt("DeadZone 禁用时: 硬跟随 Driver");
+                }
+
+                if (deadZoneEnable && softZoneEnable) {
+                    navPanel.SetInfoTxt("DeadZone 激活, 且 SoftZone 激活时: 在 DeadZone 内不跟随, SoftZone 内阻尼跟随, SoftZone 外硬跟随");
+                }
+
+                if (deadZoneEnable && !softZoneEnable) {
+                    navPanel.SetInfoTxt("DeadZone 激活, 且 SoftZone 禁用时: 在 DeadZone 内不跟随, DeadZone 外硬跟随");
+                }
+            }
+
+            if (cameraState == 1) {
+                navPanel.SetInfoTxt("缓动跟随 Target 时, 不受 DeadZone 和 SoftZone 影响");
+            }
         }
 
         int GetNextTargetIndex(int current) {

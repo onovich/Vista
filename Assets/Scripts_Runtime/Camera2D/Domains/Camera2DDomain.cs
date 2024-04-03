@@ -31,7 +31,7 @@ namespace MortiseFrame.Vista {
             Vector2 cameraWorldPos = currentCamera.Pos;
             Vector2 targetPos = cameraWorldPos;
 
-            // 死区禁用时: 硬跟随 Driver
+            // DeadZone 禁用时: 硬跟随 Driver
             if (!deadZoneEnable) {
                 targetPos = driverWorldPos;
                 RefreshCameraPos(ctx, currentCamera, mainCamera, targetPos);
@@ -46,9 +46,18 @@ namespace MortiseFrame.Vista {
                 return;
             }
 
-            // Driver 在 SoftZone 内：阻尼跟随
-            var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
+            // Driver 在 SoftZone 内
+            //// - SoftZone 禁用时：硬跟随 DeadZone Diff
+            if (!softZoneEnable) {
+                var deadZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                targetPos += deadZoneWorldDiff;
 
+                RefreshCameraPos(ctx, currentCamera, mainCamera, targetPos);
+                return;
+            }
+
+            //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
+            var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
             if (softZoneDiff == Vector2.zero) {
                 var deadZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
@@ -59,7 +68,7 @@ namespace MortiseFrame.Vista {
                 return;
             }
 
-            // Driver 在 DeadZone 外：硬跟随 Diff
+            // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
             var softZoneWorldDiff = PositionUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
             cameraWorldPos += softZoneWorldDiff;
             RefreshCameraPos(ctx, currentCamera, mainCamera, cameraWorldPos);

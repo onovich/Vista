@@ -36,8 +36,8 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // DeadZone
-        public void SetDeadZone(int cameraID, Vector2 size, Vector2 offset) {
-            Camera2DDomain.SetDeadZone(ctx, cameraID, size, offset);
+        public void SetDeadZone(int cameraID, Vector2 normalizedSize, Vector2 offset) {
+            Camera2DDomain.SetDeadZone(ctx, cameraID, normalizedSize, offset);
         }
 
         public void EnableDeadZone(int cameraID, bool enable) {
@@ -49,8 +49,8 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // SoftZone
-        public void SetSoftZone(int cameraID, Vector2 size, Vector2 offset,float dampingFactor) {
-            Camera2DDomain.SetSoftZone(ctx, cameraID, size, offset,dampingFactor);
+        public void SetSoftZone(int cameraID, Vector2 normalizedSize, Vector2 offset,float dampingFactor) {
+            Camera2DDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset,dampingFactor);
         }
 
         public void EnableSoftZone(int cameraID, bool enable) {

@@ -47,7 +47,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
             var viewSize = new Vector2(Screen.width, Screen.height);
             ctx = new MainContext(mainCamera, viewSize);
-            var camera = CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
+            var cameraID = CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
             CameraInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
             ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero,softZoneDampingFactor);

@@ -107,13 +107,13 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // DeadZone
-        internal static void SetDeadZone(Camera2DContext ctx, int id, Vector2 size, Vector2 offset) {
+        internal static void SetDeadZone(Camera2DContext ctx, int id, Vector2 normalizedSize, Vector2 offset) {
             var has = ctx.TryGetCamera(id, out var camera);
             if (!has) {
                 VLog.Error($"SetDeadZone Error, Camera Not Found: ID = {id}");
                 return;
             }
-            camera.SetDeadZone(size, ctx.ViewSize);
+            camera.SetDeadZone(normalizedSize, ctx.ViewSize);
         }
 
         internal static void EnableDeadZone(Camera2DContext ctx, int id, bool enable) {
@@ -135,13 +135,13 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // SoftZone
-        internal static void SetSoftZone(Camera2DContext ctx, int id, Vector2 size, Vector2 offset, float dampingFactor) {
+        internal static void SetSoftZone(Camera2DContext ctx, int id, Vector2 normalizedSize, Vector2 offset, float dampingFactor) {
             var has = ctx.TryGetCamera(id, out var camera);
             if (!has) {
                 VLog.Error($"SetSoftZone Error, Camera Not Found: ID = {id}");
                 return;
             }
-            camera.SetSoftZone(size, ctx.ViewSize, dampingFactor);
+            camera.SetSoftZone(normalizedSize, ctx.ViewSize, dampingFactor);
         }
 
         internal static void EnableSoftZone(Camera2DContext ctx, int id, bool enable) {

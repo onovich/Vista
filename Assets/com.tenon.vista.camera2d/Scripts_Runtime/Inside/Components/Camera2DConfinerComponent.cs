@@ -15,7 +15,7 @@ namespace TenonKit.Vista.Camera2D {
             this.confinerWorldMax = confinerWorldMax;
         }
 
-        internal Vector2 Clamp(Vector2 pos, float orthographicSize, float aspect) {
+        internal bool TryClamp(Vector2 src, float orthographicSize, float aspect, out Vector2 dst) {
 
             float verticalExtents = orthographicSize;
             float horizontalExtents = orthographicSize * aspect;
@@ -25,10 +25,18 @@ namespace TenonKit.Vista.Camera2D {
             float minY = confinerWorldMin.y + verticalExtents;
             float maxY = confinerWorldMax.y - verticalExtents;
 
-            float x = Mathf.Clamp(pos.x, minX, maxX);
-            float y = Mathf.Clamp(pos.y, minY, maxY);
+            bool valid = maxX > minX;
+            valid &= maxY > minY;
+            if (!valid) {
+                dst = src;
+                return false;
+            }
 
-            return new Vector2(x, y);
+            float x = Mathf.Clamp(src.x, minX, maxX);
+            float y = Mathf.Clamp(src.y, minY, maxY);
+
+            dst = new Vector2(x, y);
+            return true;
 
         }
 

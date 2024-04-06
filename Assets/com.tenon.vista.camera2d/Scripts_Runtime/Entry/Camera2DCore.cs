@@ -8,10 +8,10 @@ namespace TenonKit.Vista.Camera2D {
 
         Camera2DContext ctx;
 
-        public Camera2DCore(Camera mainCamera, Vector2 screenSize) {
+        public Camera2DCore(Camera mainCamera, Vector2 viewSize) {
             ctx = new Camera2DContext();
             ctx.Inject(mainCamera);
-            ctx.Init(screenSize);
+            ctx.Init(viewSize);
         }
 
         // Tick

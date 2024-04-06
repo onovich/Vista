@@ -95,8 +95,8 @@ namespace TenonKit.Vista.Camera2D {
             this.confinerComponent = new Camera2DConfinerComponent(confinerWorldMax, confinerWorldMin);
         }
 
-        internal Vector2 ClampByConfiner(Vector2 pos, float orthographicSize, float aspect) {
-            return confinerComponent.Clamp(pos, orthographicSize, aspect);
+        internal bool TryClampByConfiner(Vector2 pos, float orthographicSize, float aspect, out Vector2 dst) {
+            return confinerComponent.TryClamp(pos, orthographicSize, aspect, out dst);
         }
 
         internal Vector2 GetConfinerCenter() {

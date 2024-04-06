@@ -55,7 +55,7 @@ namespace TenonKit.Vista.Camera2D {
             var mainCamera = ctx.MainCamera;
             var driverWorldPos = driver.position;
 
-            Camera2DDomain.MoveByDriver(ctx, current, mainCamera, driverWorldPos, dt);
+            Camera2DDomain.MoveByDriver(ctx, current.ID, mainCamera, driverWorldPos, dt);
         }
 
         static void TickMovingToTarget(Camera2DContext ctx, float dt) {
@@ -72,7 +72,7 @@ namespace TenonKit.Vista.Camera2D {
             var easingType = fsmCom.MovingToTarget_easingType;
             var easingMode = fsmCom.MovingToTarget_easingMode;
 
-            Camera2DDomain.MoveToTarget(ctx, camera, startPos, targetPos, current, duration, easingType, easingMode);
+            Camera2DDomain.MoveToTarget(ctx, camera.ID, startPos, targetPos, current, duration, easingType, easingMode);
             ctx.MainCamera.transform.position = new Vector3(camera.Pos.x, camera.Pos.y, ctx.MainCamera.transform.position.z);
 
             fsmCom.MovingToTarget_IncTimer(dt);

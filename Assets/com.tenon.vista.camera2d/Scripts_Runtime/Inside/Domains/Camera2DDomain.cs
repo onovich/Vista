@@ -7,25 +7,45 @@ namespace TenonKit.Vista.Camera2D {
     internal static class Camera2DDomain {
 
         // FSM
-        internal static void FSM_SetMoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+        internal static void FSM_SetMoveToTarget(Camera2DContext ctx, int id, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"SetMoveToTarget Error, Camera Not Found: ID = {id}");
+                return;
+            }
             var fsmCom = camera.FSMCom;
             var pos = camera.Pos;
             fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode, onComplete);
         }
 
-        internal static void FSM_SetMoveByDriver(Camera2DContext ctx, Camera2DEntity camera, Transform driver) {
+        internal static void FSM_SetMoveByDriver(Camera2DContext ctx, int id, Transform driver) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"SetMoveByDriver Error, Camera Not Found: ID = {id}");
+                return;
+            }
             var fsmCom = camera.FSMCom;
             fsmCom.EnterMovingByDriver(driver);
         }
 
         //  Move
-        internal static void MoveToTarget(Camera2DContext ctx, Camera2DEntity camera, Vector2 startPos, Vector2 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
+        internal static void MoveToTarget(Camera2DContext ctx, int id, Vector2 startPos, Vector2 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"MoveToTarget Error, Camera Not Found: ID = {id}");
+                return;
+            }
             var pos = EasingHelper.Easing2D(startPos, targetPos, current, duration, easingType, easingMode);
             camera.SetPos(pos);
             ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
-        internal static void MoveByDriver(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 driverWorldPos, float deltaTime) {
+        internal static void MoveByDriver(Camera2DContext ctx, int id, Camera mainCamera, Vector2 driverWorldPos, float deltaTime) {
+            var has = ctx.TryGetCamera(id, out var currentCamera);
+            if (!has) {
+                VLog.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
+                return;
+            }
             bool deadZoneEnable = currentCamera.IsDeadZoneEnable();
             bool softZoneEnable = currentCamera.IsSoftZoneEnable();
             Vector2 cameraWorldPos = currentCamera.Pos;
@@ -34,7 +54,7 @@ namespace TenonKit.Vista.Camera2D {
             // DeadZone 禁用时: 硬跟随 Driver
             if (!deadZoneEnable) {
                 targetPos = driverWorldPos;
-                RefreshCameraPos(ctx, currentCamera, mainCamera, targetPos);
+                RefreshCameraPos(ctx, id, mainCamera, targetPos);
                 return;
             }
 
@@ -52,7 +72,7 @@ namespace TenonKit.Vista.Camera2D {
                 var deadZoneWorldDiff = CameraMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
 
-                RefreshCameraPos(ctx, currentCamera, mainCamera, targetPos);
+                RefreshCameraPos(ctx, id, mainCamera, targetPos);
                 return;
             }
 
@@ -64,20 +84,92 @@ namespace TenonKit.Vista.Camera2D {
 
                 float damping = currentCamera.SoftZoneDampingFactor;
                 cameraWorldPos += (targetPos - cameraWorldPos) * damping * deltaTime;
-                RefreshCameraPos(ctx, currentCamera, mainCamera, cameraWorldPos);
+                RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
                 return;
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
             var softZoneWorldDiff = CameraMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
             cameraWorldPos += softZoneWorldDiff;
-            RefreshCameraPos(ctx, currentCamera, mainCamera, cameraWorldPos);
+            RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
 
         }
 
-        static void RefreshCameraPos(Camera2DContext ctx, Camera2DEntity currentCamera, Camera mainCamera, Vector2 cameraWorldPos) {
+        static void RefreshCameraPos(Camera2DContext ctx, int id, Camera mainCamera, Vector2 cameraWorldPos) {
+            var has = ctx.TryGetCamera(id, out var currentCamera);
+            if (!has) {
+                VLog.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
+                return;
+            }
+           
             currentCamera.SetPos(cameraWorldPos);
             ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
+        }
+
+        // DeadZone
+        internal static void SetDeadZone(Camera2DContext ctx, int id, Vector2 size, Vector2 offset) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"SetDeadZone Error, Camera Not Found: ID = {id}");
+                return;
+            }
+            camera.SetDeadZone(size, ctx.ViewSize);
+        }
+
+        internal static void EnableDeadZone(Camera2DContext ctx, int id, bool enable) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"EnableDeadZone Error, Camera Not Found: ID = {id}");
+                return;
+            }
+            camera.EnableDeadZone(enable);
+        }
+
+        internal static bool IsDeadZoneEnable(Camera2DContext ctx, int id) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"IsDeadZoneEnable Error, Camera Not Found: ID = {id}");
+                return false;
+            }
+            return camera.IsDeadZoneEnable();
+        }
+
+        // SoftZone
+        internal static void SetSoftZone(Camera2DContext ctx, int id, Vector2 size, Vector2 offset, float dampingFactor) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"SetSoftZone Error, Camera Not Found: ID = {id}");
+                return;
+            }
+            camera.SetSoftZone(size, ctx.ViewSize, dampingFactor);
+        }
+
+        internal static void EnableSoftZone(Camera2DContext ctx, int id, bool enable) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"EnableSoftZone Error, Camera Not Found: ID = {id}");
+                return;
+            }
+            camera.EnableSoftZone(enable);
+        }
+
+        internal static bool IsSoftZoneEnable(Camera2DContext ctx, int id) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"IsSoftZoneEnable Error, Camera Not Found: ID = {id}");
+                return false;
+            }
+            return camera.IsSoftZoneEnable();
+        }
+
+        // Shake
+        internal static void ShakeOnce(Camera2DContext ctx, int id, float frequency, float amplitude, float duration, EasingType easingType, EasingMode easingMode) {
+            var has = ctx.TryGetCamera(id, out var camera);
+            if (!has) {
+                VLog.Error($"Shake Error, Camera Not Found: ID = {id}");
+                return;
+            }
+            camera.ShakeComponent.ShakeOnce(frequency, amplitude, duration, easingType, easingMode);
         }
 
     }

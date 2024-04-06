@@ -6,7 +6,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
     public class MainContext {
 
         public Camera2DCore core;
-        public Camera2DEntity mainCamera;
+        public int mainCameraID;
 
         public RoleEntity roleEntity;
         public Vector2 roleMoveAxis;

@@ -47,15 +47,14 @@ namespace TenonKit.Vista.Camera2D {
         internal void AddCamera(Camera2DEntity camera, int id) {
             bool succ = cameras.TryAdd(id, camera);
             if (!succ) {
-                throw new Exception("Camera2DContext.AddCamera: failed to add camera");
+                VLog.Error($"Add Camera Error, Camera Not Found: ID = {id}");
             }
         }
 
-        internal void RemoveCamera(Camera2DEntity camera) {
-            int id = camera.ID;
+        internal void RemoveCamera(int id) {
             bool succ = cameras.Remove(id);
             if (!succ) {
-                throw new Exception("Camera2DContext.RemoveCamera: failed to remove camera");
+                 VLog.Error($"Remove Camera Error,Camera Not Found: ID = {id}");
             }
         }
 
@@ -63,7 +62,11 @@ namespace TenonKit.Vista.Camera2D {
             return cameras.TryGetValue(id, out camera);
         }
 
-        internal void SetCurrentCamera(Camera2DEntity camera) {
+        internal void SetCurrentCamera(int id) {
+            var has = cameras.TryGetValue(id, out var camera);
+            if (!has) {
+                VLog.Error($"Set Current Error, Camera Not Found: ID = {id}");
+            }
             currentCamera = camera;
         }
 

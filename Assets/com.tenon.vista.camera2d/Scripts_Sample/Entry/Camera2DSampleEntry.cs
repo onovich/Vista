@@ -48,63 +48,63 @@ namespace TenonKit.Vista.Camera2D.Sample {
             var viewSize = new Vector2(Screen.width, Screen.height);
             ctx = new MainContext(mainCamera, viewSize);
             var camera = CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
-            CameraInfra.SetCurrentCamera(ctx, ctx.mainCamera);
-            camera.SetDeadZone(deadZoneSize, viewSize);
-            camera.SetSoftZone(softZoneSize, viewSize, softZoneDampingFactor);
-            camera.EnableDeadZone(true);
-            camera.EnableSoftZone(true);
+            CameraInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
+            ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
+            ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero,softZoneDampingFactor);
+            ctx.core.EnableDeadZone(ctx.mainCameraID, true);
+            ctx.core.EnableSoftZone(ctx.mainCameraID, true);
             ctx.SetRole(role);
 
             CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
 
             Binding();
-            RefreshInfo(camera);
+            RefreshInfo(ctx.mainCameraID);
 
             LogicBusiness.EnterGame(ctx);
         }
 
         void Binding() {
-            var camera = ctx.mainCamera;
+            var cameraID = ctx.mainCameraID;
             navPanel.action_enableDeadZone = () => {
-                camera.EnableDeadZone(true);
-                RefreshInfo(camera);
+                ctx.core.EnableDeadZone(cameraID, true);
+                RefreshInfo(cameraID);
             };
             navPanel.action_disableDeadZone = () => {
-                camera.EnableDeadZone(false);
-                RefreshInfo(camera);
+                ctx.core.EnableDeadZone(cameraID, false);
+                RefreshInfo(cameraID);
             };
             navPanel.action_enableSoftZone = () => {
-                camera.EnableSoftZone(true);
-                RefreshInfo(camera);
+                ctx.core.EnableSoftZone(cameraID, true);
+                RefreshInfo(cameraID);
             };
             navPanel.action_disableSoftZone = () => {
-                camera.EnableSoftZone(false);
-                RefreshInfo(camera);
+                ctx.core.EnableSoftZone(cameraID, false);
+                RefreshInfo(cameraID);
             };
             navPanel.action_followDriver = () => {
                 CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
                 cameraState = 0;
-                RefreshInfo(camera);
+                RefreshInfo(cameraID);
             };
             navPanel.action_moveToNextTarget = () => {
                 targetIndex = GetNextTargetIndex(targetIndex);
                 var target = targets[targetIndex];
                 CameraInfra.SetMoveToTarget(ctx, target.position, 1f);
                 cameraState = 1;
-                RefreshInfo(camera);
+                RefreshInfo(cameraID);
             };
             navPanel.action_shakeOnce = () => {
-                ShakeOnce(camera);
+                ShakeOnce(cameraID);
             };
         }
 
-        void ShakeOnce(Camera2DEntity camera) {
-            camera.ShakeOnce(shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
+        void ShakeOnce(int cameraID) {
+            ctx.core.ShakeOnce(cameraID, shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
         }
 
-        void RefreshInfo(Camera2DEntity camera) {
-            var deadZoneEnable = camera.IsDeadZoneEnable();
-            var softZoneEnable = camera.IsSoftZoneEnable();
+        void RefreshInfo(int cameraID) {
+            var deadZoneEnable = ctx.core.IsDeadZoneEnable(cameraID);
+            var softZoneEnable = ctx.core.IsSoftZoneEnable(cameraID);
 
             if (cameraState == 0) {
                 if (!deadZoneEnable) {
@@ -156,7 +156,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
         }
 
         void OnDrawGizmos() {
-            if (ctx == null || ctx.core == null || ctx.mainCamera == null) {
+            if (ctx == null || ctx.core == null) {
                 return;
             }
             CameraInfra.DrawGizmos(ctx);

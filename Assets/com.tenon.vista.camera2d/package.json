@@ -1,0 +1,19 @@
+{
+    "name": "com.tenon.vista.camera2d",
+    "version": "0.0.1",
+    "unity": "2019.4",
+    "author": {
+        "name": "onovich",
+        "email": "onovich1110@gmail.com"
+    },
+    "displayName": "TenonKit.Vista.Camera2D",
+    "description": "A 2D Camera Library.",
+    "documentationURL": "https://github.com/onovich/Vista",
+    "hideInEditor": false,
+    "category": "VFX",
+    "keywords": [
+        "TenonKit",
+        "camera"
+    ],
+    "unityRelease": "16f1"
+}

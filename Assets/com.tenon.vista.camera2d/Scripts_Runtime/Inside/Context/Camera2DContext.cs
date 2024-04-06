@@ -28,9 +28,13 @@ namespace TenonKit.Vista.Camera2D {
         bool inited;
         internal bool Inited => inited;
 
+        bool confinerIsVaild;
+        internal bool ConfinerIsVaild => confinerIsVaild;
+
         internal Camera2DContext() {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService();
+            confinerIsVaild = false;
         }
 
         internal void Init(Vector2 screenSize) {
@@ -54,7 +58,7 @@ namespace TenonKit.Vista.Camera2D {
         internal void RemoveCamera(int id) {
             bool succ = cameras.Remove(id);
             if (!succ) {
-                 VLog.Error($"Remove Camera Error,Camera Not Found: ID = {id}");
+                VLog.Error($"Remove Camera Error,Camera Not Found: ID = {id}");
             }
         }
 
@@ -68,6 +72,10 @@ namespace TenonKit.Vista.Camera2D {
                 VLog.Error($"Set Current Error, Camera Not Found: ID = {id}");
             }
             currentCamera = camera;
+        }
+
+        internal void SetConfinerValid(bool valid) {
+            confinerIsVaild = valid;
         }
 
         internal void Clear() {

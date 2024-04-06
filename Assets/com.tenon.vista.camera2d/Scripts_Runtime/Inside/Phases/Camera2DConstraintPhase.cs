@@ -19,6 +19,7 @@ namespace TenonKit.Vista.Camera2D {
             var aspect = ctx.Aspect;
             var orthographicSize = ctx.MainCamera.orthographicSize;
             var succ = camera.TryClampByConfiner(src, orthographicSize, aspect, out Vector2 dst);
+            ctx.SetConfinerValid(succ);
             camera.SetPos(dst);
         }
 

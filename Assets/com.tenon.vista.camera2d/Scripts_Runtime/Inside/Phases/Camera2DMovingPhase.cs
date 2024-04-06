@@ -14,6 +14,10 @@ namespace TenonKit.Vista.Camera2D {
                 return;
             }
 
+            if (!ctx.ConfinerIsVaild) {
+                return;
+            }
+
             if (status == CameraMovingStatus.Idle) {
                 TickIdle(ctx, dt);
                 return;

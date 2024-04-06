@@ -50,7 +50,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
             var cameraID = CameraInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
             CameraInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
-            ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero,softZoneDampingFactor);
+            ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero, softZoneDampingFactor);
             ctx.core.EnableDeadZone(ctx.mainCameraID, true);
             ctx.core.EnableSoftZone(ctx.mainCameraID, true);
             ctx.SetRole(role);
@@ -89,7 +89,9 @@ namespace TenonKit.Vista.Camera2D.Sample {
             navPanel.action_moveToNextTarget = () => {
                 targetIndex = GetNextTargetIndex(targetIndex);
                 var target = targets[targetIndex];
-                CameraInfra.SetMoveToTarget(ctx, target.position, 1f);
+                CameraInfra.SetMoveToTarget(ctx, target.position, 1f, onComplete: () => {
+                    Debug.Log("MoveToTarget Complete");
+                });
                 cameraState = 1;
                 RefreshInfo(cameraID);
             };

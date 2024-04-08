@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace TenonKit.Vista.Camera2D {
+namespace TenonKit.Vista.Camera3D {
 
-    internal static class Camera2DMovingPhase {
+    internal static class Camera3DMovingPhase {
 
-        internal static void FSMTick(Camera2DContext ctx, float dt) {
+        internal static void FSMTick(Camera3DContext ctx, float dt) {
 
             var current = ctx.CurrentCamera;
             var fsmCom = current.FSMCom;
@@ -18,24 +18,24 @@ namespace TenonKit.Vista.Camera2D {
                 return;
             }
 
-            if (status == Camera2DMovingStatus.Idle) {
+            if (status == Camera3DMovingStatus.Idle) {
                 TickIdle(ctx, dt);
                 return;
             }
 
-            if (status == Camera2DMovingStatus.MovingByDriver) {
+            if (status == Camera3DMovingStatus.MovingByDriver) {
                 TickMovingByDriver(ctx, dt);
                 return;
             }
 
-            if (status == Camera2DMovingStatus.MovingToTarget) {
+            if (status == Camera3DMovingStatus.MovingToTarget) {
                 TickMovingToTarget(ctx, dt);
                 return;
             }
 
         }
 
-        static void TickIdle(Camera2DContext ctx, float dt) {
+        static void TickIdle(Camera3DContext ctx, float dt) {
             var current = ctx.CurrentCamera;
             var fsmCom = current.FSMCom;
             if (fsmCom.Idle_isEntering) {
@@ -43,7 +43,7 @@ namespace TenonKit.Vista.Camera2D {
             }
         }
 
-        static void TickMovingByDriver(Camera2DContext ctx, float dt) {
+        static void TickMovingByDriver(Camera3DContext ctx, float dt) {
             var current = ctx.CurrentCamera;
             var fsmCom = current.FSMCom;
             if (fsmCom.MovingByDriver_isEntering) {
@@ -59,10 +59,10 @@ namespace TenonKit.Vista.Camera2D {
             var mainCamera = ctx.MainCamera;
             var driverWorldPos = driver.position;
 
-            Camera2DDomain.MoveByDriver(ctx, current.ID, mainCamera, driverWorldPos, dt);
+            Camera3DDomain.MoveByDriver(ctx, current.ID, mainCamera, driverWorldPos, dt);
         }
 
-        static void TickMovingToTarget(Camera2DContext ctx, float dt) {
+        static void TickMovingToTarget(Camera3DContext ctx, float dt) {
             var camera = ctx.CurrentCamera;
             var fsmCom = camera.FSMCom;
             if (fsmCom.MovingToTarget_isEntering) {
@@ -76,7 +76,7 @@ namespace TenonKit.Vista.Camera2D {
             var easingType = fsmCom.MovingToTarget_easingType;
             var easingMode = fsmCom.MovingToTarget_easingMode;
 
-            Camera2DDomain.MoveToTarget(ctx, camera.ID, startPos, targetPos, current, duration, easingType, easingMode);
+            Camera3DDomain.MoveToTarget(ctx, camera.ID, startPos, targetPos, current, duration, easingType, easingMode);
             ctx.MainCamera.transform.position = new Vector3(camera.Pos.x, camera.Pos.y, ctx.MainCamera.transform.position.z);
 
             fsmCom.MovingToTarget_IncTimer(dt);

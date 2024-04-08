@@ -39,9 +39,9 @@ namespace TenonKit.Vista.Camera2D.Sample {
         int cameraState = 0;
 
         void Start() {
-            VLog.Log = Debug.Log;
-            VLog.Warning = Debug.LogWarning;
-            VLog.Error = Debug.LogError;
+            V2Log.Log = Debug.Log;
+            V2Log.Warning = Debug.LogWarning;
+            V2Log.Error = Debug.LogError;
 
             Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
 

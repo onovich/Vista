@@ -1,6 +1,6 @@
 namespace TenonKit.Vista.Camera2D {
 
-    internal enum CameraMovingStatus {
+    internal enum Camera2DMovingStatus {
 
         None,
         Idle,

@@ -1,0 +1,16 @@
+{
+    "name": "TenonKit.Vista.Camera3D",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3e1313b9d6abf4d0394d17448e7e610f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

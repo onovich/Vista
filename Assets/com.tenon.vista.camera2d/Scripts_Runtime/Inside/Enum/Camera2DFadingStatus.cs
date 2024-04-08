@@ -1,6 +1,6 @@
 namespace TenonKit.Vista.Camera2D {
 
-    internal enum CameraFadingStatus {
+    internal enum Camera2DFadingStatus {
 
         None,
         Idle,

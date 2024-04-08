@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera2D {
 
-    public static class CameraMathUtil {
+    public static class Camera2DMathUtil {
 
         public static Vector2 WorldToScreenPos(Camera camera, Vector3 worldPos) {
             var screenPos = camera.WorldToScreenPoint(worldPos);

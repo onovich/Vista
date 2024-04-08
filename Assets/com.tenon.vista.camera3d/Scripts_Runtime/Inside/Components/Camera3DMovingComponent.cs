@@ -2,11 +2,11 @@ using System;
 using MortiseFrame.Swing;
 using UnityEngine;
 
-namespace TenonKit.Vista.Camera2D {
+namespace TenonKit.Vista.Camera3D {
 
-    internal class Camera2DMovingComponent {
+    internal class Camera3DMovingComponent {
 
-        internal Camera2DMovingStatus Status { get; private set; }
+        internal Camera3DMovingStatus Status { get; private set; }
 
         internal bool Idle_isEntering { get; set; }
 
@@ -14,29 +14,29 @@ namespace TenonKit.Vista.Camera2D {
         internal Transform MovingByDriver_driver { get; set; }
 
         internal bool MovingToTarget_isEntering { get; set; }
-        internal Vector2 MovingToTarget_startPos { get; set; }
-        internal Vector2 MovingToTarget_targetPos { get; set; }
+        internal Vector3 MovingToTarget_startPos { get; set; }
+        internal Vector3 MovingToTarget_targetPos { get; set; }
         internal float MovingToTarget_current { get; set; }
         internal float MovingToTarget_duration { get; set; }
         internal EasingType MovingToTarget_easingType { get; set; }
         internal EasingMode MovingToTarget_easingMode { get; set; }
         internal Action MovingToTarget_onComplete { get; set; }
 
-        internal Camera2DMovingComponent() { }
+        internal Camera3DMovingComponent() { }
 
         internal void EnterIdle() {
-            Status = Camera2DMovingStatus.Idle;
+            Status = Camera3DMovingStatus.Idle;
             Idle_isEntering = true;
         }
 
         internal void EnterMovingByDriver(Transform driver) {
-            Status = Camera2DMovingStatus.MovingByDriver;
+            Status = Camera3DMovingStatus.MovingByDriver;
             MovingByDriver_isEntering = true;
             MovingByDriver_driver = driver;
         }
 
-        internal void EnterMovingToTarget(Vector2 startPos, Vector2 targetPos, float duration, EasingType easingType, EasingMode easingMode, Action onComplete = null) {
-            Status = Camera2DMovingStatus.MovingToTarget;
+        internal void EnterMovingToTarget(Vector3 startPos, Vector3 targetPos, float duration, EasingType easingType, EasingMode easingMode, Action onComplete = null) {
+            Status = Camera3DMovingStatus.MovingToTarget;
             MovingToTarget_isEntering = true;
             MovingToTarget_startPos = startPos;
             MovingToTarget_targetPos = targetPos;

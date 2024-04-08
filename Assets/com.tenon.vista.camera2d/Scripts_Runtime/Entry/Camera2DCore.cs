@@ -81,7 +81,7 @@ namespace TenonKit.Vista.Camera2D {
 
         public void DrawGizmos() {
             var camera = ctx.CurrentCamera;
-            DrawGizmosHelper.DrawGizmos(ctx, ctx.MainCamera);
+            DrawGizmos2DHelper.DrawGizmos(ctx, ctx.MainCamera);
         }
 
     }

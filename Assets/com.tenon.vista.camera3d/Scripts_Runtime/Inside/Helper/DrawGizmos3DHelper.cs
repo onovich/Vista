@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using MortiseFrame.Swing;
 
-namespace TenonKit.Vista.Camera2D {
+namespace TenonKit.Vista.Camera3D {
 
-    internal static class DrawGizmosHelper {
+    internal static class DrawGizmos3DHelper {
 
-        internal static void DrawGizmos(Camera2DContext ctx, Camera mainCamera) {
+        internal static void DrawGizmos(Camera3DContext ctx, Camera mainCamera) {
             var camera = ctx.CurrentCamera;
 
             // Confiner 是世界坐标,不会跟随相机动
@@ -19,14 +19,14 @@ namespace TenonKit.Vista.Camera2D {
             if (camera.IsDeadZoneEnable()) {
                 Gizmos.color = Color.red;
                 var deadZoneScreenSize = camera.GetDeadZoneSize();
-                var deadZoneWorldSize = CameraMathUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, ctx.ViewSize);
-                Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
+                var deadZoneWorldSize = Camera3DMathUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, ctx.ViewSize);
+                Gizmos.DrawWireCube((Vector3)camera.Pos, deadZoneWorldSize);
             }
             if (camera.IsSoftZoneEnable()) {
                 Gizmos.color = Color.blue;
                 var softZoneScreenSize = camera.GetSoftZoneSize();
-                var softZoneWorldSize = CameraMathUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, ctx.ViewSize);
-                Gizmos.DrawWireCube((Vector2)camera.Pos, softZoneWorldSize);
+                var softZoneWorldSize = Camera3DMathUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, ctx.ViewSize);
+                Gizmos.DrawWireCube((Vector3)camera.Pos, softZoneWorldSize);
             }
         }
 

@@ -1,10 +1,10 @@
 namespace TenonKit.Vista.Camera2D {
 
-    internal class IDService {
+    internal class IDService2D {
 
         byte cameraIDRecord;
 
-        internal IDService() {
+        internal IDService2D() {
             cameraIDRecord = 0;
         }
 

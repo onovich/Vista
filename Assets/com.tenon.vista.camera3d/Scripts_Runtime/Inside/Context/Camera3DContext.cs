@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-namespace TenonKit.Vista.Camera2D {
+namespace TenonKit.Vista.Camera3D {
 
-    internal class Camera2DContext {
+    internal class Camera3DContext {
 
-        SortedList<int, Camera2DEntity> cameras;
-        IDService2D idService;
-        internal IDService2D IDService => idService;
+        SortedList<int, Camera3DEntity> cameras;
+        IDService3D idService;
+        internal IDService3D IDService => idService;
 
-        Camera2DEntity currentCamera;
-        internal Camera2DEntity CurrentCamera => currentCamera;
+        Camera3DEntity currentCamera;
+        internal Camera3DEntity CurrentCamera => currentCamera;
 
         Camera mainCamera;
         internal Camera MainCamera => mainCamera;
 
-        Vector2 viewSize;
-        internal Vector2 ViewSize => viewSize;
+        Vector3 viewSize;
+        internal Vector3 ViewSize => viewSize;
 
         float orthographicSize;
         internal float OrthographicSize => orthographicSize;
@@ -31,13 +31,13 @@ namespace TenonKit.Vista.Camera2D {
         bool confinerIsVaild;
         internal bool ConfinerIsVaild => confinerIsVaild;
 
-        internal Camera2DContext() {
-            cameras = new SortedList<int, Camera2DEntity>();
-            idService = new IDService2D();
+        internal Camera3DContext() {
+            cameras = new SortedList<int, Camera3DEntity>();
+            idService = new IDService3D();
             confinerIsVaild = false;
         }
 
-        internal void Init(Vector2 screenSize) {
+        internal void Init(Vector3 screenSize) {
             this.viewSize = screenSize;
             inited = true;
         }
@@ -48,28 +48,28 @@ namespace TenonKit.Vista.Camera2D {
             this.aspect = mainCamera.aspect;
         }
 
-        internal void AddCamera(Camera2DEntity camera, int id) {
+        internal void AddCamera(Camera3DEntity camera, int id) {
             bool succ = cameras.TryAdd(id, camera);
             if (!succ) {
-                V2Log.Error($"Add Camera Error, Camera Not Found: ID = {id}");
+                V3Log.Error($"Add Camera Error, Camera Not Found: ID = {id}");
             }
         }
 
         internal void RemoveCamera(int id) {
             bool succ = cameras.Remove(id);
             if (!succ) {
-                V2Log.Error($"Remove Camera Error,Camera Not Found: ID = {id}");
+                V3Log.Error($"Remove Camera Error,Camera Not Found: ID = {id}");
             }
         }
 
-        internal bool TryGetCamera(int id, out Camera2DEntity camera) {
+        internal bool TryGetCamera(int id, out Camera3DEntity camera) {
             return cameras.TryGetValue(id, out camera);
         }
 
         internal void SetCurrentCamera(int id) {
             var has = cameras.TryGetValue(id, out var camera);
             if (!has) {
-                V2Log.Error($"Set Current Error, Camera Not Found: ID = {id}");
+                V3Log.Error($"Set Current Error, Camera Not Found: ID = {id}");
             }
             currentCamera = camera;
         }

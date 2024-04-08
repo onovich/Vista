@@ -1,8 +1,8 @@
-namespace TenonKit.Vista.Camera2D {
+namespace TenonKit.Vista.Camera3D {
 
-    internal class Camera2DFadingComponent {
+    internal class Camera3DFadingComponent {
 
-        internal Camera2DFadingStatus Status { get; private set; }
+        internal Camera3DFadingStatus Status { get; private set; }
 
         internal bool Idle_isEntering { get; set; }
 
@@ -13,21 +13,21 @@ namespace TenonKit.Vista.Camera2D {
         internal float FadingOut_timer { get; set; }
 
 
-        internal Camera2DFadingComponent() { }
+        internal Camera3DFadingComponent() { }
 
         internal void EnterIdle() {
-            Status = Camera2DFadingStatus.Idle;
+            Status = Camera3DFadingStatus.Idle;
             Idle_isEntering = true;
         }
 
         internal void EnterFadingIn(float duration) {
-            Status = Camera2DFadingStatus.FadingIn;
+            Status = Camera3DFadingStatus.FadingIn;
             FadingIn_isEntering = true;
             FadingIn_timer = duration;
         }
 
         internal void EnterFadingOut(float duration) {
-            Status = Camera2DFadingStatus.FadingOut;
+            Status = Camera3DFadingStatus.FadingOut;
             FadingOut_isEntering = true;
             FadingOut_timer = duration;
         }

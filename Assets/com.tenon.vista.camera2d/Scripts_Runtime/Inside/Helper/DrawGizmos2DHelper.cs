@@ -19,13 +19,13 @@ namespace TenonKit.Vista.Camera2D {
             if (camera.IsDeadZoneEnable()) {
                 Gizmos.color = Color.red;
                 var deadZoneScreenSize = camera.GetDeadZoneSize();
-                var deadZoneWorldSize = Camera2DMathUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, ctx.ViewSize);
+                var deadZoneWorldSize = Camera2DMathUtil.ScreenToWorldLength(Camera.main, deadZoneScreenSize, ctx.ViewSize);
                 Gizmos.DrawWireCube((Vector2)camera.Pos, deadZoneWorldSize);
             }
             if (camera.IsSoftZoneEnable()) {
                 Gizmos.color = Color.blue;
                 var softZoneScreenSize = camera.GetSoftZoneSize();
-                var softZoneWorldSize = Camera2DMathUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, ctx.ViewSize);
+                var softZoneWorldSize = Camera2DMathUtil.ScreenToWorldLength(Camera.main, softZoneScreenSize, ctx.ViewSize);
                 Gizmos.DrawWireCube((Vector2)camera.Pos, softZoneWorldSize);
             }
         }

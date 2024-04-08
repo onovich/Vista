@@ -62,14 +62,17 @@ namespace TenonKit.Vista.Camera3D {
             var deadZoneDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPos);
 
             // Driver 在 DeadZone 内：不跟随
-            if (deadZoneDiff == Vector3.zero && softZoneEnable) {
+            if (deadZoneDiff == Vector2.zero && softZoneEnable) {
                 return;
             }
+
+            // Get Depth
+            var depth = Camera3DMathUtil.GetDepth(mainCamera, driverWorldPos - cameraWorldPos);
 
             // Driver 在 SoftZone 内
             //// - SoftZone 禁用时：硬跟随 DeadZone Diff
             if (!softZoneEnable) {
-                var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, depth);
                 targetPos += deadZoneWorldDiff;
 
                 RefreshCameraPos(ctx, id, mainCamera, targetPos);
@@ -78,8 +81,8 @@ namespace TenonKit.Vista.Camera3D {
 
             //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
             var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
-            if (softZoneDiff == Vector3.zero) {
-                var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+            if (softZoneDiff == Vector2.zero) {
+                var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, depth);
                 targetPos += deadZoneWorldDiff;
 
                 float damping = currentCamera.SoftZoneDampingFactor;
@@ -89,7 +92,7 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
-            var softZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
+            var softZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, depth);
             cameraWorldPos += softZoneWorldDiff;
             RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
 
@@ -101,7 +104,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
                 return;
             }
-           
+
             currentCamera.SetPos(cameraWorldPos);
             ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
         }

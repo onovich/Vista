@@ -11,7 +11,6 @@ namespace TenonKit.Vista.Camera2D {
             var confiner = new Bounds(confinerWorldMin, confinerWorldMax);
 
             // 屏幕坐标系
-            var screenSize = ctx.ViewSize;
             var camera = new Camera2DEntity();
             camera.SetID(id);
             camera.SetPos(pos);

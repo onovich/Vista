@@ -37,8 +37,8 @@ namespace TenonKit.Vista.Camera2D {
             confinerIsVaild = false;
         }
 
-        internal void Init(Vector2 screenSize) {
-            this.viewSize = screenSize;
+        internal void Init(Vector2 viewSize) {
+            this.viewSize = viewSize;
             inited = true;
         }
 

@@ -50,7 +50,8 @@ namespace TenonKit.Vista.Camera3D {
         public Vector3 GetOffset() {
             var x = WaveHelper.EasingOutWave(frequency, amplitude, current, duration, phase, waveType, easingType, easingMode);
             var y = WaveHelper.EasingOutWave(frequency, amplitude, current, duration, phase, waveType, easingType, easingMode);
-            return new Vector3(x, y);
+            var z = WaveHelper.EasingOutWave(frequency, amplitude, current, duration, phase, waveType, easingType, easingMode);
+            return new Vector3(x, y, z);
         }
 
     }

@@ -16,9 +16,9 @@ namespace TenonKit.Vista.Camera3D {
 
         static void ApplyConfiner(Camera3DContext ctx, Camera3DEntity camera) {
             var src = camera.Pos;
+            var fov = ctx.FOV;
             var aspect = ctx.Aspect;
-            var orthographicSize = ctx.MainCamera.orthographicSize;
-            var succ = camera.TryClampByConfiner(src, orthographicSize, aspect, out Vector3 dst);
+            var succ = camera.TryClampByConfiner(src, fov,aspect, out Vector3 dst);
             ctx.SetConfinerValid(succ);
             camera.SetPos(dst);
         }

@@ -7,20 +7,20 @@ namespace TenonKit.Vista.Camera3D {
         bool enable;
         internal bool Enable => enable;
 
-        Vector3 deadZoneScreenMin;
-        internal Vector3 DeadZoneScreenMin => deadZoneScreenMin;
+        Vector2 deadZoneScreenMin;
+        internal Vector2 DeadZoneScreenMin => deadZoneScreenMin;
 
-        Vector3 deadZoneScreenMax;
-        internal Vector3 DeadZoneScreenMax => deadZoneScreenMax;
+        Vector2 deadZoneScreenMax;
+        internal Vector2 DeadZoneScreenMax => deadZoneScreenMax;
 
         internal Camera3DDeadZoneComponent() {
-            deadZoneScreenMin = Vector3.zero;
-            deadZoneScreenMax = Vector3.zero;
+            deadZoneScreenMin = Vector2.zero;
+            deadZoneScreenMax = Vector2.zero;
             enable = false;
         }
 
-        internal void Zone_Set(Vector3 deadZoneNormalizedSize, Vector3 screenSize) {
-            var deadZoneSize = new Vector3(screenSize.x * deadZoneNormalizedSize.x, screenSize.y * deadZoneNormalizedSize.y);
+        internal void Zone_Set(Vector2 deadZoneNormalizedSize, Vector2 screenSize) {
+            var deadZoneSize = new Vector2(screenSize.x * deadZoneNormalizedSize.x, screenSize.y * deadZoneNormalizedSize.y);
             var screenCenter = screenSize / 2f;
             var deadZoneHalfSize = deadZoneSize / 2f;
             deadZoneScreenMin = screenCenter - deadZoneHalfSize;
@@ -32,8 +32,8 @@ namespace TenonKit.Vista.Camera3D {
             this.enable = enable;
         }
 
-        internal Vector3 ScreenDiff_Get(Vector3 screenPos) {
-            Vector3 diff = Vector3.zero;
+        internal Vector2 ScreenDiff_Get(Vector2 screenPos) {
+            Vector2 diff = Vector2.zero;
 
             if (screenPos.x < deadZoneScreenMin.x) {
                 diff.x = screenPos.x - deadZoneScreenMin.x;

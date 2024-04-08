@@ -49,14 +49,14 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // DeadZone
-        internal void SetDeadZone(Vector3 deadZoneNormalizedSize, Vector3 viewSize) {
+        internal void SetDeadZone(Vector2 deadZoneNormalizedSize, Vector2 viewSize) {
             deadZoneComponent.Zone_Set(deadZoneNormalizedSize, viewSize);
         }
-        internal Vector3 GetDeadZoneScreenDiff(Vector3 screenPos) {
+        internal Vector2 GetDeadZoneScreenDiff(Vector2 screenPos) {
             return deadZoneComponent.ScreenDiff_Get(screenPos);
         }
 
-        internal Vector3 GetDeadZoneSize() {
+        internal Vector2 GetDeadZoneSize() {
             return deadZoneComponent.DeadZoneScreenMax - deadZoneComponent.DeadZoneScreenMin;
         }
 
@@ -69,16 +69,16 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // SoftZone
-        internal void SetSoftZone(Vector3 softZoneNormalizedSize, Vector3 viewSize, float dampingFactor) {
+        internal void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize, float dampingFactor) {
             softZoneComponent.Zone_Set(softZoneNormalizedSize, viewSize);
             this.softZoneDampingFactor = dampingFactor;
         }
 
-        internal Vector3 GetSoftZoneScreenDiff(Vector3 screenPos) {
+        internal Vector2 GetSoftZoneScreenDiff(Vector2 screenPos) {
             return softZoneComponent.ScreenDiff_Get(screenPos);
         }
 
-        internal Vector3 GetSoftZoneSize() {
+        internal Vector2 GetSoftZoneSize() {
             return softZoneComponent.DeadZoneScreenMax - softZoneComponent.DeadZoneScreenMin;
         }
 
@@ -95,8 +95,8 @@ namespace TenonKit.Vista.Camera3D {
             this.confinerComponent = new Camera3DConfinerComponent(confinerWorldMax, confinerWorldMin);
         }
 
-        internal bool TryClampByConfiner(Vector3 pos, float orthographicSize, float aspect, out Vector3 dst) {
-            return confinerComponent.TryClamp(pos, orthographicSize, aspect, out dst);
+        internal bool TryClampByConfiner(Vector3 pos, float fov, float aspect, out Vector3 dst) {
+            return confinerComponent.TryClamp(pos, fov, aspect, out dst);
         }
 
         internal Vector3 GetConfinerCenter() {

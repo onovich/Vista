@@ -14,9 +14,9 @@ namespace TenonKit.Vista.Camera2D {
             return new Vector2(worldPos.x, worldPos.y);
         }
 
-        public static Vector2 ScreenToWorldSize(Camera camera, Vector2 screenSize, Vector2 viewSize) {
+        public static Vector2 ScreenToWorldLength(Camera camera, Vector2 screenLength, Vector2 viewSize) {
             var ppu = (camera.orthographicSize * 2) / viewSize.y;
-            return screenSize * ppu;
+            return screenLength * ppu;
         }
 
     }

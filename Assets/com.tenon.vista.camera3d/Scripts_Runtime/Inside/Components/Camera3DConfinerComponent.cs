@@ -15,18 +15,20 @@ namespace TenonKit.Vista.Camera3D {
             this.confinerWorldMax = confinerWorldMax;
         }
 
-        internal bool TryClamp(Vector3 src, float orthographicSize, float aspect, out Vector3 dst) {
+        internal bool TryClamp(Vector3 src, float fov, float aspect, out Vector3 dst) {
 
-            float verticalExtents = orthographicSize;
-            float horizontalExtents = orthographicSize * aspect;
+            float verticalFOVHalf = fov * 0.5f;
+            float verticalDistance = (confinerWorldMax.z - confinerWorldMin.z) / (2f * Mathf.Tan(verticalFOVHalf * Mathf.Deg2Rad));
+            float horizontalDistance = verticalDistance * aspect;
 
-            float minX = confinerWorldMin.x + horizontalExtents;
-            float maxX = confinerWorldMax.x - horizontalExtents;
-            float minY = confinerWorldMin.y + verticalExtents;
-            float maxY = confinerWorldMax.y - verticalExtents;
+            float minX = confinerWorldMin.x + horizontalDistance;
+            float maxX = confinerWorldMax.x - horizontalDistance;
+            float minY = confinerWorldMin.y + verticalDistance;
+            float maxY = confinerWorldMax.y - verticalDistance;
+            float minZ = confinerWorldMin.z;
+            float maxZ = confinerWorldMax.z;
 
-            bool valid = maxX > minX;
-            valid &= maxY > minY;
+            bool valid = maxX > minX && maxY > minY;
             if (!valid) {
                 dst = src;
                 return false;
@@ -34,10 +36,10 @@ namespace TenonKit.Vista.Camera3D {
 
             float x = Mathf.Clamp(src.x, minX, maxX);
             float y = Mathf.Clamp(src.y, minY, maxY);
+            float z = Mathf.Clamp(src.z, minZ, maxZ);
 
-            dst = new Vector3(x, y);
+            dst = new Vector3(x, y, z);
             return true;
-
         }
 
     }

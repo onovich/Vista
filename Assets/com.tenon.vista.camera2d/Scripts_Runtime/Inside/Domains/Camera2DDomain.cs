@@ -69,7 +69,7 @@ namespace TenonKit.Vista.Camera2D {
             // Driver 在 SoftZone 内
             //// - SoftZone 禁用时：硬跟随 DeadZone Diff
             if (!softZoneEnable) {
-                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
 
                 RefreshCameraPos(ctx, id, mainCamera, targetPos);
@@ -79,7 +79,7 @@ namespace TenonKit.Vista.Camera2D {
             //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
             var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
             if (softZoneDiff == Vector2.zero) {
-                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
 
                 float damping = currentCamera.SoftZoneDampingFactor;
@@ -89,7 +89,7 @@ namespace TenonKit.Vista.Camera2D {
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
-            var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, ctx.ViewSize);
+            var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, softZoneDiff, ctx.ViewSize);
             cameraWorldPos += softZoneWorldDiff;
             RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
 

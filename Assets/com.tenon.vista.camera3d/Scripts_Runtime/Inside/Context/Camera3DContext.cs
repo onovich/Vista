@@ -19,11 +19,11 @@ namespace TenonKit.Vista.Camera3D {
         Vector3 viewSize;
         internal Vector3 ViewSize => viewSize;
 
-        float orthographicSize;
-        internal float OrthographicSize => orthographicSize;
-
         float aspect;
         internal float Aspect => aspect;
+
+        float fov;
+        internal float FOV => fov;
 
         bool inited;
         internal bool Inited => inited;
@@ -37,15 +37,15 @@ namespace TenonKit.Vista.Camera3D {
             confinerIsVaild = false;
         }
 
-        internal void Init(Vector3 screenSize) {
-            this.viewSize = screenSize;
+        internal void Init(Vector3 viewSize) {
+            this.viewSize = viewSize;
             inited = true;
         }
 
         internal void Inject(Camera mainCamera) {
             this.mainCamera = mainCamera;
-            this.orthographicSize = mainCamera.orthographicSize;
-            this.aspect = mainCamera.aspect;
+            fov = mainCamera.fieldOfView;
+            aspect = mainCamera.aspect;
         }
 
         internal void AddCamera(Camera3DEntity camera, int id) {

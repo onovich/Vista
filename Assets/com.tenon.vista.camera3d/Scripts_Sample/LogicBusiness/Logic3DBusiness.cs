@@ -37,8 +37,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (!ctx.isGameStart) return;
 
             var role = ctx.roleEntity;
+            var camera = ctx.mainCamera;
             var axis = ctx.roleMoveAxis;
-            role.Move(axis, dt);
+            role.Move(axis, camera);
+            role.FaceTo(axis, camera);
         }
 
     }

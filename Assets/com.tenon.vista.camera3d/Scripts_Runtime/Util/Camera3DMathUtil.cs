@@ -21,7 +21,7 @@ namespace TenonKit.Vista.Camera3D {
         public static Vector3 ScreenToWorldSize(Camera camera, Vector2 screenLength, float depth) {
             // 确保深度值在相机的裁剪平面之间
             if (depth < camera.nearClipPlane || depth > camera.farClipPlane) {
-                Debug.LogError("Depth Value Is Out Of The Camera's Clipping Planes");
+                Debug.LogWarning("Depth Value Is Out Of The Camera's Clipping Planes");
                 return Vector3.zero;
             }
 

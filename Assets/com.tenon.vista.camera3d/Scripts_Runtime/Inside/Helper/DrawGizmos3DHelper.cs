@@ -30,6 +30,21 @@ namespace TenonKit.Vista.Camera3D {
             }
         }
 
+        static void DrawGL(Camera3DContext ctx, Camera mainCamera) {
+
+            GL.PushMatrix();
+            var viewSize = ctx.ViewSize;
+            GL.LoadPixelMatrix(0, viewSize.x, viewSize.y, 0);
+
+            GL.Begin(GL.LINES);
+            GL.Color(Color.red);
+
+            GL.Vertex(new Vector3(100, 100, 0));
+            GL.Vertex(new Vector3(200, 200, 0));
+
+            GL.End();
+            GL.PopMatrix();
+        }
 
     }
 

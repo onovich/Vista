@@ -8,6 +8,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         public Camera3DCore core;
         public int mainCameraID;
 
+        public Camera mainCamera;
+
         public Role3DEntity roleEntity;
         public Vector2 roleMoveAxis;
 
@@ -15,6 +17,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         public Main3DContext(Camera mainCamera, Vector2 screenSize) {
             core = new Camera3DCore(mainCamera, screenSize);
+            this.mainCamera = mainCamera;
             isGameStart = false;
         }
 

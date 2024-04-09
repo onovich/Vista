@@ -24,7 +24,5 @@
 * 若y超出死区，执行 Follow（基于Pan）
 * 若z超出死区，执行 LookAt 或 Follow（需要确认，或许需要基于定制）
 
-LootAtGroup 待设计
-
 # FP Camera
 全程 Follow, 基于指令 Yaw, 没有 LookAt

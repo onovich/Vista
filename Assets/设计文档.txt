@@ -1,29 +1,30 @@
-# 术语
-1. Driver 是 Vector3, 用于 IOC; 低优先级拓展: Driver 有体积，是 Bounds / Cube,
-2. DeadZone 是基于屏幕坐标的 Bounds / Cube
-3. Confiner 是基于世界坐标的 Bounds / Cube
-4. Camera Pos 基于世界坐标
-5. FOV 是(垂直)视场角(默认采用Degree)
-6. AspectRatio 是宽高比
-7. Distance 是相机到屏幕的距离
-8. View 是相机的视野大小, View.Y = 2 * Mathf.Tan(FOV / 2) * Distance, View.X = Rect.Y * AspectRatio
+# 透视相机行为设计
 
-# 状态
-1. 根据 Driver(如玩家)的位置, 更新相机位置, 此时受到 DeadZone 和 Confiner 的限制
-2. 根据 Target(如NPC 或 虚拟轨道)的位置, 更新相机位置，此时受到 和 Confiner 的限制
+## 基本行为
+* 偏航 Yaw 左右转头
+* 俯仰 Pitch 上下仰望俯瞰
+* 翻滚 Roll 头部倾斜，几乎不用
+* 平移 Pan 前后左右上下移动
+* 缩放 Zoom 调节远近
 
-# DeadZone 和 Confiner 限制
-1. Driver 超出 DeadZone 时, 相机根据 Offset 移动
-2. View 不允许超出 Confiner
+## 高级行为
+* 环绕 Orbit
+* 跟踪 Tracking
+* 轨道 Dolly Track
 
-# 接口
-1. MoveTo(Vector3 pos, float duration, EasingType) 移动到指定位置, 可选缓动方式, 可用于演出
-2. LookAt(Vector3 pos, float duration, EasingType) 朝向指定位置, 可选缓动方式, 可用于演出
-3. ZoomTo(float size, float duration, EasingType) 缩放到指定大小, 可选缓动方式, 可用于演出
-4. SetDeadZone(Bounds/ Cube) 设置DeadZone
-5. SetConfiner(Bounds/ Cube) 设置Confiner
-6. RecordDriverPos(Vector3 pos) 记录Driver的位置
-7. Tick(float dt) 根据 状态，基于 DriverPos 或 Target, 更新相机位置
+## 模式
+* 第一人称 FP View Mode
+* 第三人称 TP View Mode
+* 飞行模式 Fly Mode
 
-# 其它待设计
-1. 距离约束、转角约束、FOV约束
+# TP Camera
+
+## FSM
+* 若x超出死区，执行 LookAt（基于Yaw）
+* 若y超出死区，执行 Follow（基于Pan）
+* 若z超出死区，执行 LookAt 或 Follow（需要确认，或许需要基于定制）
+
+LootAtGroup 待设计
+
+# FP Camera
+全程 Follow, 基于指令 Yaw, 没有 LookAt

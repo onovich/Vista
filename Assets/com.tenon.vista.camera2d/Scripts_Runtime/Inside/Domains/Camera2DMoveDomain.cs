@@ -26,6 +26,8 @@ namespace TenonKit.Vista.Camera2D {
             bool deadZoneEnable = currentCamera.IsDeadZoneEnable();
             bool softZoneEnable = currentCamera.IsSoftZoneEnable();
             Vector2 cameraWorldPos = currentCamera.Pos;
+            float cameraWorldPosX = cameraWorldPos.x;
+            float cameraWorldPosY = cameraWorldPos.y;
             Vector2 targetPos = cameraWorldPos;
 
             // DeadZone 禁用时: 硬跟随 Driver
@@ -59,8 +61,12 @@ namespace TenonKit.Vista.Camera2D {
                 var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
 
-                float damping = currentCamera.SoftZoneDampingFactor;
-                cameraWorldPos += (targetPos - cameraWorldPos) * damping * deltaTime;
+                float dampingX = currentCamera.SoftZoneDampingFactor.x;
+                float dampingY = currentCamera.SoftZoneDampingFactor.y;
+                cameraWorldPosX += (targetPos.x - cameraWorldPos.x) * dampingX * deltaTime;
+                cameraWorldPosY += (targetPos.y - cameraWorldPos.y) * dampingY * deltaTime;
+                cameraWorldPos = new Vector2(cameraWorldPosX, cameraWorldPosY);
+
                 RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
                 return;
             }

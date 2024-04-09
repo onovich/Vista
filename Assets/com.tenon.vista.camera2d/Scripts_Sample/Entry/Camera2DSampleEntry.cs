@@ -17,7 +17,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
         [Header("DeadZone Config")]
         [SerializeField] Vector2 deadZoneSize;
         [SerializeField] Vector2 softZoneSize;
-        [SerializeField] float softZoneDampingFactor;
+        [SerializeField] Vector2 softZoneDampingFactor;
 
         [Header("Driver Config")]
         [SerializeField] Role2DEntity role;

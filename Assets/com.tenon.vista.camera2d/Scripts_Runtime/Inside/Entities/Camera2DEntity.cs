@@ -20,8 +20,8 @@ namespace TenonKit.Vista.Camera2D {
         // DeadZone
         Camera2DDeadZoneComponent deadZoneComponent;
         Camera2DDeadZoneComponent softZoneComponent;
-        float softZoneDampingFactor = 0f;
-        internal float SoftZoneDampingFactor => softZoneDampingFactor;
+        Vector2 softZoneDampingFactor = Vector2.zero;
+        internal Vector2 SoftZoneDampingFactor => softZoneDampingFactor;
 
         // FSM
         Camera2DMovingComponent fsmCom;
@@ -69,7 +69,7 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // SoftZone
-        internal void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize, float dampingFactor) {
+        internal void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize, Vector2 dampingFactor) {
             softZoneComponent.Zone_Set(softZoneNormalizedSize, viewSize);
             this.softZoneDampingFactor = dampingFactor;
         }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using MortiseFrame.Swing;
+using UnityEditor;
 
 namespace TenonKit.Vista.Camera3D {
 
@@ -8,6 +9,7 @@ namespace TenonKit.Vista.Camera3D {
 
         internal static void DrawGizmos(Camera3DContext ctx, Camera mainCamera) {
             var camera = ctx.CurrentCamera;
+            var viewSize = ctx.ViewSize;
 
             // Confiner 是世界坐标,不会跟随相机动
             Gizmos.color = Color.green;
@@ -17,33 +19,34 @@ namespace TenonKit.Vista.Camera3D {
 
             // DeadZone, SoftZone 是屏幕坐标
             if (camera.IsDeadZoneEnable()) {
-                Gizmos.color = Color.red;
                 var deadZoneScreenSize = camera.GetDeadZoneSize();
-                var deadZoneWorldSize = Camera3DMathUtil.ScreenToWorldSize(Camera.main, deadZoneScreenSize, 0);
-                Gizmos.DrawWireCube((Vector3)camera.Pos, deadZoneWorldSize);
+                DrawBox(mainCamera, viewSize / 2, deadZoneScreenSize, Color.red);
             }
             if (camera.IsSoftZoneEnable()) {
-                Gizmos.color = Color.blue;
                 var softZoneScreenSize = camera.GetSoftZoneSize();
-                var softZoneWorldSize = Camera3DMathUtil.ScreenToWorldSize(Camera.main, softZoneScreenSize, 0);
-                Gizmos.DrawWireCube((Vector3)camera.Pos, softZoneWorldSize);
+                DrawBox(mainCamera, viewSize / 2, softZoneScreenSize, Color.blue);
             }
         }
 
-        static void DrawGL(Camera3DContext ctx, Camera mainCamera) {
+        static void DrawBox(Camera camera, Vector2 screenPos, Vector2 screenSize, Color color) {
+            Gizmos.color = color;
 
-            GL.PushMatrix();
-            var viewSize = ctx.ViewSize;
-            GL.LoadPixelMatrix(0, viewSize.x, viewSize.y, 0);
+            // 将屏幕位置调整为左上角的基础上进行计算
+            Vector2 adjustedLeftTopScreenPos = new Vector2(screenPos.x - screenSize.x / 2, screenPos.y + screenSize.y / 2);
+            Vector2 adjustedRightTopScreenPos = new Vector2(screenPos.x + screenSize.x / 2, screenPos.y + screenSize.y / 2);
+            Vector2 adjustedRightBottomScreenPos = new Vector2(screenPos.x + screenSize.x / 2, screenPos.y - screenSize.y / 2);
+            Vector2 adjustedLeftBottomScreenPos = new Vector2(screenPos.x - screenSize.x / 2, screenPos.y - screenSize.y / 2);
 
-            GL.Begin(GL.LINES);
-            GL.Color(Color.red);
+            // 使用调整后的屏幕位置来转换为世界坐标
+            Vector3 leftTop = camera.ScreenToWorldPoint(new Vector3(adjustedLeftTopScreenPos.x, adjustedLeftTopScreenPos.y, camera.nearClipPlane));
+            Vector3 rightTop = camera.ScreenToWorldPoint(new Vector3(adjustedRightTopScreenPos.x, adjustedRightTopScreenPos.y, camera.nearClipPlane));
+            Vector3 rightBottom = camera.ScreenToWorldPoint(new Vector3(adjustedRightBottomScreenPos.x, adjustedRightBottomScreenPos.y, camera.nearClipPlane));
+            Vector3 leftBottom = camera.ScreenToWorldPoint(new Vector3(adjustedLeftBottomScreenPos.x, adjustedLeftBottomScreenPos.y, camera.nearClipPlane));
 
-            GL.Vertex(new Vector3(100, 100, 0));
-            GL.Vertex(new Vector3(200, 200, 0));
-
-            GL.End();
-            GL.PopMatrix();
+            Gizmos.DrawLine(leftTop, rightTop);
+            Gizmos.DrawLine(rightTop, rightBottom);
+            Gizmos.DrawLine(rightBottom, leftBottom);
+            Gizmos.DrawLine(leftBottom, leftTop);
         }
 
     }

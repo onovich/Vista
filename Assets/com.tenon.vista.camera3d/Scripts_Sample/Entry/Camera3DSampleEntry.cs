@@ -8,11 +8,11 @@ namespace TenonKit.Vista.Camera3D.Sample {
         Main3DContext ctx;
 
         [Header("Camera2D Config")]
-        [SerializeField] Vector2 cameraOriginPos;
+        [SerializeField] Vector3 cameraOriginPos;
 
         [Header("Confiner Config")]
-        [SerializeField] Vector2 confinerWorldMax;
-        [SerializeField] Vector2 confinerWorldMin;
+        [SerializeField] Vector3 confinerWorldMax;
+        [SerializeField] Vector3 confinerWorldMin;
 
         [Header("DeadZone Config")]
         [SerializeField] Vector2 deadZoneSize;

@@ -14,7 +14,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         // Camera
-        public static int CreateMainCamera(Main3DContext ctx, Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
+        public static int CreateMainCamera(Main3DContext ctx, Vector3 pos, Vector3 confinerWorldMax, Vector3 confinerWorldMin) {
             var mainCameraID = ctx.core.CreateCamera3D(pos, confinerWorldMax, confinerWorldMin);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;

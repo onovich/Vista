@@ -9,6 +9,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         public int mainCameraID;
 
         public Camera mainCamera;
+        public float cameraYawAxis;
+        public float cameraPitchAxis;
 
         public Role3DEntity roleEntity;
         public Vector2 roleMoveAxis;

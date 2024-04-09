@@ -24,6 +24,18 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (Input.GetKey(KeyCode.D)) {
                 ctx.roleMoveAxis += Vector2.right;
             }
+            if (Input.GetKey(KeyCode.Q)) {
+                ctx.cameraYawAxis += -1;
+            }
+            if (Input.GetKey(KeyCode.E)) {
+                ctx.cameraYawAxis += 1;
+            }
+            if (Input.GetKey(KeyCode.R)) {
+                ctx.cameraPitchAxis += 1;
+            }
+            if (Input.GetKey(KeyCode.F)) {
+                ctx.cameraPitchAxis += -1;
+            }
             ctx.roleMoveAxis.Normalize();
         }
 
@@ -41,6 +53,15 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var axis = ctx.roleMoveAxis;
             role.Move(axis, camera);
             role.FaceTo(axis, camera);
+        }
+
+        public static void CameraMove(Main3DContext ctx, float dt) {
+            if (!ctx.isGameStart) return;
+
+            var camera = ctx.mainCamera;
+            var yaw = ctx.cameraYawAxis;
+            var pitch = ctx.cameraPitchAxis;
+            Camera3DInfra.Rotate(ctx, yaw, pitch, 0);
         }
 
     }

@@ -33,6 +33,11 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.SetMoveByDriver(ctx.mainCameraID, driver);
         }
 
+        // Rotate
+        public static void Rotate(Main3DContext ctx, float yaw, float pitch, float roll) {
+            ctx.core.Rotate(ctx.mainCameraID, yaw, pitch, roll);
+        }
+
     }
 
 }

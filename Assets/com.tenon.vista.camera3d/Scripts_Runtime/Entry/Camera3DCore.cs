@@ -37,42 +37,47 @@ namespace TenonKit.Vista.Camera3D {
 
         // DeadZone
         public void SetDeadZone(int cameraID, Vector3 normalizedSize, Vector3 offset) {
-            Camera3DDomain.SetDeadZone(ctx, cameraID, normalizedSize, offset);
+            Camera3DDeadZoneDomain.SetDeadZone(ctx, cameraID, normalizedSize, offset);
         }
 
         public void EnableDeadZone(int cameraID, bool enable) {
-            Camera3DDomain.EnableDeadZone(ctx, cameraID, enable);
+            Camera3DDeadZoneDomain.EnableDeadZone(ctx, cameraID, enable);
         }
 
         public bool IsDeadZoneEnable(int cameraID) {
-            return Camera3DDomain.IsDeadZoneEnable(ctx, cameraID);
+            return Camera3DDeadZoneDomain.IsDeadZoneEnable(ctx, cameraID);
         }
 
         // SoftZone
-        public void SetSoftZone(int cameraID, Vector3 normalizedSize, Vector3 offset,float dampingFactor) {
-            Camera3DDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset,dampingFactor);
+        public void SetSoftZone(int cameraID, Vector3 normalizedSize, Vector3 offset, float dampingFactor) {
+            Camera3DDeadZoneDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset, dampingFactor);
         }
 
         public void EnableSoftZone(int cameraID, bool enable) {
-            Camera3DDomain.EnableSoftZone(ctx, cameraID, enable);
+            Camera3DDeadZoneDomain.EnableSoftZone(ctx, cameraID, enable);
         }
 
         public bool IsSoftZoneEnable(int cameraID) {
-            return Camera3DDomain.IsSoftZoneEnable(ctx, cameraID);
+            return Camera3DDeadZoneDomain.IsSoftZoneEnable(ctx, cameraID);
         }
 
         // Move
         public void SetMoveToTarget(int cameraID, Vector3 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
-            Camera3DDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
+            Camera3DFollowDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
         }
 
         public void SetMoveByDriver(int cameraID, Transform driver) {
-            Camera3DDomain.FSM_SetMoveByDriver(ctx, cameraID, driver);
+            Camera3DFollowDomain.FSM_SetMoveByDriver(ctx, cameraID, driver);
+        }
+
+        // Rotate
+        public void Rotate(int cameraID, float yaw, float pitch, float roll) {
+            Camera3DRotateDomain.Rotate(ctx, cameraID, yaw, pitch, roll);
         }
 
         // Shake
         public void ShakeOnce(int cameraID, float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
-            Camera3DDomain.ShakeOnce(ctx, cameraID, frequency, amplitude, duration, type, mode);
+            Camera3DShakeDomain.ShakeOnce(ctx, cameraID, frequency, amplitude, duration, type, mode);
         }
 
         public void Clear() {

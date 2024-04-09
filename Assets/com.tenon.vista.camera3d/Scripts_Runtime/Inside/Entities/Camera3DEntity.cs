@@ -14,6 +14,9 @@ namespace TenonKit.Vista.Camera3D {
         Vector3 pos;
         internal Vector3 Pos => pos;
 
+        // Rotate
+        Quaternion rotate;
+
         // Confiner
         Camera3DConfinerComponent confinerComponent;
 
@@ -46,6 +49,13 @@ namespace TenonKit.Vista.Camera3D {
         // Pos
         internal void SetPos(Vector3 pos) {
             this.pos = pos;
+        }
+
+        // Rotate
+        internal void Rotate(float yaw, float pitch, float roll) {
+            var eulerRotation = new Vector3(pitch, yaw, roll);
+            var quaterRotation = Quaternion.Euler(eulerRotation);
+            rotate = quaterRotation;
         }
 
         // DeadZone

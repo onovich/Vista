@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera2D.Sample {
 
-    public class MainContext {
+    public class Main2DContext {
 
         public Camera2DCore core;
         public int mainCameraID;
 
-        public RoleEntity roleEntity;
+        public Role2DEntity roleEntity;
         public Vector2 roleMoveAxis;
 
         public bool isGameStart;
 
-        public MainContext(Camera mainCamera, Vector2 screenSize) {
+        public Main2DContext(Camera mainCamera, Vector2 screenSize) {
             core = new Camera2DCore(mainCamera, screenSize);
             isGameStart = false;
         }
 
-        public void SetRole(RoleEntity role) {
+        public void SetRole(Role2DEntity role) {
             roleEntity = role;
         }
 

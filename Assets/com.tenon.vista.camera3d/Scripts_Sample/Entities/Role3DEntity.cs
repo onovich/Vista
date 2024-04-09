@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace TenonKit.Vista.Camera2D.Sample {
+namespace TenonKit.Vista.Camera3D.Sample {
 
-    public class RoleEntity : MonoBehaviour {
+    public class Role3DEntity : MonoBehaviour {
 
         public float speed = 1;
 

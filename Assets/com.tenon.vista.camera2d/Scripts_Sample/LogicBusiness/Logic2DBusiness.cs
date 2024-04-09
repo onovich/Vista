@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera2D.Sample {
 
-    public static class LogicBusiness {
+    public static class Logic2DBusiness {
 
-        public static void EnterGame(MainContext ctx) {
+        public static void EnterGame(Main2DContext ctx) {
             ctx.isGameStart = true;
-            CameraInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+            Camera2DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
         }
 
-        public static void ProcessInput(MainContext ctx) {
+        public static void ProcessInput(Main2DContext ctx) {
             if (!ctx.isGameStart) return;
 
             if (Input.GetKey(KeyCode.W)) {
@@ -27,13 +27,13 @@ namespace TenonKit.Vista.Camera2D.Sample {
             ctx.roleMoveAxis.Normalize();
         }
 
-        public static void ResetInput(MainContext ctx) {
+        public static void ResetInput(Main2DContext ctx) {
             if (!ctx.isGameStart) return;
 
             ctx.roleMoveAxis = Vector2.zero;
         }
 
-        public static void RoleMove(MainContext ctx, float dt) {
+        public static void RoleMove(Main2DContext ctx, float dt) {
             if (!ctx.isGameStart) return;
 
             var role = ctx.roleEntity;

@@ -1,11 +1,11 @@
 using MortiseFrame.Swing;
 using UnityEngine;
 
-namespace TenonKit.Vista.Camera2D.Sample {
+namespace TenonKit.Vista.Camera3D.Sample {
 
-    public class Camera2DSampleEntry : MonoBehaviour {
+    public class Camera3DSampleEntry : MonoBehaviour {
 
-        Main2DContext ctx;
+        Main3DContext ctx;
 
         [Header("Camera2D Config")]
         [SerializeField] Vector2 cameraOriginPos;
@@ -20,7 +20,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
         [SerializeField] float softZoneDampingFactor;
 
         [Header("Driver Config")]
-        [SerializeField] Role2DEntity role;
+        [SerializeField] Role3DEntity role;
 
         [Header("Target Config")]
         [SerializeField] Transform[] targets;
@@ -33,34 +33,34 @@ namespace TenonKit.Vista.Camera2D.Sample {
         [SerializeField] EasingMode shakeEasingMode;
 
         [Header("UI")]
-        [SerializeField] Panel_2DSampleNavigation navPanel;
+        [SerializeField] Panel_3DSampleNavigation navPanel;
 
         int targetIndex = 0;
         int cameraState = 0;
 
         void Start() {
-            V2Log.Log = Debug.Log;
-            V2Log.Warning = Debug.LogWarning;
-            V2Log.Error = Debug.LogError;
+            V3Log.Log = Debug.Log;
+            V3Log.Warning = Debug.LogWarning;
+            V3Log.Error = Debug.LogError;
 
             Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
             var viewSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main2DContext(mainCamera, viewSize);
-            var cameraID = Camera2DInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
-            Camera2DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
+            ctx = new Main3DContext(mainCamera, viewSize);
+            var cameraID = Camera3DInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
+            Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
             ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero, softZoneDampingFactor);
             ctx.core.EnableDeadZone(ctx.mainCameraID, true);
             ctx.core.EnableSoftZone(ctx.mainCameraID, true);
             ctx.SetRole(role);
 
-            Camera2DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+            Camera3DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
 
             Binding();
             RefreshInfo(ctx.mainCameraID);
 
-            Logic2DBusiness.EnterGame(ctx);
+            Logic3DBusiness.EnterGame(ctx);
         }
 
         void Binding() {
@@ -82,14 +82,14 @@ namespace TenonKit.Vista.Camera2D.Sample {
                 RefreshInfo(cameraID);
             };
             navPanel.action_followDriver = () => {
-                Camera2DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+                Camera3DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
                 cameraState = 0;
                 RefreshInfo(cameraID);
             };
             navPanel.action_moveToNextTarget = () => {
                 targetIndex = GetNextTargetIndex(targetIndex);
                 var target = targets[targetIndex];
-                Camera2DInfra.SetMoveToTarget(ctx, target.position, 1f, onComplete: () => {
+                Camera3DInfra.SetMoveToTarget(ctx, target.position, 1f, onComplete: () => {
                     Debug.Log("MoveToTarget Complete");
                 });
                 cameraState = 1;
@@ -143,14 +143,14 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
         void Update() {
             var dt = Time.deltaTime;
-            Logic2DBusiness.ProcessInput(ctx);
-            Logic2DBusiness.RoleMove(ctx, dt);
-            Logic2DBusiness.ResetInput(ctx);
+            Logic3DBusiness.ProcessInput(ctx);
+            Logic3DBusiness.RoleMove(ctx, dt);
+            Logic3DBusiness.ResetInput(ctx);
         }
 
         void LateUpdate() {
             var dt = Time.deltaTime;
-            Camera2DInfra.Tick(ctx, dt);
+            Camera3DInfra.Tick(ctx, dt);
         }
 
         void OnDestroy() {
@@ -161,7 +161,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
             if (ctx == null || ctx.core == null) {
                 return;
             }
-            Camera2DInfra.DrawGizmos(ctx);
+            Camera3DInfra.DrawGizmos(ctx);
         }
 
     }

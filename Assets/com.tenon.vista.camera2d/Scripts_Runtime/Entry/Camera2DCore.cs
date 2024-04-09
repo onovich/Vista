@@ -37,42 +37,42 @@ namespace TenonKit.Vista.Camera2D {
 
         // DeadZone
         public void SetDeadZone(int cameraID, Vector2 normalizedSize, Vector2 offset) {
-            Camera2DDomain.SetDeadZone(ctx, cameraID, normalizedSize, offset);
+            Camera2DDeadZoneDomain.SetDeadZone(ctx, cameraID, normalizedSize, offset);
         }
 
         public void EnableDeadZone(int cameraID, bool enable) {
-            Camera2DDomain.EnableDeadZone(ctx, cameraID, enable);
+            Camera2DDeadZoneDomain.EnableDeadZone(ctx, cameraID, enable);
         }
 
         public bool IsDeadZoneEnable(int cameraID) {
-            return Camera2DDomain.IsDeadZoneEnable(ctx, cameraID);
+            return Camera2DDeadZoneDomain.IsDeadZoneEnable(ctx, cameraID);
         }
 
         // SoftZone
         public void SetSoftZone(int cameraID, Vector2 normalizedSize, Vector2 offset,float dampingFactor) {
-            Camera2DDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset,dampingFactor);
+            Camera2DDeadZoneDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset,dampingFactor);
         }
 
         public void EnableSoftZone(int cameraID, bool enable) {
-            Camera2DDomain.EnableSoftZone(ctx, cameraID, enable);
+            Camera2DDeadZoneDomain.EnableSoftZone(ctx, cameraID, enable);
         }
 
         public bool IsSoftZoneEnable(int cameraID) {
-            return Camera2DDomain.IsSoftZoneEnable(ctx, cameraID);
+            return Camera2DDeadZoneDomain.IsSoftZoneEnable(ctx, cameraID);
         }
 
         // Move
         public void SetMoveToTarget(int cameraID, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
-            Camera2DDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
+            Camera2DFollowDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
         }
 
         public void SetMoveByDriver(int cameraID, Transform driver) {
-            Camera2DDomain.FSM_SetMoveByDriver(ctx, cameraID, driver);
+            Camera2DFollowDomain.FSM_SetMoveByDriver(ctx, cameraID, driver);
         }
 
         // Shake
         public void ShakeOnce(int cameraID, float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
-            Camera2DDomain.ShakeOnce(ctx, cameraID, frequency, amplitude, duration, type, mode);
+            Camera2DShakeDomain.ShakeOnce(ctx, cameraID, frequency, amplitude, duration, type, mode);
         }
 
         public void Clear() {

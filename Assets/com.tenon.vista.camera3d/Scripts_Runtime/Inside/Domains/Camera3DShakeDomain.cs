@@ -6,7 +6,6 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DShakeDomain {
 
-        // Shake
         internal static void ShakeOnce(Camera3DContext ctx, int id, float frequency, float amplitude, float duration, EasingType easingType, EasingMode easingMode) {
             var has = ctx.TryGetCamera(id, out var camera);
             if (!has) {

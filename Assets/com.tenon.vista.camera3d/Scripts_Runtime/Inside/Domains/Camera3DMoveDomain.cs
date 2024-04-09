@@ -6,7 +6,6 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DMoveDomain {
 
-        //  Move
         internal static void MoveToTarget(Camera3DContext ctx, int id, Vector3 startPos, Vector3 targetPos, float current, float duration, EasingType easingType, EasingMode easingMode) {
             var has = ctx.TryGetCamera(id, out var camera);
             if (!has) {

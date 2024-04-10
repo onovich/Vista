@@ -5,7 +5,7 @@ namespace TenonKit.Vista.Camera3D {
         None,
         Idle,
         MovingByDriver,
-        MovingToTarget,
+        MovingByDollyTrack,
 
     }
 

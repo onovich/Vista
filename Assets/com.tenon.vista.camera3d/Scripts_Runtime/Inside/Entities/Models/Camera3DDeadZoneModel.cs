@@ -2,26 +2,29 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D {
 
-    internal class Camera3DDeadZoneComponent {
+    internal class Camera3DDeadZoneModel {
 
         bool enable;
         internal bool Enable => enable;
 
-        Vector2 deadZoneScreenMin;
-        internal Vector2 DeadZoneScreenMin => deadZoneScreenMin;
+        Vector3 deadZoneScreenMin;
+        internal Vector3 DeadZoneScreenMin => deadZoneScreenMin;
 
-        Vector2 deadZoneScreenMax;
-        internal Vector2 DeadZoneScreenMax => deadZoneScreenMax;
+        Vector3 deadZoneScreenMax;
+        internal Vector3 DeadZoneScreenMax => deadZoneScreenMax;
 
-        internal Camera3DDeadZoneComponent() {
+        internal Camera3DDeadZoneModel() {
             deadZoneScreenMin = Vector2.zero;
             deadZoneScreenMax = Vector2.zero;
             enable = false;
         }
 
-        internal void Zone_Set(Vector2 deadZoneNormalizedSize, Vector2 screenSize) {
-            var deadZoneSize = new Vector2(screenSize.x * deadZoneNormalizedSize.x, screenSize.y * deadZoneNormalizedSize.y);
-            var screenCenter = screenSize / 2f;
+        internal void Zone_Set(Vector2 deadZoneNormalizedSize, Vector3 viewSize) {
+            Vector3 deadZoneSize;
+            deadZoneSize.x = viewSize.x * deadZoneNormalizedSize.x;
+            deadZoneSize.z = viewSize.y * deadZoneNormalizedSize.y;
+            deadZoneSize.y = viewSize.y * deadZoneNormalizedSize.y;
+            var screenCenter = viewSize / 2f;
             var deadZoneHalfSize = deadZoneSize / 2f;
             deadZoneScreenMin = screenCenter - deadZoneHalfSize;
             deadZoneScreenMax = screenCenter + deadZoneHalfSize;

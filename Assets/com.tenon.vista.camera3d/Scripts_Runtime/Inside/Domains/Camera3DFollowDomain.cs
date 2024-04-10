@@ -14,7 +14,7 @@ namespace TenonKit.Vista.Camera3D {
             }
             var fsmCom = camera.FSMCom;
             var pos = camera.Pos;
-            fsmCom.EnterMovingToTarget(pos, target, duration, easingType, easingMode, onComplete);
+            fsmCom.EnterMovingByDollyTrack(pos, target, duration, easingType, easingMode, onComplete);
         }
 
         internal static void FSM_SetMoveByDriver(Camera3DContext ctx, int id, Transform driver) {

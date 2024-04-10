@@ -19,7 +19,6 @@ namespace TenonKit.Vista.Camera3D {
             if (!ctx.Inited) {
                 return;
             }
-            Camera3DMovingPhase.FSMTick(ctx, dt);
             Camera3DConstraintPhase.Tick(ctx, dt);
             Camera3DShakePhase.Tick(ctx, dt);
         }
@@ -42,30 +41,58 @@ namespace TenonKit.Vista.Camera3D {
             ctx.SetCurrentCamera(cameraID);
         }
 
-        // DeadZone
-        public void SetDeadZone(int cameraID, Vector3 normalizedSize, Vector3 offset) {
-            Camera3DDeadZoneDomain.SetDeadZone(ctx, cameraID, normalizedSize, offset);
+        // Composer
+        //// DeadZone
+        public void SetComposerDeadZone(int cameraID, Vector2 normalizedSize) {
+            Camera3DComposerDomain.SetDeadZone(ctx, cameraID, normalizedSize);
         }
 
-        public void EnableDeadZone(int cameraID, bool enable) {
-            Camera3DDeadZoneDomain.EnableDeadZone(ctx, cameraID, enable);
+        public void EnableComposerDeadZone(int cameraID, bool enable) {
+            Camera3DComposerDomain.EnableDeadZone(ctx, cameraID, enable);
         }
 
-        public bool IsDeadZoneEnable(int cameraID) {
-            return Camera3DDeadZoneDomain.IsDeadZoneEnable(ctx, cameraID);
+        public bool IsComposerDeadZoneEnable(int cameraID) {
+            return Camera3DComposerDomain.IsDeadZoneEnable(ctx, cameraID);
         }
 
-        // SoftZone
-        public void SetSoftZone(int cameraID, Vector3 normalizedSize, Vector3 offset, float dampingFactor) {
-            Camera3DDeadZoneDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset, dampingFactor);
+        //// SoftZone
+        public void SetComposerSoftZone(int cameraID, Vector2 normalizedSize, Vector3 dampingFactor) {
+            Camera3DComposerDomain.SetSoftZone(ctx, cameraID, normalizedSize, dampingFactor);
         }
 
-        public void EnableSoftZone(int cameraID, bool enable) {
-            Camera3DDeadZoneDomain.EnableSoftZone(ctx, cameraID, enable);
+        public void EnableComposerSoftZone(int cameraID, bool enable) {
+            Camera3DComposerDomain.EnableSoftZone(ctx, cameraID, enable);
         }
 
-        public bool IsSoftZoneEnable(int cameraID) {
-            return Camera3DDeadZoneDomain.IsSoftZoneEnable(ctx, cameraID);
+        public bool IsComposerSoftZoneEnable(int cameraID) {
+            return Camera3DComposerDomain.IsSoftZoneEnable(ctx, cameraID);
+        }
+
+        // Transposer
+        //// DeadZone
+        public void SetTransposerDeadZone(int cameraID, Vector2 normalizedSize) {
+            Camera3DTransposerDomain.SetDeadZone(ctx, cameraID, normalizedSize);
+        }
+
+        public void EnableTransposerDeadZone(int cameraID, bool enable) {
+            Camera3DTransposerDomain.EnableDeadZone(ctx, cameraID, enable);
+        }
+
+        public bool IsTransposerDeadZoneEnable(int cameraID) {
+            return Camera3DTransposerDomain.IsDeadZoneEnable(ctx, cameraID);
+        }
+
+        //// SoftZone
+        public void SetTransposerSoftZone(int cameraID, Vector2 normalizedSize, Vector3 dampingFactor) {
+            Camera3DTransposerDomain.SetSoftZone(ctx, cameraID, normalizedSize, dampingFactor);
+        }
+
+        public void EnableTransposerSoftZone(int cameraID, bool enable) {
+            Camera3DTransposerDomain.EnableSoftZone(ctx, cameraID, enable);
+        }
+
+        public bool IsTransposerSoftZoneEnable(int cameraID) {
+            return Camera3DTransposerDomain.IsSoftZoneEnable(ctx, cameraID);
         }
 
         // Move

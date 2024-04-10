@@ -17,8 +17,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         public bool isGameStart;
 
-        public Main3DContext(Camera mainCamera, Vector2 screenSize) {
-            core = new Camera3DCore(mainCamera, screenSize);
+        public Main3DContext(Camera mainCamera, Vector2 viewSize) {
+            core = new Camera3DCore(mainCamera, viewSize);
             this.mainCamera = mainCamera;
             isGameStart = false;
         }

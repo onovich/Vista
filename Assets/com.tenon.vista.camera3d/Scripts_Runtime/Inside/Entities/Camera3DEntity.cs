@@ -20,11 +20,13 @@ namespace TenonKit.Vista.Camera3D {
         // Confiner
         Camera3DConfinerComponent confinerComponent;
 
-        // DeadZone
-        Camera3DDeadZoneComponent deadZoneComponent;
-        Camera3DDeadZoneComponent softZoneComponent;
-        float softZoneDampingFactor = 0f;
-        internal float SoftZoneDampingFactor => softZoneDampingFactor;
+        // Transposer
+        Camera3DTransposerComponent transposerComponent;
+        internal Camera3DTransposerComponent TransposerComponent => transposerComponent;
+
+        // Composer
+        Camera3DComposerComponent composerComponent;
+        internal Camera3DComposerComponent ComposerComponent => composerComponent;
 
         // FSM
         Camera3DMovingComponent fsmCom;
@@ -36,8 +38,8 @@ namespace TenonKit.Vista.Camera3D {
 
         internal Camera3DEntity() {
             fsmCom = new Camera3DMovingComponent();
-            deadZoneComponent = new Camera3DDeadZoneComponent();
-            softZoneComponent = new Camera3DDeadZoneComponent();
+            transposerComponent = new Camera3DTransposerComponent();
+            composerComponent = new Camera3DComposerComponent();
             shakeComponent = new Camera3DShakeComponent();
         }
 
@@ -56,48 +58,6 @@ namespace TenonKit.Vista.Camera3D {
             var eulerRotation = new Vector3(pitch, yaw, roll);
             var quaterRotation = Quaternion.Euler(eulerRotation);
             rotate = quaterRotation;
-        }
-
-        // DeadZone
-        internal void SetDeadZone(Vector2 deadZoneNormalizedSize, Vector2 viewSize) {
-            deadZoneComponent.Zone_Set(deadZoneNormalizedSize, viewSize);
-        }
-        internal Vector2 GetDeadZoneScreenDiff(Vector2 screenPos) {
-            return deadZoneComponent.ScreenDiff_Get(screenPos);
-        }
-
-        internal Vector2 GetDeadZoneSize() {
-            return deadZoneComponent.DeadZoneScreenMax - deadZoneComponent.DeadZoneScreenMin;
-        }
-
-        internal bool IsDeadZoneEnable() {
-            return deadZoneComponent.Enable;
-        }
-
-        internal void EnableDeadZone(bool enable) {
-            deadZoneComponent.Enable_Set(enable);
-        }
-
-        // SoftZone
-        internal void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize, float dampingFactor) {
-            softZoneComponent.Zone_Set(softZoneNormalizedSize, viewSize);
-            this.softZoneDampingFactor = dampingFactor;
-        }
-
-        internal Vector2 GetSoftZoneScreenDiff(Vector2 screenPos) {
-            return softZoneComponent.ScreenDiff_Get(screenPos);
-        }
-
-        internal Vector2 GetSoftZoneSize() {
-            return softZoneComponent.DeadZoneScreenMax - softZoneComponent.DeadZoneScreenMin;
-        }
-
-        internal bool IsSoftZoneEnable() {
-            return softZoneComponent.Enable;
-        }
-
-        internal void EnableSoftZone(bool enable) {
-            softZoneComponent.Enable_Set(enable);
         }
 
         // Confiner
@@ -120,6 +80,92 @@ namespace TenonKit.Vista.Camera3D {
         // Shake
         internal void ShakeOnce(float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
             shakeComponent.ShakeOnce(frequency, amplitude, duration, type, mode);
+        }
+
+        // Transposer
+        //// Transposer DeadZone
+        internal void Transposer_DeadZone_Set(Vector2 normalizedSize, Vector2 viewSize) {
+            transposerComponent.SetDeadZone(normalizedSize, viewSize);
+        }
+
+        internal Vector2 Transposer_DeadZone_GetScreenDiff(Vector2 screenPos) {
+            return transposerComponent.GetDeadZoneScreenDiff(screenPos);
+        }
+
+        internal Vector2 Transposer_DeadZone_GetSize() {
+            return transposerComponent.GetDeadZoneSize();
+        }
+
+        internal bool Transposer_DeadZone_IsEnable() {
+            return transposerComponent.IsDeadZoneEnable();
+        }
+
+        internal void Transposer_DeadZone_Enable(bool enable) {
+            transposerComponent.EnableDeadZone(enable);
+        }
+
+        //// Transposer SoftZone
+        internal void Transposer_SoftZone_Set(Vector2 normalizedSize, Vector2 viewSize, Vector3 dampingFactor) {
+            transposerComponent.SetSoftZone(normalizedSize, viewSize, dampingFactor);
+        }
+
+        internal Vector2 Transposer_SoftZone_GetScreenDiff(Vector2 screenPos) {
+            return transposerComponent.GetSoftZoneScreenDiff(screenPos);
+        }
+
+        internal Vector2 Transposer_SoftZone_GetSize() {
+            return transposerComponent.GetSoftZoneSize();
+        }
+
+        internal bool Transposer_SoftZone_IsEnable() {
+            return transposerComponent.IsSoftZoneEnable();
+        }
+
+        internal void Transposer_SoftZone_Enable(bool enable) {
+            transposerComponent.EnableSoftZone(enable);
+        }
+
+        // Composer
+        //// Composer DeadZone
+        internal void Composer_DeadZone_Set(Vector2 normalizedSize, Vector2 viewSize) {
+            composerComponent.SetDeadZone(normalizedSize, viewSize);
+        }
+
+        internal Vector2 Composer_DeadZone_GetScreenDiff(Vector2 screenPos) {
+            return composerComponent.GetDeadZoneScreenDiff(screenPos);
+        }
+
+        internal Vector2 Composer_DeadZone_GetSize() {
+            return composerComponent.GetDeadZoneSize();
+        }
+
+        internal bool Composer_DeadZone_IsEnable() {
+            return composerComponent.IsDeadZoneEnable();
+        }
+
+        internal void Composer_DeadZone_Enable(bool enable) {
+            composerComponent.EnableDeadZone(enable);
+        }
+
+        //// Composer SoftZone
+        internal void Composer_SoftZone_Set(Vector2 normalizedSize, Vector2 viewSize, Vector3 dampingFactor) {
+            composerComponent.SetSoftZone(normalizedSize, viewSize, dampingFactor);
+        }
+
+        internal Vector2 Composer_SoftZone_GetScreenDiff(Vector2 screenPos) {
+            return composerComponent.GetSoftZoneScreenDiff(screenPos);
+        }
+
+        internal Vector2 Composer_SoftZone_GetSize() {
+            return composerComponent.GetSoftZoneSize();
+        }
+
+        internal bool Composer_SoftZone_IsEnable() {
+            return composerComponent.IsSoftZoneEnable();
+        }
+
+        internal void Composer_SoftZone_Enable(bool enable) {
+            composerComponent.EnableSoftZone(enable);
         }
 
     }

@@ -1,3 +1,26 @@
+# 相机设计
+1. Manual Camera
+2. Track Camera
+3. TP Camera: Transposer + Composer + Yaw(With Constraint)
+4. FP Camera: HardToTarget(Transposer) + Yaw(With Constraint)
+
+# 相机组件
+1. TransposerComponent
+2. ComposerComponent
+3. HardToTarget: 预配置 TransposerComponent 和 ComposerComponent
+4. Framing Transposer 和 Transposer 的区别：有无死区
+5. TrackedDollyComponent: 沿预定义轨道移动
+6. Orbital Transposer：绕: 盯（摇）+跟（移）Round When LookAt
+
+待设计：
+3D 死区
+
+# 相机过渡
+Blend：从一个相机到另一个相机过渡
+
+重要调整:
+把死区投射到世界中再计算偏移量
+
 # 透视相机行为设计
 
 ## 基本行为

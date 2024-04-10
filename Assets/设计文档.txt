@@ -5,12 +5,15 @@
 4. FP Camera: HardToTarget(Transposer) + Yaw(With Constraint)
 
 # 相机组件
-1. TransposerComponent
-2. ComposerComponent
-3. HardToTarget: 预配置 TransposerComponent 和 ComposerComponent
-4. Framing Transposer 和 Transposer 的区别：有无死区
-5. TrackedDollyComponent: 沿预定义轨道移动
-6. Orbital Transposer：绕: 盯（摇）+跟（移）Round When LookAt
+1. TransposerComponent: 超出死区后 Move(Pan); Driver + 臂长 + 肩部构成相机跟随点的偏移量; 
+2. ComposerComponent: 超出死区后 LookAt(Yaw&Pitch)
+3. HardToTarget: 预配置 TransposerComponent 
+4. SameAsTarget / HardLookAt: 预配置 ComposerComponent
+5. Framing Transposer 和 Transposer 的区别：有无死区
+6. TrackedDollyComponent: 沿预定义轨道移动
+7. Orbital Transposer：绕: 盯（摇）+跟（移）: 玩家控制相机旋转的方式; Recenter: 没有输入时交给 Composer
+* Group Composer：Aim 多个对象
+* 弹簧臂: 相机物理(低优先级)
 
 待设计：
 3D 死区
@@ -38,7 +41,7 @@ Blend：从一个相机到另一个相机过渡
 ## 模式
 * 第一人称 FP View Mode
 * 第三人称 TP View Mode
-* 飞行模式 Fly Mode
+* 飞行模式 Fly Mode: 激活 Composer 的 Roll
 
 # TP Camera
 

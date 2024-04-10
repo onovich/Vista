@@ -25,8 +25,8 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // Camera
-        public int CreateCamera2D(Vector2 pos, Vector2 confinerSize, Vector2 confinerPos) {
-            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerSize, confinerPos);
+        public int CreateCamera2D(Vector2 pos, Vector2 confinerMax, Vector2 confinerMin) {
+            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerMax, confinerMin);
             ctx.AddCamera(camera, camera.ID);
             return camera.ID;
         }

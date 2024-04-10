@@ -150,7 +150,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         void LateUpdate() {
             var dt = Time.deltaTime;
-            // Camera3DInfra.Tick(ctx, dt);
+            Camera3DInfra.Tick(ctx, dt);
         }
 
         void OnDestroy() {

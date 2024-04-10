@@ -19,7 +19,9 @@ namespace TenonKit.Vista.Camera3D {
 
             float verticalFOVHalf = fov * 0.5f;
             float verticalDistance = (confinerWorldMax.z - confinerWorldMin.z) / (2f * Mathf.Tan(verticalFOVHalf * Mathf.Deg2Rad));
-            float horizontalDistance = verticalDistance * aspect;
+
+            float horizontalFOVHalf = 2f * Mathf.Atan(Mathf.Tan(verticalFOVHalf * Mathf.Deg2Rad) * aspect);
+            float horizontalDistance = (confinerWorldMax.z - confinerWorldMin.z) / (2f * Mathf.Tan(horizontalFOVHalf));
 
             float minX = confinerWorldMin.x + horizontalDistance;
             float maxX = confinerWorldMax.x - horizontalDistance;
@@ -28,7 +30,8 @@ namespace TenonKit.Vista.Camera3D {
             float minZ = confinerWorldMin.z;
             float maxZ = confinerWorldMax.z;
 
-            bool valid = maxX > minX && maxY > minY;
+            bool valid = maxX > minX && maxY > minY && maxZ > minZ;
+
             if (!valid) {
                 dst = src;
                 return false;

@@ -25,8 +25,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Camera
-        public int CreateCamera3D(Vector3 pos, Vector3 confinerSize, Vector3 confinerPos) {
-            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, confinerSize, confinerPos);
+        public int CreateCamera3D(Vector3 pos, Vector3 confinerMax, Vector3 confinerMin) {
+            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, confinerMax, confinerMin);
             ctx.AddCamera(camera, camera.ID);
             return camera.ID;
         }

@@ -6,7 +6,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         public static void EnterGame(Main3DContext ctx) {
             ctx.isGameStart = true;
-            Camera3DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
         }
 
         public static void ProcessInput(Main3DContext ctx) {

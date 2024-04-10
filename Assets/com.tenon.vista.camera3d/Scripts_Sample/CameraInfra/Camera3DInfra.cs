@@ -14,8 +14,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         // Camera
-        public static int CreateMainCamera(Main3DContext ctx, Vector3 pos, Vector3 confinerWorldMax, Vector3 confinerWorldMin) {
-            var mainCameraID = ctx.core.CreateCamera3D(pos, confinerWorldMax, confinerWorldMin);
+        public static int CreateTrackCamera(Main3DContext ctx, Vector3 pos, Vector3 confinerWorldMax, Vector3 confinerWorldMin, Transform driver) {
+            var mainCameraID = ctx.core.CreateTrackCamera3D(pos, confinerWorldMax, confinerWorldMin, driver);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
         }
@@ -26,11 +26,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         // Move
         public static void SetMoveToTarget(Main3DContext ctx, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, System.Action onComplete = null) {
-            ctx.core.SetMoveToTarget(ctx.mainCameraID, target, duration, easingType, easingMode, onComplete);
-        }
-
-        public static void SetMoveByDriver(Main3DContext ctx, Transform driver) {
-            ctx.core.SetMoveByDriver(ctx.mainCameraID, driver);
+            ctx.core.FreeCamera_SetMoveToTarget(ctx.mainCameraID, target, duration, easingType, easingMode, onComplete);
         }
 
         // Rotate

@@ -9,7 +9,7 @@
 
 ## 高级行为
 * 环绕 Orbit
-* 跟踪 Tracking
+* 跟踪 Track
 * 轨道 Dolly Track
 
 ## 模式

@@ -25,9 +25,16 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Camera
-        public int CreateCamera3D(Vector3 pos, Vector3 confinerMax, Vector3 confinerMin) {
+        public int CreateFreeCamera3D(Vector3 pos, Vector3 confinerMax, Vector3 confinerMin) {
             var camera = Camera3DFactory.CreateCamera3D(ctx, pos, confinerMax, confinerMin);
             ctx.AddCamera(camera, camera.ID);
+            return camera.ID;
+        }
+
+        public int CreateTrackCamera3D(Vector3 pos, Vector3 confinerMax, Vector3 confinerMin, Transform driver) {
+            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, confinerMax, confinerMin);
+            ctx.AddCamera(camera, camera.ID);
+            Camera3DFollowDomain.FSM_SetMoveByDriver(ctx, camera.ID, driver);
             return camera.ID;
         }
 
@@ -62,12 +69,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Move
-        public void SetMoveToTarget(int cameraID, Vector3 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
+        public void FreeCamera_SetMoveToTarget(int cameraID, Vector3 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
             Camera3DFollowDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
-        }
-
-        public void SetMoveByDriver(int cameraID, Transform driver) {
-            Camera3DFollowDomain.FSM_SetMoveByDriver(ctx, cameraID, driver);
         }
 
         // Rotate

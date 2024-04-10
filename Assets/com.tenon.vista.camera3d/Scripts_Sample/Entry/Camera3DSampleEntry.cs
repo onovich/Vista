@@ -47,15 +47,13 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             var viewSize = new Vector2(Screen.width, Screen.height);
             ctx = new Main3DContext(mainCamera, viewSize);
-            var cameraID = Camera3DInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
+            var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin, ctx.roleEntity.transform);
             Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
             ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero, softZoneDampingFactor);
             ctx.core.EnableDeadZone(ctx.mainCameraID, true);
             ctx.core.EnableSoftZone(ctx.mainCameraID, true);
             ctx.SetRole(role);
-
-            Camera3DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
 
             Binding();
             RefreshInfo(ctx.mainCameraID);
@@ -81,11 +79,11 @@ namespace TenonKit.Vista.Camera3D.Sample {
                 ctx.core.EnableSoftZone(cameraID, false);
                 RefreshInfo(cameraID);
             };
-            navPanel.action_followDriver = () => {
-                Camera3DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
-                cameraState = 0;
-                RefreshInfo(cameraID);
-            };
+            // navPanel.action_followDriver = () => {
+            //     Camera3DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+            //     cameraState = 0;
+            //     RefreshInfo(cameraID);
+            // };
             navPanel.action_moveToNextTarget = () => {
                 targetIndex = GetNextTargetIndex(targetIndex);
                 var target = targets[targetIndex];

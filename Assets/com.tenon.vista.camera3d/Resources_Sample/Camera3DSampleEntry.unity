@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -291,9 +291,9 @@ MonoBehaviour:
   cameraOriginPos: {x: 0, y: 0, z: 0}
   confinerWorldMax: {x: 50, y: 50, z: 100}
   confinerWorldMin: {x: -50, y: -50, z: -50}
-  deadZoneSize: {x: 0.2, y: 0.2}
-  softZoneSize: {x: 0.6, y: 0.6}
-  softZoneDampingFactor: 4
+  composer_deadZoneSize: {x: 0.2, y: 0.1}
+  composer_softZoneSize: {x: 0.4, y: 0.2}
+  composer_softZoneDampingFactor: {x: 1, y: 2, z: 3}
   role: {fileID: 931528810}
   targets: []
   shakeFrequency: 0.1

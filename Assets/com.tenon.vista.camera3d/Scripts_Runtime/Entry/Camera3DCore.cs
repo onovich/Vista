@@ -68,33 +68,6 @@ namespace TenonKit.Vista.Camera3D {
             return Camera3DComposerDomain.IsSoftZoneEnable(ctx, cameraID);
         }
 
-        // Transposer
-        //// DeadZone
-        public void SetTransposerDeadZone(int cameraID, Vector2 normalizedSize) {
-            Camera3DTransposerDomain.SetDeadZone(ctx, cameraID, normalizedSize);
-        }
-
-        public void EnableTransposerDeadZone(int cameraID, bool enable) {
-            Camera3DTransposerDomain.EnableDeadZone(ctx, cameraID, enable);
-        }
-
-        public bool IsTransposerDeadZoneEnable(int cameraID) {
-            return Camera3DTransposerDomain.IsDeadZoneEnable(ctx, cameraID);
-        }
-
-        //// SoftZone
-        public void SetTransposerSoftZone(int cameraID, Vector2 normalizedSize, Vector3 dampingFactor) {
-            Camera3DTransposerDomain.SetSoftZone(ctx, cameraID, normalizedSize, dampingFactor);
-        }
-
-        public void EnableTransposerSoftZone(int cameraID, bool enable) {
-            Camera3DTransposerDomain.EnableSoftZone(ctx, cameraID, enable);
-        }
-
-        public bool IsTransposerSoftZoneEnable(int cameraID) {
-            return Camera3DTransposerDomain.IsSoftZoneEnable(ctx, cameraID);
-        }
-
         // Move
         public void FreeCamera_SetMoveToTarget(int cameraID, Vector3 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
             Camera3DFollowDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);

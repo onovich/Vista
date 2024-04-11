@@ -28,16 +28,6 @@ namespace TenonKit.Vista.Camera3D {
                 DrawDeadZone(mainCamera, softZoneScreenSize, viewSize, Color.blue);
             }
 
-            // Transposer
-            //// DeadZone, SoftZone 是屏幕坐标
-            if (camera.Transposer_DeadZone_IsEnable()) {
-                var deadZoneScreenSize = camera.Transposer_DeadZone_GetSize();
-                DrawDeadZone(mainCamera, deadZoneScreenSize, viewSize, Color.red);
-            }
-            if (camera.Transposer_SoftZone_IsEnable()) {
-                var softZoneScreenSize = camera.Transposer_SoftZone_GetSize();
-                DrawDeadZone(mainCamera, softZoneScreenSize, viewSize, Color.blue);
-            }
         }
 
         static void DrawDeadZone(Camera camera, Vector2 deadZoneScreenSize, Vector2 viewSize, Color color) {

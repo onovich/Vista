@@ -23,7 +23,7 @@ namespace TenonKit.Vista.Camera3D {
         // Transposer
         Camera3DTransposerComponent transposerComponent;
         internal Camera3DTransposerComponent TransposerComponent => transposerComponent;
-        internal Vector3 Transposer_SoftZone_DampingFactor => transposerComponent.SoftZoneDampingFactor;
+        internal Vector3 Transposer_SoftZone_DampingFactor => transposerComponent.DampingFactor;
 
         // Composer
         Camera3DComposerComponent composerComponent;
@@ -82,49 +82,6 @@ namespace TenonKit.Vista.Camera3D {
         // Shake
         internal void ShakeOnce(float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
             shakeComponent.ShakeOnce(frequency, amplitude, duration, type, mode);
-        }
-
-        // Transposer
-        //// Transposer DeadZone
-        internal void Transposer_DeadZone_Set(Vector2 normalizedSize, Vector2 viewSize) {
-            transposerComponent.SetDeadZone(normalizedSize, viewSize);
-        }
-
-        internal Vector2 Transposer_DeadZone_GetScreenDiff(Vector2 screenPos) {
-            return transposerComponent.GetDeadZoneScreenDiff(screenPos);
-        }
-
-        internal Vector2 Transposer_DeadZone_GetSize() {
-            return transposerComponent.GetDeadZoneSize();
-        }
-
-        internal bool Transposer_DeadZone_IsEnable() {
-            return transposerComponent.IsDeadZoneEnable();
-        }
-
-        internal void Transposer_DeadZone_Enable(bool enable) {
-            transposerComponent.EnableDeadZone(enable);
-        }
-
-        //// Transposer SoftZone
-        internal void Transposer_SoftZone_Set(Vector2 normalizedSize, Vector2 viewSize, Vector3 dampingFactor) {
-            transposerComponent.SetSoftZone(normalizedSize, viewSize, dampingFactor);
-        }
-
-        internal Vector2 Transposer_SoftZone_GetScreenDiff(Vector2 screenPos) {
-            return transposerComponent.GetSoftZoneScreenDiff(screenPos);
-        }
-
-        internal Vector2 Transposer_SoftZone_GetSize() {
-            return transposerComponent.GetSoftZoneSize();
-        }
-
-        internal bool Transposer_SoftZone_IsEnable() {
-            return transposerComponent.IsSoftZoneEnable();
-        }
-
-        internal void Transposer_SoftZone_Enable(bool enable) {
-            transposerComponent.EnableSoftZone(enable);
         }
 
         // Composer

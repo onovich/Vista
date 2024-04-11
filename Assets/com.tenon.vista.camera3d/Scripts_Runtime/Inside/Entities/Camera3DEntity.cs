@@ -23,10 +23,12 @@ namespace TenonKit.Vista.Camera3D {
         // Transposer
         Camera3DTransposerComponent transposerComponent;
         internal Camera3DTransposerComponent TransposerComponent => transposerComponent;
+        internal Vector3 Transposer_SoftZone_DampingFactor => transposerComponent.SoftZoneDampingFactor;
 
         // Composer
         Camera3DComposerComponent composerComponent;
         internal Camera3DComposerComponent ComposerComponent => composerComponent;
+        internal Vector3 Composer_SoftZone_DampingFactor => composerComponent.SoftZoneDampingFactor;
 
         // FSM
         Camera3DMovingComponent fsmCom;

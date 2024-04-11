@@ -35,7 +35,7 @@ Blend：从一个相机到另一个相机过渡
 
 ## 高级行为
 * 环绕 Orbit
-* 跟踪 Track
+* 跟踪 Track / Follow
 * 轨道 Dolly Track
 
 ## 模式

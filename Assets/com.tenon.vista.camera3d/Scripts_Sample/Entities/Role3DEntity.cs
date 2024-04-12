@@ -14,7 +14,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         public void Move(Vector2 axis, Camera camera) {
             var move = new Vector3(axis.x, 0, axis.y);
             move = camera.transform.TransformDirection(move);
-            move = Vector3.ProjectOnPlane(move, Vector3.up);
+            // move = Vector3.ProjectOnPlane(move, Vector3.up);
+            move.y = 0;
 
             Vector3 camDir = camera.transform.forward;
             camDir = Vector3.ProjectOnPlane(camDir, Vector3.up);

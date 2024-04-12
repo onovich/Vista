@@ -36,7 +36,7 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             currentCamera.SetPos(cameraWorldPos);
-            ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
+            ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, cameraWorldPos.z);
         }
 
     }

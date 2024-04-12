@@ -50,7 +50,6 @@ namespace TenonKit.Vista.Camera2D {
             if (!softZoneEnable) {
                 var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ViewSize);
                 targetPos += deadZoneWorldDiff;
-
                 RefreshCameraPos(ctx, id, mainCamera, targetPos);
                 return;
             }
@@ -63,8 +62,9 @@ namespace TenonKit.Vista.Camera2D {
 
                 float dampingX = currentCamera.SoftZoneDampingFactor.x;
                 float dampingY = currentCamera.SoftZoneDampingFactor.y;
-                cameraWorldPosX += (targetPos.x - cameraWorldPos.x) * dampingX * deltaTime;
-                cameraWorldPosY += (targetPos.y - cameraWorldPos.y) * dampingY * deltaTime;
+                cameraWorldPosX += deadZoneWorldDiff.x * dampingX * deltaTime;
+                cameraWorldPosY += deadZoneWorldDiff.y * dampingY * deltaTime;
+
                 cameraWorldPos = new Vector2(cameraWorldPosX, cameraWorldPosY);
 
                 RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
@@ -84,7 +84,7 @@ namespace TenonKit.Vista.Camera2D {
                 V2Log.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
                 return;
             }
-           
+
             currentCamera.SetPos(cameraWorldPos);
             ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
         }

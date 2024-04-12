@@ -28,10 +28,9 @@ namespace TenonKit.Vista.Camera3D {
         // Driver
         Transform driver;
         public Transform Driver => driver;
-        public Vector3 DriverPos => driver.position;
 
-        Vector3 driverLastPos;
-        public Vector3 DriverLastPos => driverLastPos;
+        Vector3 followPointLocalOffset;
+        public Vector3 FollowPointLocalOffset => followPointLocalOffset;
 
         // Composer
         Camera3DComposerComponent composerComponent;
@@ -78,16 +77,16 @@ namespace TenonKit.Vista.Camera3D {
         // Driver
         internal void SetDriver(Transform driver) {
             this.driver = driver;
-            driverLastPos = driver.position;
             fsmCom.EnterMovingByDriver(driver);
         }
 
-        internal void RecortDriverLastPos() {
-            driverLastPos = driver.position;
+        internal void SetDriverFollowPointOffset(Vector3 followPointLocalOffset) {
+            this.followPointLocalOffset = followPointLocalOffset;
         }
 
-        internal Vector3 GetDriverDiff() {
-            return driver.position - driverLastPos;
+        internal Vector3 GetDriverWorldFollowPoint() {
+            Vector3 worldOffset = driver.TransformDirection(followPointLocalOffset);
+            return driver.position + worldOffset;
         }
 
         // Confiner

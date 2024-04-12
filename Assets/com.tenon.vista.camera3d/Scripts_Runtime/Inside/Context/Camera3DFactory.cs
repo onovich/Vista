@@ -14,6 +14,7 @@ namespace TenonKit.Vista.Camera3D {
             var camera = new Camera3DEntity();
             camera.SetID(id);
             camera.SetPos(pos);
+            camera.SetDriverFollowPointOffset(pos);
             camera.SetEulerRotation(eulerRotation);
             camera.SetConfiner(confinerWorldMax, confinerWorldMin);
             return camera;

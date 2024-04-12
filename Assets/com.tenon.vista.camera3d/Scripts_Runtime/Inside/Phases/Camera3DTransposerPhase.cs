@@ -50,30 +50,21 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
                 return;
             }
-            bool deadZoneEnable = currentCamera.Composer_DeadZone_IsEnable();
-            bool softZoneEnable = currentCamera.Composer_SoftZone_IsEnable();
             Vector3 cameraWorldPos = currentCamera.Pos;
-            Vector3 targetPos = cameraWorldPos;
+            Vector3 targetWorldPos = currentCamera.GetDriverWorldFollowPoint();
 
-            var diff = currentCamera.GetDriverDiff();
-            currentCamera.RecortDriverLastPos();
+            var diff = targetWorldPos - cameraWorldPos;
 
             // Driver 静止时: 不跟随
             if (diff == Vector3.zero) {
                 return;
             }
 
-            // Get Depth
-            var depth = Camera3DMathUtil.GetDepth(mainCamera, driverWorldPos - cameraWorldPos);
-
             // 阻尼跟随  Diff
             Vector3 damping = currentCamera.Composer_SoftZone_DampingFactor;
-            // cameraWorldPos.x += diff.x * damping.x * deltaTime;
-            // cameraWorldPos.y += diff.y * damping.y * deltaTime;
-            // cameraWorldPos.z += diff.z * damping.z * deltaTime;
-            cameraWorldPos.x += diff.x;
-            cameraWorldPos.y += diff.y;
-            cameraWorldPos.z += diff.z;
+            cameraWorldPos.x += diff.x * damping.x * deltaTime;
+            cameraWorldPos.y += diff.y * damping.y * deltaTime;
+            cameraWorldPos.z += diff.z * damping.z * deltaTime;
             Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
             return;
         }

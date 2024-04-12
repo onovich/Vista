@@ -7,9 +7,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         Main3DContext ctx;
 
-        [Header("Camera2D Config")]
-        [SerializeField] Vector3 cameraOriginPos;
-
         [Header("Confiner Config")]
         [SerializeField] Vector3 confinerWorldMax;
         [SerializeField] Vector3 confinerWorldMin;
@@ -47,7 +44,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             var viewSize = new Vector2(Screen.width, Screen.height);
             ctx = new Main3DContext(mainCamera, viewSize);
-            var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin, role.transform);
+            var cameraOriginPos = mainCamera.transform.position;
+            var cameraOriginRot = mainCamera.transform.eulerAngles;
+            var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, cameraOriginRot, confinerWorldMax, confinerWorldMin, role.transform);
             Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
 
             ctx.core.SetComposerDeadZone(ctx.mainCameraID, composer_deadZoneSize);
@@ -56,6 +55,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.EnableComposerSoftZone(ctx.mainCameraID, true);
 
             ctx.SetRole(role);
+
+            Camera3DInfra.SetDriver(ctx, ctx.roleEntity.transform);
 
             Binding();
             RefreshInfo(ctx.mainCameraID);

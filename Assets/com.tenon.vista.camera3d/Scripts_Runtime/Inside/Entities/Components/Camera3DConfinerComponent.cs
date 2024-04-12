@@ -15,34 +15,40 @@ namespace TenonKit.Vista.Camera3D {
             this.confinerWorldMax = confinerWorldMax;
         }
 
-        internal bool TryClamp(Vector3 src, float fov, float aspect, out Vector3 dst) {
+        internal bool TryClamp(Camera camera, Vector3 src, float fov, float aspect, out Vector3 dst) {
 
-            float verticalFOVHalf = fov * 0.5f;
-            float verticalDistance = (confinerWorldMax.z - confinerWorldMin.z) / (2f * Mathf.Tan(verticalFOVHalf * Mathf.Deg2Rad));
+            Matrix4x4 projectionMatrix = camera.projectionMatrix;
+            Matrix4x4 viewMatrix = camera.worldToCameraMatrix;
+            Matrix4x4 inverseMVP = (projectionMatrix * viewMatrix).inverse;
 
-            float horizontalFOVHalf = 2f * Mathf.Atan(Mathf.Tan(verticalFOVHalf * Mathf.Deg2Rad) * aspect);
-            float horizontalDistance = (confinerWorldMax.z - confinerWorldMin.z) / (2f * Mathf.Tan(horizontalFOVHalf));
+            // 生成边界点在NDC空间中的位置
+            Vector3[] ndcBounds = new Vector3[] {
+                new Vector3(-1, -1, 0), // 左下
+                new Vector3(1, 1, 0), // 右上
+                new Vector3(-1, 1, 0), // 左上
+                new Vector3(1, -1, 0) // 右下
+            };
 
-            float minX = confinerWorldMin.x + horizontalDistance;
-            float maxX = confinerWorldMax.x - horizontalDistance;
-            float minY = confinerWorldMin.y + verticalDistance;
-            float maxY = confinerWorldMax.y - verticalDistance;
-            float minZ = confinerWorldMin.z;
-            float maxZ = confinerWorldMax.z;
+            bool allInside = true;
+            foreach (var ndc in ndcBounds) {
+                Vector3 worldPoint = inverseMVP.MultiplyPoint(ndc);
+                if (worldPoint.x < confinerWorldMin.x || worldPoint.x > confinerWorldMax.x ||
+                    worldPoint.y < confinerWorldMin.y || worldPoint.y > confinerWorldMax.y ||
+                    worldPoint.z < confinerWorldMin.z || worldPoint.z > confinerWorldMax.z) {
+                    allInside = false;
+                    break;
+                }
+            }
 
-            bool valid = maxX > minX && maxY > minY && maxZ > minZ;
-
-            if (!valid) {
-                dst = src;
+            if (!allInside) {
+                Debug.LogError("Camera position is out of bounds!");
+                dst = src; // Or adjust to a valid position
                 return false;
             }
 
-            float x = Mathf.Clamp(src.x, minX, maxX);
-            float y = Mathf.Clamp(src.y, minY, maxY);
-            float z = Mathf.Clamp(src.z, minZ, maxZ);
-
-            dst = new Vector3(x, y, z);
+            dst = src; // If everything is fine, return the src
             return true;
+
         }
 
     }

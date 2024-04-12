@@ -16,8 +16,8 @@ namespace TenonKit.Vista.Camera3D {
         Camera mainCamera;
         internal Camera MainCamera => mainCamera;
 
-        Vector3 viewSize;
-        internal Vector3 ViewSize => viewSize;
+        Vector2 viewSize;
+        internal Vector2 ViewSize => viewSize;
 
         float aspect;
         internal float Aspect => aspect;
@@ -34,7 +34,7 @@ namespace TenonKit.Vista.Camera3D {
         internal Camera3DContext() {
             cameras = new SortedList<int, Camera3DEntity>();
             idService = new IDService3D();
-            confinerIsVaild = false;
+            confinerIsVaild = true;
         }
 
         internal void Init(Vector3 viewSize) {

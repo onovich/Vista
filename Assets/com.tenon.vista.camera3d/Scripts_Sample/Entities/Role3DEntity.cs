@@ -12,32 +12,30 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         public void Move(Vector2 axis, Camera camera) {
-            Vector3 faceDir = transform.forward - camera.transform.position;
-            faceDir.y = 0;
+            var move = new Vector3(axis.x, 0, axis.y);
+            move = camera.transform.TransformDirection(move);
+            move = Vector3.ProjectOnPlane(move, Vector3.up);
 
-            Vector3 verticalDirection = faceDir.normalized;
-            Vector3 horizontalDirection = Quaternion.Euler(0, 90, 0) * verticalDirection;
+            Vector3 camDir = camera.transform.forward;
+            camDir = Vector3.ProjectOnPlane(camDir, Vector3.up);
+            rb.rotation = Quaternion.LookRotation(camDir);
 
-            Vector3 moveDirection = verticalDirection * axis.y + horizontalDirection * axis.x;
-
-            // Move
-            var velocity = moveDirection * speed;
-            rb.velocity = new Vector3(velocity.x, 0, velocity.z);
-
-            // 转向角色
-            if (velocity != Vector3.zero) {
-                transform.forward = faceDir;
-            }
+            rb.velocity = new Vector3(move.x * speed, 0, move.z * speed);
         }
 
         public void FaceTo(Vector2 axis, Camera camera) {
-            Vector3 faceDir = transform.forward - camera.transform.position;
-            if (faceDir == Vector3.zero) {
-                return;
-            }
+            // Vector3 faceDir = transform.forward - camera.transform.position;
+            // if (faceDir == Vector3.zero) {
+            //     return;
+            // }
 
-            faceDir.y = 0;
-            transform.forward = faceDir;
+            // faceDir.y = 0;
+            // transform.forward = faceDir;
+
+            // if (moveDirection != Vector3.zero) {
+            //     Quaternion newRotation = Quaternion.LookRotation(moveDirection);
+            //     rb.rotation = newRotation;
+            // }
         }
 
     }

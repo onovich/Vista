@@ -25,6 +25,14 @@ namespace TenonKit.Vista.Camera3D {
         internal Camera3DTransposerComponent TransposerComponent => transposerComponent;
         internal Vector3 Transposer_SoftZone_DampingFactor => transposerComponent.DampingFactor;
 
+        // Driver
+        Transform driver;
+        public Transform Driver => driver;
+        public Vector3 DriverPos => driver.position;
+
+        Vector3 driverLastPos;
+        public Vector3 DriverLastPos => driverLastPos;
+
         // Composer
         Camera3DComposerComponent composerComponent;
         internal Camera3DComposerComponent ComposerComponent => composerComponent;
@@ -55,6 +63,11 @@ namespace TenonKit.Vista.Camera3D {
             this.pos = pos;
         }
 
+        // Rotation
+        internal void SetEulerRotation(Vector3 eulerRotation) {
+            rotate = Quaternion.Euler(eulerRotation);
+        }
+
         // Rotate
         internal void Rotate(float yaw, float pitch, float roll) {
             var eulerRotation = new Vector3(pitch, yaw, roll);
@@ -62,13 +75,28 @@ namespace TenonKit.Vista.Camera3D {
             rotate = quaterRotation;
         }
 
+        // Driver
+        internal void SetDriver(Transform driver) {
+            this.driver = driver;
+            driverLastPos = driver.position;
+            fsmCom.EnterMovingByDriver(driver);
+        }
+
+        internal void RecortDriverLastPos() {
+            driverLastPos = driver.position;
+        }
+
+        internal Vector3 GetDriverDiff() {
+            return driver.position - driverLastPos;
+        }
+
         // Confiner
         internal void SetConfiner(Vector3 confinerWorldMax, Vector3 confinerWorldMin) {
             this.confinerComponent = new Camera3DConfinerComponent(confinerWorldMax, confinerWorldMin);
         }
 
-        internal bool TryClampByConfiner(Vector3 pos, float fov, float aspect, out Vector3 dst) {
-            return confinerComponent.TryClamp(pos, fov, aspect, out dst);
+        internal bool TryClampByConfiner(Camera camera, Vector3 pos, float fov, float aspect, out Vector3 dst) {
+            return confinerComponent.TryClamp(camera, pos, fov, aspect, out dst);
         }
 
         internal Vector3 GetConfinerCenter() {

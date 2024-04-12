@@ -19,26 +19,34 @@ namespace TenonKit.Vista.Camera3D {
             if (!ctx.Inited) {
                 return;
             }
-            Camera3DConstraintPhase.Tick(ctx, dt);
+
+            Camera3DTransposerPhase.FSMTick(ctx, dt);
+            // Camera3DComposerPhase.FSMTick(ctx, dt);
+            // Camera3DConstraintPhase.Tick(ctx, dt);
             Camera3DShakePhase.Tick(ctx, dt);
         }
 
         // Camera
-        public int CreateFreeCamera3D(Vector3 pos, Vector3 confinerMax, Vector3 confinerMin) {
-            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, confinerMax, confinerMin);
+        public int CreateFreeCamera3D(Vector3 pos, Vector3 eulerRotation, Vector3 confinerMax, Vector3 confinerMin) {
+            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, eulerRotation, confinerMax, confinerMin);
             ctx.AddCamera(camera, camera.ID);
             return camera.ID;
         }
 
-        public int CreateTrackCamera3D(Vector3 pos, Vector3 confinerMax, Vector3 confinerMin, Transform driver) {
-            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, confinerMax, confinerMin);
+        public int CreateTrackCamera3D(Vector3 pos, Vector3 eulerRotation, Vector3 confinerMax, Vector3 confinerMin, Transform driver) {
+            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, eulerRotation, confinerMax, confinerMin);
             ctx.AddCamera(camera, camera.ID);
-            Camera3DFollowDomain.FSM_SetMoveByDriver(ctx, camera.ID, driver);
+            Camera3DFollowDomain.SetDriver(ctx, camera.ID, driver);
             return camera.ID;
         }
 
         public void SetCurrentCamera(int cameraID) {
             ctx.SetCurrentCamera(cameraID);
+        }
+
+        // Driver
+        public void SetDriver(int cameraID, Transform driver) {
+            Camera3DFollowDomain.SetDriver(ctx, cameraID, driver);
         }
 
         // Composer
@@ -70,7 +78,7 @@ namespace TenonKit.Vista.Camera3D {
 
         // Move
         public void FreeCamera_SetMoveToTarget(int cameraID, Vector3 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
-            Camera3DFollowDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
+            Camera3DMoveDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
         }
 
         // Rotate

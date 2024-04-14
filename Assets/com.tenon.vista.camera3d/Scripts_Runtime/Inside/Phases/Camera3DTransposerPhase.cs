@@ -39,12 +39,12 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             var mainCamera = ctx.MainCamera;
-            var driverWorldPos = driver.position;
+            var driverWorldPos = driver;
 
-            FollowDriverWithTransposer(ctx, current.ID, mainCamera, driverWorldPos, dt);
+            FollowDriverWithTransposer(ctx, current.ID, mainCamera, driver, dt);
         }
 
-        internal static void FollowDriverWithTransposer(Camera3DContext ctx, int id, Camera mainCamera, Vector3 driverWorldPos, float deltaTime) {
+        internal static void FollowDriverWithTransposer(Camera3DContext ctx, int id, Camera mainCamera, Transform driver, float deltaTime) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
@@ -53,18 +53,19 @@ namespace TenonKit.Vista.Camera3D {
             Vector3 cameraWorldPos = currentCamera.Pos;
             Vector3 targetWorldPos = currentCamera.GetDriverWorldFollowPoint();
 
-            var diff = targetWorldPos - cameraWorldPos;
+            // 将目标位置转换为基于角色的局部坐标系
+            var driverRotation = driver.rotation;
+            var driverWorldPos = driver.position;
+            Vector3 targetLocalPos = Quaternion.Inverse(driverRotation) * (targetWorldPos - driverWorldPos);
+            Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
 
-            // Driver 静止时: 不跟随
-            if (diff == Vector3.zero) {
-                return;
-            }
+            // 仅修改局部 y 和 z 坐标
+            cameraLocalPos.y += (targetLocalPos.y - cameraLocalPos.y) * currentCamera.Composer_SoftZone_DampingFactor.y * deltaTime;
+            cameraLocalPos.z += (targetLocalPos.z - cameraLocalPos.z) * currentCamera.Composer_SoftZone_DampingFactor.z * deltaTime;
 
-            // 阻尼跟随  Diff
-            Vector3 damping = currentCamera.Composer_SoftZone_DampingFactor;
-            cameraWorldPos.x += diff.x * damping.x * deltaTime;
-            cameraWorldPos.y += diff.y * damping.y * deltaTime;
-            cameraWorldPos.z += diff.z * damping.z * deltaTime;
+            // 将修改后的局部坐标转换回全局坐标系
+            cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
+
             Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
             return;
         }

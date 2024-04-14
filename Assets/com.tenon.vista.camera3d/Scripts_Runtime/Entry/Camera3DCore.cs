@@ -21,7 +21,7 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             Camera3DTransposerPhase.FSMTick(ctx, dt);
-            // Camera3DComposerPhase.FSMTick(ctx, dt);
+            Camera3DComposerPhase.FSMTick(ctx, dt);
             // Camera3DConstraintPhase.Tick(ctx, dt);
             Camera3DShakePhase.Tick(ctx, dt);
         }

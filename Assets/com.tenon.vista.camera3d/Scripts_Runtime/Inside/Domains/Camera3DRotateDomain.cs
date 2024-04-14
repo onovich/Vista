@@ -13,6 +13,8 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
             camera.Rotate(yaw, pitch, roll);
+            var mainCamera = ctx.MainCamera;
+            mainCamera.transform.rotation = camera.Rotation;
         }
 
     }

@@ -67,8 +67,8 @@ namespace TenonKit.Vista.Camera3D {
             Quaternion targetWorldRot = Quaternion.Euler(currentEulerAngles.x, targetYaw, currentEulerAngles.z);
 
             // 使用Slerp进行平滑过渡
-            var rotationDamping = currentCamera.Composer_DampingFactor;
-            Quaternion rot = Quaternion.Slerp(currentCamera.Rotation, targetWorldRot, rotationDamping * deltaTime);
+            float rotationDamping = 1 - currentCamera.Composer_DampingFactor;
+            Quaternion rot = Quaternion.Slerp(currentCamera.Rotation, targetWorldRot, rotationDamping);
 
             // 设置相机的新旋转
             Camera3DRotateDomain.SetRotation(ctx, id, rot);

@@ -50,6 +50,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
                 return;
             }
+
             Vector3 cameraWorldPos = currentCamera.Pos;
             Vector3 targetWorldPos = currentCamera.GetDriverWorldFollowPoint();
 
@@ -59,9 +60,10 @@ namespace TenonKit.Vista.Camera3D {
             Vector3 targetLocalPos = Quaternion.Inverse(driverRotation) * (targetWorldPos - driverWorldPos);
             Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
 
-            // 仅修改局部 y 和 z 坐标
-            cameraLocalPos.y += (targetLocalPos.y - cameraLocalPos.y) * currentCamera.Transposer_DampingFactor.y * deltaTime;
-            cameraLocalPos.z += (targetLocalPos.z - cameraLocalPos.z) * currentCamera.Transposer_DampingFactor.z * deltaTime;
+            // 使用 Lerp 实现阻尼，仅修改局部 y 和 z 坐标
+            var dampingFactor = Vector3.one - currentCamera.Transposer_DampingFactor;
+            cameraLocalPos.y = Mathf.Lerp(cameraLocalPos.y, targetLocalPos.y, dampingFactor.y);
+            cameraLocalPos.z = Mathf.Lerp(cameraLocalPos.z, targetLocalPos.z, dampingFactor.z);
 
             // 将修改后的局部坐标转换回全局坐标系
             cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);

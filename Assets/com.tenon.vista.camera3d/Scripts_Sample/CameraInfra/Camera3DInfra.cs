@@ -24,6 +24,16 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.SetCurrentCamera(cameraID);
         }
 
+        // Transposer
+        public static void SetTransposerDampingFactor(Main3DContext ctx, Vector3 dampingFactor) {
+            ctx.core.SetTransposerDampingFactor(ctx.mainCameraID, dampingFactor);
+        }
+
+        // Composer
+        public static void SetComposerDampingFactor(Main3DContext ctx, Vector3 dampingFactor) {
+            ctx.core.SetComposerDampingFactor(ctx.mainCameraID, dampingFactor);
+        }
+
         // Driver
         public static void SetDriver(Main3DContext ctx, Transform driver) {
             ctx.core.SetDriver(ctx.mainCameraID, driver);

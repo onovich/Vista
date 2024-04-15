@@ -17,15 +17,6 @@ namespace TenonKit.Vista.Camera3D {
             var confinerSize = camera.GetConfinerSize();
             Gizmos.DrawWireCube(confinerCenter, confinerSize);
 
-            // DeadZone, SoftZone 是屏幕坐标
-            if (camera.Composer_DeadZone_IsEnable()) {
-                var deadZoneScreenSize = camera.Composer_DeadZone_GetSize();
-                DrawBox(mainCamera, viewSize / 2, deadZoneScreenSize, Color.red);
-            }
-            if (camera.Composer_SoftZone_IsEnable()) {
-                var softZoneScreenSize = camera.Composer_SoftZone_GetSize();
-                DrawBox(mainCamera, viewSize / 2, softZoneScreenSize, Color.blue);
-            }
         }
 
         static void DrawBox(Camera camera, Vector2 screenPos, Vector2 screenSize, Color color) {

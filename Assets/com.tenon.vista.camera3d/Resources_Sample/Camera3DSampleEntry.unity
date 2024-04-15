@@ -290,9 +290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   confinerWorldMax: {x: 50, y: 50, z: 100}
   confinerWorldMin: {x: -50, y: -50, z: -50}
-  composer_deadZoneSize: {x: 0.4, y: 0.4}
-  composer_softZoneSize: {x: 0.5, y: 0.5}
   composer_softZoneDampingFactor: {x: 10, y: 10, z: 10}
+  transposer_softZoneDampingFactor: {x: 10, y: 10, z: 10}
   role: {fileID: 931528810}
   targets: []
   shakeFrequency: 0.1

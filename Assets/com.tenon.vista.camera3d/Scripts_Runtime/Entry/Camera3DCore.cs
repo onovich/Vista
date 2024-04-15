@@ -44,36 +44,19 @@ namespace TenonKit.Vista.Camera3D {
             ctx.SetCurrentCamera(cameraID);
         }
 
-        // Driver
-        public void SetDriver(int cameraID, Transform driver) {
-            Camera3DFollowDomain.SetDriver(ctx, cameraID, driver);
+        // Transposer
+        public void SetTransposerDampingFactor(int cameraID, Vector3 dampingFactor) {
+            Camera3DTransposerDomain.SetDampingFactor(ctx, cameraID, dampingFactor);
         }
 
         // Composer
-        //// DeadZone
-        public void SetComposerDeadZone(int cameraID, Vector2 normalizedSize) {
-            Camera3DComposerDomain.SetDeadZone(ctx, cameraID, normalizedSize);
+        public void SetComposerDampingFactor(int cameraID, Vector3 dampingFactor) {
+            Camera3DComposerDomain.SetDampingFactor(ctx, cameraID, dampingFactor);
         }
 
-        public void EnableComposerDeadZone(int cameraID, bool enable) {
-            Camera3DComposerDomain.EnableDeadZone(ctx, cameraID, enable);
-        }
-
-        public bool IsComposerDeadZoneEnable(int cameraID) {
-            return Camera3DComposerDomain.IsDeadZoneEnable(ctx, cameraID);
-        }
-
-        //// SoftZone
-        public void SetComposerSoftZone(int cameraID, Vector2 normalizedSize, Vector3 dampingFactor) {
-            Camera3DComposerDomain.SetSoftZone(ctx, cameraID, normalizedSize, dampingFactor);
-        }
-
-        public void EnableComposerSoftZone(int cameraID, bool enable) {
-            Camera3DComposerDomain.EnableSoftZone(ctx, cameraID, enable);
-        }
-
-        public bool IsComposerSoftZoneEnable(int cameraID) {
-            return Camera3DComposerDomain.IsSoftZoneEnable(ctx, cameraID);
+        // Driver
+        public void SetDriver(int cameraID, Transform driver) {
+            Camera3DFollowDomain.SetDriver(ctx, cameraID, driver);
         }
 
         // Move

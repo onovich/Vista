@@ -13,6 +13,10 @@ namespace TenonKit.Vista.Camera3D {
         public Camera3DTransposerComponent() {
         }
 
+        internal void DampingFactor_Set(Vector3 dampingFactor) {
+            this.dampingFactor = dampingFactor;
+        }
+
     }
 
 }

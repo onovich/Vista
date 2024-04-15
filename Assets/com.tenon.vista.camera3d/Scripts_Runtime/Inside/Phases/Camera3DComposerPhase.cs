@@ -46,62 +46,6 @@ namespace TenonKit.Vista.Camera3D {
 
         // Aim Driver
         static void LookAtDriverWithComposer(Camera3DContext ctx, int id, Camera mainCamera, Vector3 driverWorldPos, float deltaTime) {
-            var has = ctx.TryGetCamera(id, out var currentCamera);
-            if (!has) {
-                V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
-                return;
-            }
-            bool deadZoneEnable = currentCamera.Composer_DeadZone_IsEnable();
-            bool softZoneEnable = currentCamera.Composer_SoftZone_IsEnable();
-            Vector3 cameraWorldPos = currentCamera.Pos;
-            Vector3 targetPos = cameraWorldPos;
-
-            // DeadZone 禁用时: 硬跟随 Driver
-            if (!deadZoneEnable) {
-                targetPos = driverWorldPos;
-                Camera3DMoveDomain.SetPos(ctx, id, mainCamera, targetPos);
-                return;
-            }
-
-            var driverScreenPos = Camera3DMathUtil.WorldToScreenPos(mainCamera, driverWorldPos);
-            var deadZoneDiff = currentCamera.Composer_DeadZone_GetScreenDiff(driverScreenPos);
-
-            // Driver 在 DeadZone 内：不跟随
-            if (deadZoneDiff == Vector2.zero && softZoneEnable) {
-                return;
-            }
-
-            // Get Depth
-            var depth = Camera3DMathUtil.GetDepth(mainCamera, driverWorldPos - cameraWorldPos);
-
-            // Driver 在 SoftZone 内
-            //// - SoftZone 禁用时：硬跟随 DeadZone Diff
-            if (!softZoneEnable) {
-                var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, depth);
-                targetPos += deadZoneWorldDiff;
-
-                Camera3DMoveDomain.SetPos(ctx, id, mainCamera, targetPos);
-                return;
-            }
-
-            //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
-            var softZoneDiff = currentCamera.Composer_SoftZone_GetScreenDiff(driverScreenPos);
-            if (softZoneDiff == Vector2.zero) {
-                var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, depth);
-                targetPos += deadZoneWorldDiff;
-
-                Vector3 damping = currentCamera.Composer_SoftZone_DampingFactor;
-                cameraWorldPos.x += (targetPos.x - cameraWorldPos.x) * damping.x * deltaTime;
-                cameraWorldPos.y += (targetPos.y - cameraWorldPos.y) * damping.y * deltaTime;
-                cameraWorldPos.z += (targetPos.z - cameraWorldPos.z) * damping.z * deltaTime;
-                Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
-                return;
-            }
-
-            // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
-            var softZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, depth);
-            cameraWorldPos += softZoneWorldDiff;
-            Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
 
         }
 

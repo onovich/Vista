@@ -12,9 +12,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [SerializeField] Vector3 confinerWorldMin;
 
         [Header("Composer Config")]
-        [SerializeField] Vector2 composer_deadZoneSize;
-        [SerializeField] Vector2 composer_softZoneSize;
         [SerializeField] Vector3 composer_softZoneDampingFactor;
+
+        [Header("Transposer Config")]
+        [SerializeField] Vector3 transposer_softZoneDampingFactor;
 
         [Header("Driver Config")]
         [SerializeField] Role3DEntity role;
@@ -47,12 +48,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var cameraOriginPos = mainCamera.transform.position;
             var cameraOriginRot = mainCamera.transform.eulerAngles;
             var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, cameraOriginRot, confinerWorldMax, confinerWorldMin, role.transform);
+            Camera3DInfra.SetComposerDampingFactor(ctx, composer_softZoneDampingFactor);
+            Camera3DInfra.SetTransposerDampingFactor(ctx, transposer_softZoneDampingFactor);
             Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
-
-            ctx.core.SetComposerDeadZone(ctx.mainCameraID, composer_deadZoneSize);
-            ctx.core.SetComposerSoftZone(ctx.mainCameraID, composer_softZoneSize, composer_softZoneDampingFactor);
-            ctx.core.EnableComposerDeadZone(ctx.mainCameraID, true);
-            ctx.core.EnableComposerSoftZone(ctx.mainCameraID, true);
 
             ctx.SetRole(role);
 

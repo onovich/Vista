@@ -90,6 +90,16 @@ namespace TenonKit.Vista.Camera3D {
             return driver.position + worldOffset;
         }
 
+        // Transposer
+        internal void SetTransposerDampingFactor(Vector3 dampingFactor) {
+            transposerComponent.DampingFactor_Set(dampingFactor);
+        }
+
+        // Composer
+        internal void SetComposerSoftZoneDampingFactor(Vector3 dampingFactor) {
+            composerComponent.SoftZoneDampingFactor_Set(dampingFactor);
+        }
+
         // Confiner
         internal void SetConfiner(Vector3 confinerWorldMax, Vector3 confinerWorldMin) {
             this.confinerComponent = new Camera3DConfinerComponent(confinerWorldMax, confinerWorldMin);
@@ -110,49 +120,6 @@ namespace TenonKit.Vista.Camera3D {
         // Shake
         internal void ShakeOnce(float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
             shakeComponent.ShakeOnce(frequency, amplitude, duration, type, mode);
-        }
-
-        // Composer
-        //// Composer DeadZone
-        internal void Composer_DeadZone_Set(Vector2 normalizedSize, Vector2 viewSize) {
-            composerComponent.SetDeadZone(normalizedSize, viewSize);
-        }
-
-        internal Vector2 Composer_DeadZone_GetScreenDiff(Vector2 screenPos) {
-            return composerComponent.GetDeadZoneScreenDiff(screenPos);
-        }
-
-        internal Vector2 Composer_DeadZone_GetSize() {
-            return composerComponent.GetDeadZoneSize();
-        }
-
-        internal bool Composer_DeadZone_IsEnable() {
-            return composerComponent.IsDeadZoneEnable();
-        }
-
-        internal void Composer_DeadZone_Enable(bool enable) {
-            composerComponent.EnableDeadZone(enable);
-        }
-
-        //// Composer SoftZone
-        internal void Composer_SoftZone_Set(Vector2 normalizedSize, Vector2 viewSize, Vector3 dampingFactor) {
-            composerComponent.SetSoftZone(normalizedSize, viewSize, dampingFactor);
-        }
-
-        internal Vector2 Composer_SoftZone_GetScreenDiff(Vector2 screenPos) {
-            return composerComponent.GetSoftZoneScreenDiff(screenPos);
-        }
-
-        internal Vector2 Composer_SoftZone_GetSize() {
-            return composerComponent.GetSoftZoneSize();
-        }
-
-        internal bool Composer_SoftZone_IsEnable() {
-            return composerComponent.IsSoftZoneEnable();
-        }
-
-        internal void Composer_SoftZone_Enable(bool enable) {
-            composerComponent.EnableSoftZone(enable);
         }
 
     }

@@ -12,10 +12,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [SerializeField] Vector3 confinerWorldMin;
 
         [Header("Composer Config")]
-        [SerializeField] Vector3 composer_softZoneDampingFactor;
+        [SerializeField] float composer_dampingFactor;
 
         [Header("Transposer Config")]
-        [SerializeField] Vector3 transposer_softZoneDampingFactor;
+        [SerializeField] Vector3 transposer_dampingFactor;
 
         [Header("Driver Config")]
         [SerializeField] Role3DEntity role;
@@ -48,8 +48,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var cameraOriginPos = mainCamera.transform.position;
             var cameraOriginRot = mainCamera.transform.eulerAngles;
             var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, cameraOriginRot, confinerWorldMax, confinerWorldMin, role.transform);
-            Camera3DInfra.SetComposerDampingFactor(ctx, composer_softZoneDampingFactor);
-            Camera3DInfra.SetTransposerDampingFactor(ctx, transposer_softZoneDampingFactor);
+            Camera3DInfra.SetComposerDampingFactor(ctx, composer_dampingFactor);
+            Camera3DInfra.SetTransposerDampingFactor(ctx, transposer_dampingFactor);
             Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
 
             ctx.SetRole(role);

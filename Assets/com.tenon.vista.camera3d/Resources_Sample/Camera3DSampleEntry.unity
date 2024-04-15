@@ -288,10 +288,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54eb481b9b4014235bfdf6c88881c2e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confinerWorldMax: {x: 50, y: 50, z: 100}
-  confinerWorldMin: {x: -50, y: -50, z: -50}
-  composer_softZoneDampingFactor: {x: 10, y: 10, z: 10}
-  transposer_softZoneDampingFactor: {x: 10, y: 10, z: 10}
+  confinerWorldMax: {x: 50, y: 50, z: 80}
+  confinerWorldMin: {x: -50, y: 0, z: -20}
+  composer_dampingFactor: 10
+  transposer_dampingFactor: {x: 10, y: 10, z: 10}
   role: {fileID: 931528810}
   targets: []
   shakeFrequency: 0.1

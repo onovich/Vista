@@ -24,7 +24,7 @@ namespace TenonKit.Vista.Camera3D {
         // Transposer
         Camera3DTransposerComponent transposerComponent;
         internal Camera3DTransposerComponent TransposerComponent => transposerComponent;
-        internal Vector3 Transposer_SoftZone_DampingFactor => transposerComponent.DampingFactor;
+        internal Vector3 Transposer_DampingFactor => transposerComponent.DampingFactor;
 
         // Driver
         Transform driver;
@@ -36,7 +36,7 @@ namespace TenonKit.Vista.Camera3D {
         // Composer
         Camera3DComposerComponent composerComponent;
         internal Camera3DComposerComponent ComposerComponent => composerComponent;
-        internal Vector3 Composer_SoftZone_DampingFactor => composerComponent.SoftZoneDampingFactor;
+        internal float Composer_DampingFactor => composerComponent.DampingFactor;
 
         // FSM
         Camera3DMovingComponent fsmCom;
@@ -68,6 +68,10 @@ namespace TenonKit.Vista.Camera3D {
             rotation = Quaternion.Euler(eulerRotation);
         }
 
+        internal void SetRotation(Quaternion rotation) {
+            this.rotation = rotation;
+        }
+
         // Rotate
         internal void Rotate(float yaw, float pitch, float roll) {
             var eulerRotation = new Vector3(pitch, yaw, roll);
@@ -96,8 +100,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Composer
-        internal void SetComposerSoftZoneDampingFactor(Vector3 dampingFactor) {
-            composerComponent.SoftZoneDampingFactor_Set(dampingFactor);
+        internal void SetComposerSoftZoneDampingFactor(float dampingFactor) {
+            composerComponent.DampingFactor_Set(dampingFactor);
         }
 
         // Confiner

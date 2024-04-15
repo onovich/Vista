@@ -50,7 +50,7 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Composer
-        public void SetComposerDampingFactor(int cameraID, Vector3 dampingFactor) {
+        public void SetComposerDampingFactor(int cameraID, float dampingFactor) {
             Camera3DComposerDomain.SetDampingFactor(ctx, cameraID, dampingFactor);
         }
 

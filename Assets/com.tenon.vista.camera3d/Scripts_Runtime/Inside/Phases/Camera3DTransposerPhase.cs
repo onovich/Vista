@@ -60,8 +60,8 @@ namespace TenonKit.Vista.Camera3D {
             Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
 
             // 仅修改局部 y 和 z 坐标
-            cameraLocalPos.y += (targetLocalPos.y - cameraLocalPos.y) * currentCamera.Composer_SoftZone_DampingFactor.y * deltaTime;
-            cameraLocalPos.z += (targetLocalPos.z - cameraLocalPos.z) * currentCamera.Composer_SoftZone_DampingFactor.z * deltaTime;
+            cameraLocalPos.y += (targetLocalPos.y - cameraLocalPos.y) * currentCamera.Transposer_DampingFactor.y * deltaTime;
+            cameraLocalPos.z += (targetLocalPos.z - cameraLocalPos.z) * currentCamera.Transposer_DampingFactor.z * deltaTime;
 
             // 将修改后的局部坐标转换回全局坐标系
             cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);

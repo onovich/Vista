@@ -41,11 +41,11 @@ namespace TenonKit.Vista.Camera3D {
             var mainCamera = ctx.MainCamera;
             var driverWorldPos = driver.position;
 
-            LookAtDriverWithComposer(ctx, current.ID, mainCamera, driver, dt);
+            LookAtDriverWithComposer(ctx, current.ID, mainCamera, driverWorldPos, dt);
         }
 
         // Aim Driver
-        static void LookAtDriverWithComposer(Camera3DContext ctx, int id, Camera mainCamera, Transform driver, float deltaTime) {
+        static void LookAtDriverWithComposer(Camera3DContext ctx, int id, Camera mainCamera, Vector3 driverWorldPos, float deltaTime) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
@@ -56,11 +56,10 @@ namespace TenonKit.Vista.Camera3D {
             Vector3 cameraWorldPos = currentCamera.Pos;
             Vector3 targetPos = cameraWorldPos;
 
-            var driverWorldPos = driver.position;
-
             // DeadZone 禁用时: 硬跟随 Driver
             if (!deadZoneEnable) {
-                Camera3DLookAtDomain.LookAt(ctx, id, driver);
+                targetPos = driverWorldPos;
+                Camera3DMoveDomain.SetPos(ctx, id, mainCamera, targetPos);
                 return;
             }
 
@@ -81,7 +80,7 @@ namespace TenonKit.Vista.Camera3D {
                 var deadZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, deadZoneDiff, depth);
                 targetPos += deadZoneWorldDiff;
 
-                Camera3DLookAtDomain.LookAt(ctx, id, driver);
+                Camera3DMoveDomain.SetPos(ctx, id, mainCamera, targetPos);
                 return;
             }
 
@@ -95,16 +94,14 @@ namespace TenonKit.Vista.Camera3D {
                 cameraWorldPos.x += (targetPos.x - cameraWorldPos.x) * damping.x * deltaTime;
                 cameraWorldPos.y += (targetPos.y - cameraWorldPos.y) * damping.y * deltaTime;
                 cameraWorldPos.z += (targetPos.z - cameraWorldPos.z) * damping.z * deltaTime;
-                // Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
-                Camera3DLookAtDomain.LookAt(ctx, id, driver);
+                Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
                 return;
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
             var softZoneWorldDiff = Camera3DMathUtil.ScreenToWorldSize(mainCamera, softZoneDiff, depth);
             cameraWorldPos += softZoneWorldDiff;
-            // Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
-            Camera3DLookAtDomain.LookAt(ctx, id, driver);
+            Camera3DMoveDomain.SetPos(ctx, id, mainCamera, cameraWorldPos);
 
         }
 

@@ -25,7 +25,7 @@ namespace TenonKit.Vista.Camera3D {
             Vector3 newPosition = target.position + totalRotation * direction * distance;
 
             Camera3DMoveDomain.SetPos(ctx, id, ctx.MainCamera, newPosition);
-            Camera3DLookAtDomain.LookAt(ctx, id, target);
+            // Camera3DLookAtDomain.LookAt(ctx, id, target);
         }
 
     }

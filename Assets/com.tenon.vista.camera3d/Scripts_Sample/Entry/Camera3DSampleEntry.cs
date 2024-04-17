@@ -140,23 +140,39 @@ namespace TenonKit.Vista.Camera3D.Sample {
             navPanel.action_shakeOnce = null;
         }
 
+        float restDT = 0;
         void Update() {
+
             var dt = Time.deltaTime;
             Logic3DBusiness.ProcessInput(ctx);
+
+            float fixInterval = Time.fixedDeltaTime;
+            restDT += dt;
+            if (restDT <= fixInterval) {
+                FixTick(restDT);
+                restDT = 0;
+            } else {
+                while (restDT > fixInterval) {
+                    FixTick(fixInterval);
+                    restDT -= fixInterval;
+                }
+            }
+
         }
 
-        void LateUpdate() {
-            var dt = Time.deltaTime;
-            Camera3DInfra.Tick(ctx, dt);
-        }
-
-        private void FixedUpdate() {
-            var dt = Time.fixedDeltaTime;
+        void FixTick(float dt) {
             Logic3DBusiness.BoxCast(ctx);
             Logic3DBusiness.RoleMove(ctx, dt);
             Logic3DBusiness.RoleJump(ctx);
             Logic3DBusiness.RoleFalling(ctx, dt);
             Logic3DBusiness.ResetInput(ctx);
+
+            Physics.Simulate(dt);
+        }
+
+        void LateUpdate() {
+            var dt = Time.deltaTime;
+            Camera3DInfra.Tick(ctx, dt);
         }
 
         void OnDestroy() {

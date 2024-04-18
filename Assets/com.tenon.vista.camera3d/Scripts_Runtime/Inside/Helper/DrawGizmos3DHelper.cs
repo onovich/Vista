@@ -10,13 +10,6 @@ namespace TenonKit.Vista.Camera3D {
         internal static void DrawGizmos(Camera3DContext ctx, Camera mainCamera) {
             var camera = ctx.CurrentCamera;
             var viewSize = ctx.ViewSize;
-
-            // Confiner 是世界坐标,不会跟随相机动
-            Gizmos.color = Color.green;
-            var confinerCenter = camera.GetConfinerCenter();
-            var confinerSize = camera.GetConfinerSize();
-            Gizmos.DrawWireCube(confinerCenter, confinerSize);
-
         }
 
         static void DrawBox(Camera camera, Vector2 screenPos, Vector2 screenSize, Color color) {

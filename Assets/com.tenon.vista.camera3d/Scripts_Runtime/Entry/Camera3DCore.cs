@@ -27,14 +27,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Camera
-        public int CreateFreeCamera3D(Vector3 pos, Vector3 eulerRotation, Vector3 confinerMax, Vector3 confinerMin) {
-            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, eulerRotation, confinerMax, confinerMin);
-            ctx.AddCamera(camera, camera.ID);
-            return camera.ID;
-        }
-
-        public int CreateTrackCamera3D(Vector3 pos, Vector3 eulerRotation, Vector3 confinerMax, Vector3 confinerMin, Transform driver) {
-            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, eulerRotation, confinerMax, confinerMin);
+        public int CreateCamera3D(Vector3 pos, Vector3 eulerRotation, Transform driver) {
+            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, eulerRotation);
             ctx.AddCamera(camera, camera.ID);
             Camera3DFollowDomain.SetDriver(ctx, camera.ID, driver);
             return camera.ID;

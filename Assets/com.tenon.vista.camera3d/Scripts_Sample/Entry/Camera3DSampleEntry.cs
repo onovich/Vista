@@ -7,10 +7,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         Main3DContext ctx;
 
-        [Header("Confiner Config")]
-        [SerializeField] Vector3 confinerWorldMax;
-        [SerializeField] Vector3 confinerWorldMin;
-
         [Header("Composer Config")]
         [SerializeField] float composer_dampingFactor;
 
@@ -47,7 +43,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx = new Main3DContext(mainCamera, viewSize);
             var cameraOriginPos = mainCamera.transform.position;
             var cameraOriginRot = mainCamera.transform.eulerAngles;
-            var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, cameraOriginRot, confinerWorldMax, confinerWorldMin, role.transform);
+            var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, cameraOriginRot, role.transform);
             Camera3DInfra.SetComposerDampingFactor(ctx, composer_dampingFactor);
             Camera3DInfra.SetTransposerDampingFactor(ctx, transposer_dampingFactor);
             Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);

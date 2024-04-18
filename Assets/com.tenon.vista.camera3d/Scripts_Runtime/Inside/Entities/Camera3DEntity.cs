@@ -18,9 +18,6 @@ namespace TenonKit.Vista.Camera3D {
         Quaternion rotation;
         public Quaternion Rotation => rotation;
 
-        // Confiner
-        Camera3DConfinerComponent confinerComponent;
-
         // Transposer
         Camera3DTransposerComponent transposerComponent;
         internal Camera3DTransposerComponent TransposerComponent => transposerComponent;
@@ -102,23 +99,6 @@ namespace TenonKit.Vista.Camera3D {
         // Composer
         internal void SetComposerSoftZoneDampingFactor(float dampingFactor) {
             composerComponent.DampingFactor_Set(dampingFactor);
-        }
-
-        // Confiner
-        internal void SetConfiner(Vector3 confinerWorldMax, Vector3 confinerWorldMin) {
-            this.confinerComponent = new Camera3DConfinerComponent(confinerWorldMax, confinerWorldMin);
-        }
-
-        internal bool TryClampByConfiner(Camera camera, Vector3 pos, float fov, float aspect, out Vector3 dst) {
-            return confinerComponent.TryClamp(camera, pos, fov, aspect, out dst);
-        }
-
-        internal Vector3 GetConfinerCenter() {
-            return (confinerComponent.ConfinerWorldMax + confinerComponent.ConfinerWorldMin) / 2f;
-        }
-
-        internal Vector3 GetConfinerSize() {
-            return confinerComponent.ConfinerWorldMax - confinerComponent.ConfinerWorldMin;
         }
 
         // Shake

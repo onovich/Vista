@@ -5,28 +5,24 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DShakePhase {
 
-        internal static void Tick(Camera3DContext ctx, float dt) {
-            var currentCamera = ctx.CurrentCamera;
-            if (currentCamera == null) {
+        internal static void Tick(Camera3DContext ctx, ICamera3D camera, float dt) {
+
+            var agent = ctx.cameraAgent;
+            if (agent == null) {
                 return;
             }
 
-            var mainCamera = ctx.MainCamera;
-            if (mainCamera == null) {
-                return;
-            }
-
-            var shakeCom = currentCamera.ShakeComponent;
+            var shakeCom = camera.ShakeComponent;
             if (shakeCom == null) {
                 return;
             }
             if (shakeCom.Current >= shakeCom.Duration) {
                 return;
             }
-            ApplyShake(ctx, currentCamera, mainCamera, shakeCom, dt);
+            ApplyShake(ctx, camera, agent, shakeCom, dt);
         }
 
-        static void ApplyShake(Camera3DContext ctx, Camera3DEntity currentCamera, Camera mainCamera, Camera3DShakeComponent shakeCom, float dt) {
+        static void ApplyShake(Camera3DContext ctx, ICamera3D currentCamera, Camera mainCamera, Camera3DShakeComponent shakeCom, float dt) {
             var current = shakeCom.Current;
             var duration = shakeCom.Duration;
             var frequency = shakeCom.Frequency;

@@ -8,8 +8,6 @@ namespace TenonKit.Vista.Camera3D {
     internal static class DrawGizmos3DHelper {
 
         internal static void DrawGizmos(Camera3DContext ctx, Camera mainCamera) {
-            var camera = ctx.CurrentCamera;
-            var viewSize = ctx.ViewSize;
         }
 
         static void DrawBox(Camera camera, Vector2 screenPos, Vector2 screenSize, Color color) {

@@ -8,72 +8,74 @@ namespace TenonKit.Vista.Camera3D {
 
         Camera3DContext ctx;
 
-        public Camera3DCore(Camera mainCamera, Vector3 viewSize) {
+        public Camera3DCore(Camera mainCamera, Vector2 viewSize) {
             ctx = new Camera3DContext();
             ctx.Inject(mainCamera);
-            ctx.Init(viewSize);
+            ctx.Init(viewSize, mainCamera.fieldOfView);
         }
 
         // Tick
         public void Tick(float dt) {
-            if (!ctx.Inited) {
-                return;
-            }
-
-            Camera3DTransposerPhase.FSMTick(ctx, dt);
-            Camera3DComposerPhase.FSMTick(ctx, dt);
-            Camera3DShakePhase.Tick(ctx, dt);
+            Camera3DBusiness.Tick(ctx, dt);
         }
 
         // Camera
-        public int CreateCamera3D(Vector3 pos, Vector3 eulerRotation, Transform driver) {
-            var camera = Camera3DFactory.CreateCamera3D(ctx, pos, eulerRotation);
-            ctx.AddCamera(camera, camera.ID);
-            Camera3DFollowDomain.SetDriver(ctx, camera.ID, driver);
-            return camera.ID;
+        public int CreateTPCamera(Vector3 pos, Vector3 offset, Vector3 eulerRotation, float fov, Transform person, bool followX = false) {
+            var camera = Camera3DFactory.CreateTPCamera(ctx, pos, offset, eulerRotation, fov, person);
+            if (followX) {
+                camera.fsmComponent.FollowXYZ_Enter();
+            } else {
+                camera.fsmComponent.FollowYZAndOrbitalZ_Enter();
+            }
+            ctx.AddTPCamera(camera, camera.id);
+            return camera.id;
         }
 
-        public void SetCurrentCamera(int cameraID) {
-            ctx.SetCurrentCamera(cameraID);
+        // Damping Factor
+        public void SetTPCameraFollowDamppingFactor(int cameraID, Vector3 followDampingFactor) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetFollowDamppingFactor Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.followDampingFactor = followDampingFactor;
         }
 
-        // Transposer
-        public void SetTransposerDampingFactor(int cameraID, Vector3 dampingFactor) {
-            Camera3DTransposerDomain.SetDampingFactor(ctx, cameraID, dampingFactor);
+        public void SetTPCameraLookAtDamppingFactor(int cameraID, float lookAtDampingFactor) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetLookAtDamppingFactor Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.lookAtDampingFactor = lookAtDampingFactor;
         }
 
-        // Composer
-        public void SetComposerDampingFactor(int cameraID, float dampingFactor) {
-            Camera3DComposerDomain.SetDampingFactor(ctx, cameraID, dampingFactor);
-        }
-
-        // Driver
-        public void SetDriver(int cameraID, Transform driver) {
-            Camera3DFollowDomain.SetDriver(ctx, cameraID, driver);
-        }
-
-        // Move
-        public void FreeCamera_SetMoveToTarget(int cameraID, Vector3 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, Action onComplete = null) {
-            Camera3DMoveDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
-        }
-
-        // Rotate
-        public void Rotate(int cameraID, float yaw, float pitch, float roll) {
-            Camera3DRotateDomain.Rotate(ctx, cameraID, yaw, pitch, roll);
+        // Person
+        public void SetTPCameraPersonBounds(int cameraID, Bounds bounds) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetPersonBounds Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.personBounds = bounds;
         }
 
         // Shake
-        public void ShakeOnce(int cameraID, float frequency, float amplitude, float duration, EasingType type = EasingType.Linear, EasingMode mode = EasingMode.None) {
-            Camera3DShakeDomain.ShakeOnce(ctx, cameraID, frequency, amplitude, duration, type, mode);
+        public void ShakeOnce(int cameraID, float frequency, float amplitude, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"Shake Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.shakeComponent.ShakeOnce(frequency, amplitude, duration, easingType, easingMode);
         }
 
         public void Clear() {
             ctx.Clear();
         }
 
-        public void DrawGizmos() {
-            var camera = ctx.CurrentCamera;
-            DrawGizmos3DHelper.DrawGizmos(ctx, ctx.MainCamera);
+        public void DrawGizmos(int id) {
+            // TODO
         }
 
     }

@@ -1,23 +1,20 @@
 # 状态机设计
 TPMode
-	- HorizontalFollow + (VerticalFollow)
-		* 左右平移（与 LookAt 互斥)
-	- HorizontalRound + (VerticalFollow)
-		* 左右 LookAt & Round (与左右平移互斥)
-	- ManualPan
-	- RecenterPan
-	- ManualRound + (HorizontalFollow + VerticalFollow)
-	- RecenterRound
+	- FollowXYZ
+	- FollowYZAndOrbitalZ
+	- ManualPanXYZ + RecenterPan
+	- FollowXYZAndOrbitalXZ + RecenterOrbital
 
 FPMode
-    - Follow + ManualRound
+    - FollowXYZ
+    - ManualOrbitalXZ
 
 FlyMode
-    - Aim
+    - OrbitalXYZ
 
 DollyTrackMode
-	- Floow 轨道
-	- LookAt 目标可设
+	- FollowTrack
+	- FollowTrackAndLookAtTarget
 
 DollyTrackMode、FPCameraMode、FlyMode 先不做
 
@@ -39,7 +36,7 @@ DollyTrackMode、FPCameraMode、FlyMode 先不做
 * 缩放 Zoom 调节远近
 
 ## 高级行为
-* 环绕 Round(Round And LookAt)
+* 环绕 Orbital(Pan And LookAt)
 * 跟踪 Track / Follow
 * 轨道 Dolly Track
 

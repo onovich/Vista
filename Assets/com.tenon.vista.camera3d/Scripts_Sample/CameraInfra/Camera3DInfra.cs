@@ -10,43 +10,22 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         public static void DrawGizmos(Main3DContext ctx) {
-            ctx.core.DrawGizmos();
+            // ctx.core.DrawGizmos();
         }
 
         // Camera
-        public static int CreateTrackCamera(Main3DContext ctx, Vector3 pos, Vector3 eulerRotation, Transform driver) {
-            var mainCameraID = ctx.core.CreateCamera3D(pos, eulerRotation, driver);
+        public static int CreateTPCamera(Main3DContext ctx, Vector3 pos, Vector3 offset, Vector3 eulerRotation, float fov, Transform person, bool followX) {
+            var mainCameraID = ctx.core.CreateTPCamera(pos, offset, eulerRotation, fov, person, followX);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
         }
 
-        public static void SetCurrentCamera(Main3DContext ctx, int cameraID) {
-            ctx.core.SetCurrentCamera(cameraID);
+        public static void SetTPCameraFollowDamppingFactor(Main3DContext ctx, Vector3 followDampingFactor) {
+            ctx.core.SetTPCameraFollowDamppingFactor(ctx.mainCameraID, followDampingFactor);
         }
 
-        // Transposer
-        public static void SetTransposerDampingFactor(Main3DContext ctx, Vector3 dampingFactor) {
-            ctx.core.SetTransposerDampingFactor(ctx.mainCameraID, dampingFactor);
-        }
-
-        // Composer
-        public static void SetComposerDampingFactor(Main3DContext ctx, float dampingFactor) {
-            ctx.core.SetComposerDampingFactor(ctx.mainCameraID, dampingFactor);
-        }
-
-        // Driver
-        public static void SetDriver(Main3DContext ctx, Transform driver) {
-            ctx.core.SetDriver(ctx.mainCameraID, driver);
-        }
-
-        // Free Move
-        public static void SetMoveToTarget(Main3DContext ctx, Vector2 target, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None, System.Action onComplete = null) {
-            ctx.core.FreeCamera_SetMoveToTarget(ctx.mainCameraID, target, duration, easingType, easingMode, onComplete);
-        }
-
-        // Rotate
-        public static void Rotate(Main3DContext ctx, float yaw, float pitch, float roll) {
-            ctx.core.Rotate(ctx.mainCameraID, yaw, pitch, roll);
+        public static void SetTPCameraLookAtDamppingFactor(Main3DContext ctx, float lookAtDampingFactor) {
+            ctx.core.SetTPCameraLookAtDamppingFactor(ctx.mainCameraID, lookAtDampingFactor);
         }
 
     }

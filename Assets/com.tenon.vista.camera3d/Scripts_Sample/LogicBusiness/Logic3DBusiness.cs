@@ -106,15 +106,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
             }
         }
 
-        public static void CameraMove(Main3DContext ctx, float dt) {
-            if (!ctx.isGameStart) return;
-
-            var camera = ctx.mainCamera;
-            var yaw = ctx.cameraYawAxis;
-            var pitch = ctx.cameraPitchAxis;
-            Camera3DInfra.Rotate(ctx, yaw, pitch, 0);
-        }
-
     }
 
 }

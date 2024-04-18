@@ -7,17 +7,15 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         Main3DContext ctx;
 
-        [Header("Composer Config")]
-        [SerializeField] float composer_dampingFactor;
+        [Header("Follow Mode Config")]
+        [SerializeField] bool followX;
 
-        [Header("Transposer Config")]
-        [SerializeField] Vector3 transposer_dampingFactor;
+        [Header("DampingFactor Config")]
+        [SerializeField] Vector3 followDampingFactor;
+        [SerializeField] float lookAtDampingFactor;
 
-        [Header("Driver Config")]
-        [SerializeField] Role3DEntity role;
-
-        [Header("Target Config")]
-        [SerializeField] Transform[] targets;
+        [Header("Person Config")]
+        [SerializeField] Role3DEntity person;
 
         [Header("Shake Config")]
         [SerializeField] float shakeFrequency;
@@ -29,28 +27,30 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [Header("UI")]
         [SerializeField] Panel_3DSampleNavigation navPanel;
 
-        int targetIndex = 0;
-        int cameraState = 0;
-
         void Start() {
             V3Log.Log = Debug.Log;
             V3Log.Warning = Debug.LogWarning;
             V3Log.Error = Debug.LogError;
 
-            Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+            // Camera Agent
+            Camera agent = GameObject.Find("MainCamera").GetComponent<Camera>();
 
+            // Context
             var viewSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main3DContext(mainCamera, viewSize);
-            var cameraOriginPos = mainCamera.transform.position;
-            var cameraOriginRot = mainCamera.transform.eulerAngles;
-            var cameraID = Camera3DInfra.CreateTrackCamera(ctx, cameraOriginPos, cameraOriginRot, role.transform);
-            Camera3DInfra.SetComposerDampingFactor(ctx, composer_dampingFactor);
-            Camera3DInfra.SetTransposerDampingFactor(ctx, transposer_dampingFactor);
-            Camera3DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
+            ctx = new Main3DContext(agent, viewSize);
 
-            ctx.SetRole(role);
+            // Person
+            ctx.SetPerson(person);
 
-            Camera3DInfra.SetDriver(ctx, ctx.roleEntity.transform);
+            // Camera
+            var cameraOriginPos = agent.transform.position;
+            var cameraOriginRot = agent.transform.eulerAngles;
+            var cameraOriginFov = agent.fieldOfView;
+            var cameraID = Camera3DInfra.CreateTPCamera(ctx, cameraOriginPos, cameraOriginPos, cameraOriginRot, cameraOriginFov, person.transform, followX);
+
+            // Damping Factor
+            Camera3DInfra.SetTPCameraFollowDamppingFactor(ctx, followDampingFactor);
+            Camera3DInfra.SetTPCameraLookAtDamppingFactor(ctx, lookAtDampingFactor);
 
             Binding();
             RefreshInfo(ctx.mainCameraID);
@@ -122,9 +122,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             // }
         }
 
-        int GetNextTargetIndex(int current) {
-            return (current + 1) % targets.Length;
-        }
+        // int GetNextTargetIndex(int current) {
+        //     return (current + 1) % targets.Length;
+        // }
 
         void Unbinding() {
             navPanel.action_enableDeadZone = null;

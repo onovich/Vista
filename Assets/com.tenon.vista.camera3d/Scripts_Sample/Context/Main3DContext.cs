@@ -27,7 +27,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             hitResults = new RaycastHit[10];
         }
 
-        public void SetRole(Role3DEntity role) {
+        public void SetPerson(Role3DEntity role) {
             roleEntity = role;
         }
 

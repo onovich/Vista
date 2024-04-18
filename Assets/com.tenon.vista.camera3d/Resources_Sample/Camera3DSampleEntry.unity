@@ -397,11 +397,11 @@ MonoBehaviour:
   followDampingFactor: {x: 0.98, y: 0.98, z: 0.98}
   lookAtDampingFactor: 0.98
   person: {fileID: 931528810}
-  shakeFrequency: 0.1
+  shakeFrequency: 4
   shakeAmplitude: 1
-  shakeDuration: 0.2
+  shakeDuration: 0.4
   shakeEasingType: 1
-  shakeEasingMode: 0
+  shakeEasingMode: 2
   navPanel: {fileID: 1764399395}
 --- !u!1 &214594862
 GameObject:

@@ -59,7 +59,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         void Binding() {
-            // var cameraID = ctx.mainCameraID;
+            var cameraID = ctx.mainCameraID;
             // navPanel.action_enableDeadZone = () => {
             //     ctx.core.EnableDeadZone(cameraID, true);
             //     RefreshInfo(cameraID);
@@ -90,9 +90,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             //     cameraState = 1;
             //     RefreshInfo(cameraID);
             // };
-            // navPanel.action_shakeOnce = () => {
-            //     ShakeOnce(cameraID);
-            // };
+            navPanel.action_shakeOnce = () => {
+                ShakeOnce(cameraID);
+            };
         }
 
         void ShakeOnce(int cameraID) {

@@ -60,6 +60,44 @@ namespace TenonKit.Vista.Camera3D {
             camera.personBounds = bounds;
         }
 
+        // Manual Pan
+        public void ManualPan_Set(int cameraID, Vector3 speed, Vector3 originPos) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"ManualPan_Set Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.fsmComponent.ManualPanXYZ_Enter(speed, originPos);
+        }
+
+        public void ManualPan_Cancle(int cameraID, float duration) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"ManualPan_Recenter Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.fsmComponent.ManualPanXYZ_Recenter(duration);
+        }
+
+        // Manual Orbital
+        public void ManualOrbital_Set(int cameraID, Vector2 speed, Vector3 originPos, Quaternion originRot) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"ManualOrbital_Set Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.fsmComponent.ManualOrbitalXZ_Enter(speed, originPos, originRot);
+        }
+
+        public void ManualOrbital_Cancle(int cameraID, float duration) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"ManualOrbital_Recenter Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.fsmComponent.ManualOrbitalXZ_Recenter(duration);
+        }
+
         // Shake
         public void ShakeOnce(int cameraID, float frequency, float amplitude, float duration, EasingType easingType = EasingType.Linear, EasingMode easingMode = EasingMode.None) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);

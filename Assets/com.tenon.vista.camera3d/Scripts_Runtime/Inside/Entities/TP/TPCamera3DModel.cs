@@ -35,14 +35,6 @@ namespace TenonKit.Vista.Camera3D {
         internal Vector3 followDampingFactor;
         internal float lookAtDampingFactor;
 
-        // Manual Pan
-        internal Vector2 manualPanSpeed;
-        internal float recenterPanDuration;
-
-        // Manual Orbital
-        internal Vector2 manualOrbitalSpeed;
-        internal float recenterOrbitalDuration;
-
         // Person
         internal Transform person;
         internal Vector3 personFollowPointLocalOffset;

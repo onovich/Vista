@@ -1,31 +1,36 @@
-# 相机设计
-1. Manual Camera
-2. Track Camera
-3. TP Camera: Transposer + Composer + Yaw(With Constraint)
-4. FP Camera: HardToTarget(Transposer) + Yaw(With Constraint)
+# 状态机设计
+TPMode
+	- HorizontalFollow + (VerticalFollow)
+		* 左右平移（与 LookAt 互斥)
+	- HorizontalRound + (VerticalFollow)
+		* 左右 LookAt & Round (与左右平移互斥)
+	- ManualPan
+	- RecenterPan
+	- ManualRound + (HorizontalFollow + VerticalFollow)
+	- RecenterRound
+
+FPMode
+    - Follow + ManualRound
+
+FlyMode
+    - Aim
+
+DollyTrackMode
+	- Floow 轨道
+	- LookAt 目标可设
+
+DollyTrackMode、FPCameraMode、FlyMode 先不做
 
 # 相机组件
-1. TransposerComponent: 超出死区后 Move(Pan); Driver + 臂长 + 肩部构成相机跟随点的偏移量; 
-2. ComposerComponent: 超出死区后 LookAt(Yaw&Pitch)
-3. HardToTarget: 预配置 TransposerComponent 
-4. SameAsTarget / HardLookAt: 预配置 ComposerComponent
-5. Framing Transposer 和 Transposer 的区别：有无死区
-6. TrackedDollyComponent: 沿预定义轨道移动
-7. Orbital Transposer：绕: 盯（摇）+跟（移）: 玩家控制相机旋转的方式; Recenter: 没有输入时交给 Composer
-* Group Composer：Aim 多个对象
+1. DeadZoneComponent(死区是屏幕空间2D的, Follow 的 z轴单一个世界空间距离)
+2. TrackedDollyComponent: 沿预定义轨道移动
+3. ShakeComponent
+
+* Group Composer: Aim 多个对象
 * 弹簧臂: 相机物理(低优先级)
-
-待设计：
-3D 死区
-
-# 相机过渡
-Blend：从一个相机到另一个相机过渡
-
-重要调整:
-把死区投射到世界中再计算偏移量
+# 相机过渡: Blend：从一个相机到另一个相机过渡
 
 # 透视相机行为设计
-
 ## 基本行为
 * 偏航 Yaw 左右转头
 * 俯仰 Pitch 上下仰望俯瞰
@@ -34,7 +39,7 @@ Blend：从一个相机到另一个相机过渡
 * 缩放 Zoom 调节远近
 
 ## 高级行为
-* 环绕 Orbit
+* 环绕 Round(Round And LookAt)
 * 跟踪 Track / Follow
 * 轨道 Dolly Track
 
@@ -42,13 +47,3 @@ Blend：从一个相机到另一个相机过渡
 * 第一人称 FP View Mode
 * 第三人称 TP View Mode
 * 飞行模式 Fly Mode: 激活 Composer 的 Roll
-
-# TP Camera
-
-## FSM
-* 若x超出死区，执行 LookAt（基于Yaw）
-* 若y超出死区，执行 Follow（基于Pan）
-* 若z超出死区，执行 LookAt 或 Follow（需要确认，或许需要基于定制）
-
-# FP Camera
-全程 Follow, 基于指令 Yaw, 没有 LookAt

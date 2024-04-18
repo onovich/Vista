@@ -70,6 +70,15 @@ namespace TenonKit.Vista.Camera3D {
             camera.fsmComponent.ManualPanXYZ_Enter(speed, originPos);
         }
 
+        public void ManualPan_Apply(int cameraID, Vector3 axis, float deltaTime) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"ManualPan_Apply Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            Camera3DManualPanPhase.ApplyPan(ctx, cameraID, ctx.cameraAgent, axis, deltaTime);
+        }
+
         public void ManualPan_Cancle(int cameraID, float duration) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
             if (!has) {

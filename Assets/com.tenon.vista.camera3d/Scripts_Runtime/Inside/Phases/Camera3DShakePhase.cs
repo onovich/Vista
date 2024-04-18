@@ -22,7 +22,7 @@ namespace TenonKit.Vista.Camera3D {
             ApplyShake(ctx, camera, agent, shakeCom, dt);
         }
 
-        static void ApplyShake(Camera3DContext ctx, ICamera3D currentCamera, Camera mainCamera, Camera3DShakeComponent shakeCom, float dt) {
+        static void ApplyShake(Camera3DContext ctx, ICamera3D currentCamera, Camera agent, Camera3DShakeComponent shakeCom, float dt) {
             var current = shakeCom.Current;
             var duration = shakeCom.Duration;
             var frequency = shakeCom.Frequency;
@@ -36,7 +36,7 @@ namespace TenonKit.Vista.Camera3D {
             shakeCom.IncCurrent(dt);
             var pos = currentCamera.Pos;
             pos += offset;
-            mainCamera.transform.position = new Vector3(pos.x, pos.y, mainCamera.transform.position.z);
+            agent.transform.position = new Vector3(pos.x, pos.y, agent.transform.position.z);
         }
 
     }

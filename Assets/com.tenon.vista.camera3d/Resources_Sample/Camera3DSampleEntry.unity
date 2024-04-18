@@ -397,6 +397,8 @@ MonoBehaviour:
   followDampingFactor: {x: 0.98, y: 0.98, z: 0.98}
   lookAtDampingFactor: 0.98
   person: {fileID: 931528810}
+  manualPanSpeed: {x: 10, y: 10, z: 10}
+  manualPanCancleDuration: 1
   shakeFrequency: 4
   shakeAmplitude: 1
   shakeDuration: 0.4

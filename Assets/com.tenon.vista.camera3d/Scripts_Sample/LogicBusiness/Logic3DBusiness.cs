@@ -4,13 +4,16 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
     public static class Logic3DBusiness {
 
+        // Game
         public static void EnterGame(Main3DContext ctx) {
             ctx.isGameStart = true;
         }
 
+        // Input
         public static void ProcessInput(Main3DContext ctx) {
             if (!ctx.isGameStart) return;
 
+            // Role Move
             if (Input.GetKey(KeyCode.W)) {
                 ctx.roleMoveAxis += Vector2.up;
             }
@@ -23,21 +26,44 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (Input.GetKey(KeyCode.D)) {
                 ctx.roleMoveAxis += Vector2.right;
             }
-            if (Input.GetKey(KeyCode.Q)) {
-                ctx.cameraYawAxis += -1;
-            }
-            if (Input.GetKey(KeyCode.E)) {
-                ctx.cameraYawAxis += 1;
-            }
-            if (Input.GetKey(KeyCode.R)) {
-                ctx.cameraPitchAxis += 1;
-            }
-            if (Input.GetKey(KeyCode.F)) {
-                ctx.cameraPitchAxis += -1;
-            }
+
+            // Role Jump
             if (Input.GetKey(KeyCode.Space)) {
                 ctx.roleJumpAxis = 1;
             }
+
+            // Camera Set Pan
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                ctx.isCameraPan = true;
+                ctx.isCancleCameraPan = false;
+            }
+
+            // Camera Cancle Pan
+            if (Input.GetKeyDown(KeyCode.Alpha2)) {
+                ctx.isCancleCameraPan = true;
+                ctx.isCameraPan = false;
+            }
+
+            // Camera Apply Pan
+            if (Input.GetKey(KeyCode.UpArrow)) {
+                ctx.cameraPanAxis.z += 1;
+            }
+            if (Input.GetKey(KeyCode.DownArrow)) {
+                ctx.cameraPanAxis.z += -1;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow)) {
+                ctx.cameraPanAxis.x += -1;
+            }
+            if (Input.GetKey(KeyCode.RightArrow)) {
+                ctx.cameraPanAxis.x += 1;
+            }
+            if (Input.GetKey(KeyCode.Q)) {
+                ctx.cameraPanAxis.y += 1;
+            }
+            if (Input.GetKey(KeyCode.E)) {
+                ctx.cameraPanAxis.y += -1;
+            }
+
             ctx.roleMoveAxis.Normalize();
         }
 
@@ -45,18 +71,20 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (!ctx.isGameStart) return;
 
             ctx.roleMoveAxis = Vector2.zero;
-            ctx.cameraYawAxis = 0;
-            ctx.cameraPitchAxis = 0;
+            ctx.cameraPanAxis = Vector3.zero;
             ctx.roleJumpAxis = 0;
+
+            ctx.isCameraPan = false;
+            ctx.isCancleCameraPan = false;
         }
 
+        // Role
         public static void RoleMove(Main3DContext ctx, float dt) {
             if (!ctx.isGameStart) return;
 
             var role = ctx.roleEntity;
             var camera = ctx.mainCamera;
             var axis = ctx.roleMoveAxis;
-            var jumpAxis = ctx.roleJumpAxis;
             role.Move(axis, camera);
             role.FaceTo(axis, camera);
         }
@@ -104,6 +132,42 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (role.Velocity.y <= 0) {
                 role.Move_EnterGround();
             }
+        }
+
+        // Camera
+        public static void CameraPan_ApplySet(Main3DContext ctx) {
+            if (!ctx.isGameStart) return;
+            var isPan = ctx.isCameraPan;
+            if (!isPan) {
+                return;
+            }
+
+            Debug.Log("CameraPan_ApplySet");
+
+            var speed = ctx.camaraPanSpeed;
+
+            Camera3DInfra.ManualPan_Set(ctx, speed);
+        }
+
+        public static void CameraPan_Apply(Main3DContext ctx) {
+            if (!ctx.isGameStart) return;
+
+            var axis = ctx.cameraPanAxis;
+            var dt = Time.deltaTime;
+
+            Camera3DInfra.ManualPan_Apply(ctx, axis, dt);
+        }
+
+        public static void CameraPan_ApplyCancle(Main3DContext ctx) {
+            if (!ctx.isGameStart) return;
+            var isCancle = ctx.isCancleCameraPan;
+            if (!isCancle) {
+                return;
+            }
+
+            var duration = ctx.manualPanCancleDuration;
+
+            Camera3DInfra.ManualPan_Cancle(ctx, duration);
         }
 
     }

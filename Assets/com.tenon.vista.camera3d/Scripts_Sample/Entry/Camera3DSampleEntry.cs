@@ -17,6 +17,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [Header("Person Config")]
         [SerializeField] Role3DEntity person;
 
+        [Header("Manual Pan Config")]
+        [SerializeField] Vector3 manualPanSpeed;
+        [SerializeField] float manualPanCancleDuration;
+
         [Header("Shake Config")]
         [SerializeField] float shakeFrequency;
         [SerializeField] float shakeAmplitude;
@@ -37,7 +41,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             // Context
             var viewSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main3DContext(agent, viewSize);
+            ctx = new Main3DContext(agent, viewSize, manualPanSpeed, manualPanCancleDuration);
 
             // Person
             ctx.SetPerson(person);
@@ -161,7 +165,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
             Logic3DBusiness.RoleMove(ctx, dt);
             Logic3DBusiness.RoleJump(ctx);
             Logic3DBusiness.RoleFalling(ctx, dt);
-            Logic3DBusiness.ResetInput(ctx);
 
             Physics.Simulate(dt);
         }
@@ -169,6 +172,11 @@ namespace TenonKit.Vista.Camera3D.Sample {
         void LateUpdate() {
             var dt = Time.deltaTime;
             Camera3DInfra.Tick(ctx, dt);
+
+            Logic3DBusiness.CameraPan_ApplySet(ctx);
+            Logic3DBusiness.CameraPan_Apply(ctx);
+            Logic3DBusiness.CameraPan_ApplyCancle(ctx);
+            Logic3DBusiness.ResetInput(ctx);
         }
 
         void OnDestroy() {

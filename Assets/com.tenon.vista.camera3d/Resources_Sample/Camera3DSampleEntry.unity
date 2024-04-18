@@ -399,11 +399,13 @@ MonoBehaviour:
   person: {fileID: 931528810}
   manualPanSpeed: {x: 10, y: 10, z: 10}
   manualPanCancleDuration: 1
+  manualPanEasingType: 0
+  manualPanEasingMode: 0
   shakeFrequency: 4
   shakeAmplitude: 1
   shakeDuration: 0.4
-  shakeEasingType: 1
-  shakeEasingMode: 2
+  shakeEasingType: 0
+  shakeEasingMode: 0
   navPanel: {fileID: 1764399395}
 --- !u!1 &214594862
 GameObject:

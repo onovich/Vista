@@ -1,4 +1,6 @@
+using MortiseFrame.Swing;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 namespace TenonKit.Vista.Camera3D {
 
@@ -14,11 +16,11 @@ namespace TenonKit.Vista.Camera3D {
             } else if (status == TPCamera3DFSMStatus.FollowXYZ) {
                 TickFSM_FollowXYZ(ctx, camera, dt);
             } else if (status == TPCamera3DFSMStatus.FollowYZAndOrbitalZ) {
-                FixedTickFSM_FollowYZAndOrbitalZ(ctx, camera, dt);
+                TickFSM_FollowYZAndOrbitalZ(ctx, camera, dt);
             } else if (status == TPCamera3DFSMStatus.ManualPanXYZ) {
-                FixedTickFSM_PanXYZ(ctx, camera, dt);
+                TickFSM_PanXYZ(ctx, camera, dt);
             } else if (status == TPCamera3DFSMStatus.FollowXYZAndManualOrbitalXZ) {
-                FixedTickFSM_FollowXYZAndOrbitalXZ(ctx, camera, dt);
+                TickFSM_FollowXYZAndOrbitalXZ(ctx, camera, dt);
             } else {
                 V3Log.Error($"TPCamera3DFSMController.TickFSM: unknown status: {status}");
             }
@@ -36,16 +38,34 @@ namespace TenonKit.Vista.Camera3D {
             Camera3DFollowPhase.ApplyFollowXYZ(ctx, camera.id, ctx.cameraAgent, camera.person, dt);
         }
 
-        static void FixedTickFSM_FollowYZAndOrbitalZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_FollowYZAndOrbitalZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
             Camera3DFollowPhase.ApplyFollowYZ(ctx, camera.id, ctx.cameraAgent, camera.person, dt);
             Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, ctx.cameraAgent, camera.person, dt);
         }
 
-        static void FixedTickFSM_PanXYZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_PanXYZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
 
+            if (!camera.fsmComponent.manualPan_isRecenteringPan) {
+                return;
+            }
+
+            var start = camera.fsmComponent.manualPan_recenterPanStartPos;
+            var end = camera.fsmComponent.manualPan_originPos;
+            var duration = camera.fsmComponent.manualPan_recenterPanDuration;
+            var current = camera.fsmComponent.manualPan_recenterPanCurrent;
+            var mode = camera.fsmComponent.manualPan_recenterPanEasingMode;
+            var type = camera.fsmComponent.manualPan_recenterPanEasingType;
+
+            if (current >= duration) {
+                camera.fsmComponent.ManualPanXYZ_Exit();
+                return;
+            }
+
+            var pos = EasingHelper.Easing3D(start, end, current, duration, type, mode);
+            camera.fsmComponent.ManualPanXYZ_IncRecenterTimer(dt);
         }
 
-        static void FixedTickFSM_FollowXYZAndOrbitalXZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_FollowXYZAndOrbitalXZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
 
         }
 

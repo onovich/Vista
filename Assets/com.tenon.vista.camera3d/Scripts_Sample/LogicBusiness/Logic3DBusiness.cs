@@ -1,3 +1,4 @@
+using MortiseFrame.Swing;
 using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D.Sample {
@@ -166,8 +167,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
             }
 
             var duration = ctx.manualPanCancleDuration;
+            var easingType = ctx.manualPanEasingType;
+            var easingMode = ctx.manualPanEasingMode;
 
-            Camera3DInfra.ManualPan_Cancle(ctx, duration);
+            Camera3DInfra.ManualPan_Cancle(ctx, duration, easingType, easingMode);
         }
 
     }

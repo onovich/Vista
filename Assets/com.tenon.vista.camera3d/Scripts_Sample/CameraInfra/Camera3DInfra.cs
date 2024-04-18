@@ -39,8 +39,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.ManualPan_Apply(ctx.mainCameraID, axis, dt);
         }
 
-        public static void ManualPan_Cancle(Main3DContext ctx, float duration) {
-            ctx.core.ManualPan_Cancle(ctx.mainCameraID, duration);
+        public static void ManualPan_Cancle(Main3DContext ctx, float duration, EasingType easingType, EasingMode easingMode) {
+            ctx.core.ManualPan_Cancle(ctx.mainCameraID, duration, easingType, easingMode);
         }
 
     }

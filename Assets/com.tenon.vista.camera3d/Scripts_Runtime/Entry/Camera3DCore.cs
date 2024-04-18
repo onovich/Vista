@@ -79,13 +79,13 @@ namespace TenonKit.Vista.Camera3D {
             Camera3DManualPanPhase.ApplyPan(ctx, cameraID, ctx.cameraAgent, axis, deltaTime);
         }
 
-        public void ManualPan_Cancle(int cameraID, float duration) {
+        public void ManualPan_Cancle(int cameraID, float duration, EasingType easingType = EasingType.Sine, EasingMode easingMode = EasingMode.EaseIn) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
             if (!has) {
                 V3Log.Error($"ManualPan_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualPanXYZ_Recenter(duration);
+            camera.fsmComponent.ManualPanXYZ_Recenter(duration, camera.pos, easingType, easingMode);
         }
 
         // Manual Orbital

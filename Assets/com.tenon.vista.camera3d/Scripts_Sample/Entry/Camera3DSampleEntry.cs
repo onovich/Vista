@@ -20,6 +20,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [Header("Manual Pan Config")]
         [SerializeField] Vector3 manualPanSpeed;
         [SerializeField] float manualPanCancleDuration;
+        [SerializeField] EasingType manualPanEasingType;
+        [SerializeField] EasingMode manualPanEasingMode;
 
         [Header("Shake Config")]
         [SerializeField] float shakeFrequency;
@@ -41,7 +43,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             // Context
             var viewSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main3DContext(agent, viewSize, manualPanSpeed, manualPanCancleDuration);
+            ctx = new Main3DContext(agent, viewSize, manualPanSpeed, manualPanCancleDuration, manualPanEasingType, manualPanEasingMode);
 
             // Person
             ctx.SetPerson(person);

@@ -20,7 +20,7 @@ namespace TenonKit.Vista.Camera3D {
             var deltaDistance = new Vector3(axis.x * speed.x, axis.y * speed.y, axis.z * speed.z) * deltaTime;
             var pos = currentPos + deltaDistance;
 
-            Camera3DMoveDomain.SetPos(ctx, id, agent, pos);
+            TPCamera3DMoveDomain.SetPos(ctx, id, agent, pos);
         }
 
     }

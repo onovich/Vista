@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D {
 
-    internal static class Camera3DMoveDomain {
+    internal static class TPCamera3DMoveDomain {
 
         internal static void SetPos(Camera3DContext ctx, int id, Camera agent, Vector3 cameraWorldPos) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);

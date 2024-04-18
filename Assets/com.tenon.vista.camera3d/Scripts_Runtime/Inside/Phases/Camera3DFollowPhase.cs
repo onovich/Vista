@@ -29,7 +29,7 @@ namespace TenonKit.Vista.Camera3D {
             // 将修改后的局部坐标转换回全局坐标系
             cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
 
-            Camera3DMoveDomain.SetPos(ctx, id, adgent, cameraWorldPos);
+            TPCamera3DMoveDomain.SetPos(ctx, id, adgent, cameraWorldPos);
             return;
         }
 
@@ -57,7 +57,7 @@ namespace TenonKit.Vista.Camera3D {
             // 将修改后的局部坐标转换回全局坐标系
             cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
 
-            Camera3DMoveDomain.SetPos(ctx, id, agent, cameraWorldPos);
+            TPCamera3DMoveDomain.SetPos(ctx, id, agent, cameraWorldPos);
             return;
         }
 

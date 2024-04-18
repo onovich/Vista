@@ -63,6 +63,7 @@ namespace TenonKit.Vista.Camera3D {
 
             var pos = EasingHelper.Easing3D(start, end, current, duration, type, mode);
             camera.fsmComponent.ManualPanXYZ_IncRecenterTimer(dt);
+            TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
         }
 
         static void TickFSM_FollowXYZAndOrbitalXZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {

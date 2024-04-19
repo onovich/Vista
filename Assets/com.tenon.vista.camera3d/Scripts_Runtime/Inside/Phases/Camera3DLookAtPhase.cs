@@ -23,7 +23,7 @@ namespace TenonKit.Vista.Camera3D {
             // 获取当前相机的旋转的欧拉角
             Vector3 currentEulerAngles = camera.rotation.eulerAngles;
 
-            // 构建只改变Yaw的新旋转，保留Pitch和Roll
+            // 只改变Yaw的新旋转，保留Pitch和Roll
             Quaternion targetWorldRot = Quaternion.Euler(currentEulerAngles.x, targetYaw, currentEulerAngles.z);
 
             // 使用Slerp进行平滑过渡

@@ -43,6 +43,21 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.ManualPan_Cancle(ctx.mainCameraID, duration, easingType, easingMode);
         }
 
+        // Manual Orbit
+        public static void ManualOrbital_Set(Main3DContext ctx, Vector2 speed) {
+            var originPos = ctx.mainCamera.transform.position;
+            var originRot = ctx.mainCamera.transform.rotation;
+            ctx.core.ManualOrbital_Set(ctx.mainCameraID, speed, originPos, originRot);
+        }
+
+        public static void ManualOrbital_Apply(Main3DContext ctx, Vector3 axis, float dt) {
+            ctx.core.ManualOrbital_Apply(ctx.mainCameraID, axis, dt);
+        }
+
+        public static void ManualOrbital_Cancle(Main3DContext ctx, float duration, EasingType easingType, EasingMode easingMode) {
+            ctx.core.ManualOrbital_Cancle(ctx.mainCameraID, duration, easingType, easingMode);
+        }
+
     }
 
 }

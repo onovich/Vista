@@ -98,13 +98,22 @@ namespace TenonKit.Vista.Camera3D {
             camera.fsmComponent.ManualOrbitalXZ_Enter(speed, originPos, originRot);
         }
 
-        public void ManualOrbital_Cancle(int cameraID, float duration) {
+        public void ManualOrbital_Apply(int cameraID, Vector2 axis, float deltaTime) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"ManualOrbital_Apply Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            Camera3DManualOrbitalPhase.ApplyOrbital(ctx, cameraID, ctx.cameraAgent, axis, deltaTime);
+        }
+
+        public void ManualOrbital_Cancle(int cameraID, float duration, EasingType easingType = EasingType.Sine, EasingMode easingMode = EasingMode.EaseIn) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
             if (!has) {
                 V3Log.Error($"ManualOrbital_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbitalXZ_Recenter(duration);
+            camera.fsmComponent.ManualOrbitalXZ_Recenter(duration, camera.pos, camera.rotation, easingType, easingMode);
         }
 
         // Shake

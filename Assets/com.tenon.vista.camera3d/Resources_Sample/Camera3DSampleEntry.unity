@@ -401,6 +401,10 @@ MonoBehaviour:
   manualPanCancleDuration: 0.5
   manualPanEasingType: 2
   manualPanEasingMode: 2
+  manualOrbitalSpeed: {x: 10, y: 10}
+  manualOrbitalCancleDuration: 0.5
+  manualOrbitalEasingType: 2
+  manualOrbitalEasingMode: 2
   shakeFrequency: 4
   shakeAmplitude: 1
   shakeDuration: 0.4

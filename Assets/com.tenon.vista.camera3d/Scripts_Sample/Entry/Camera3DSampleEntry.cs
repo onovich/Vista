@@ -23,6 +23,12 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [SerializeField] EasingType manualPanEasingType;
         [SerializeField] EasingMode manualPanEasingMode;
 
+        [Header("Manual Orbit Config")]
+        [SerializeField] Vector2 manualOrbitalSpeed;
+        [SerializeField] float manualOrbitalCancleDuration;
+        [SerializeField] EasingType manualOrbitalEasingType;
+        [SerializeField] EasingMode manualOrbitalEasingMode;
+
         [Header("Shake Config")]
         [SerializeField] float shakeFrequency;
         [SerializeField] float shakeAmplitude;
@@ -43,7 +49,16 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             // Context
             var viewSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main3DContext(agent, viewSize, manualPanSpeed, manualPanCancleDuration, manualPanEasingType, manualPanEasingMode);
+            ctx = new Main3DContext(agent,
+                                    viewSize,
+                                    manualPanSpeed,
+                                    manualPanCancleDuration,
+                                    manualPanEasingType,
+                                    manualPanEasingMode,
+                                    manualOrbitalSpeed,
+                                    manualOrbitalCancleDuration,
+                                    manualOrbitalEasingType,
+                                    manualOrbitalEasingMode);
 
             // Person
             ctx.SetPerson(person);
@@ -178,6 +193,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
             Logic3DBusiness.CameraPan_ApplySet(ctx);
             Logic3DBusiness.CameraPan_Apply(ctx);
             Logic3DBusiness.CameraPan_ApplyCancle(ctx);
+
+            Logic3DBusiness.CameraOrbital_ApplySet(ctx);
+            Logic3DBusiness.CameraOrbital_Apply(ctx);
+            Logic3DBusiness.CameraOrbital_ApplyCancle(ctx);
             Logic3DBusiness.ResetInput(ctx);
         }
 

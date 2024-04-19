@@ -65,6 +65,32 @@ namespace TenonKit.Vista.Camera3D.Sample {
                 ctx.cameraPanAxis.y += -1;
             }
 
+            // Camera Set Orbital
+            if (Input.GetKeyDown(KeyCode.Alpha3)) {
+                ctx.isCameraOrbital = true;
+                ctx.isCancleCameraOrbital = false;
+            }
+
+            // Camera Cancle Orbital
+            if (Input.GetKeyDown(KeyCode.Alpha4)) {
+                ctx.isCancleCameraOrbital = true;
+                ctx.isCameraOrbital = false;
+            }
+
+            // Camera Apply Orbital
+            if (Input.GetKey(KeyCode.UpArrow)) {
+                ctx.cameraOrbitalAxis.x += 1;
+            }
+            if (Input.GetKey(KeyCode.DownArrow)) {
+                ctx.cameraOrbitalAxis.x += -1;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow)) {
+                ctx.cameraOrbitalAxis.y += -1;
+            }
+            if (Input.GetKey(KeyCode.RightArrow)) {
+                ctx.cameraOrbitalAxis.y += 1;
+            }
+
             ctx.roleMoveAxis.Normalize();
         }
 
@@ -171,6 +197,43 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var easingMode = ctx.manualPanEasingMode;
 
             Camera3DInfra.ManualPan_Cancle(ctx, duration, easingType, easingMode);
+        }
+
+        public static void CameraOrbital_ApplySet(Main3DContext ctx) {
+            if (!ctx.isGameStart) return;
+            var isOrbital = ctx.isCameraOrbital;
+            if (!isOrbital) {
+                return;
+            }
+
+            Debug.Log("CameraOrbital_ApplySet");
+
+            var speed = ctx.manualOrbitalSpeed;
+
+            Camera3DInfra.ManualOrbital_Set(ctx, speed);
+        }
+
+        public static void CameraOrbital_Apply(Main3DContext ctx) {
+            if (!ctx.isGameStart) return;
+
+            var axis = ctx.cameraOrbitalAxis;
+            var dt = Time.deltaTime;
+
+            Camera3DInfra.ManualOrbital_Apply(ctx, axis, dt);
+        }
+
+        public static void CameraOrbital_ApplyCancle(Main3DContext ctx) {
+            if (!ctx.isGameStart) return;
+            var isCancle = ctx.isCancleCameraOrbital;
+            if (!isCancle) {
+                return;
+            }
+
+            var duration = ctx.manualOrbitalCancleDuration;
+            var easingType = ctx.manualOrbitalEasingType;
+            var easingMode = ctx.manualOrbitalEasingMode;
+
+            Camera3DInfra.ManualOrbital_Cancle(ctx, duration, easingType, easingMode);
         }
 
     }

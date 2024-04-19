@@ -16,7 +16,7 @@ namespace TenonKit.Vista.Camera3D {
 
         internal bool manualPan_isEntring;
         internal Vector3 manualPan_originPos;
-        internal bool manualPan_isRecenteringPan;
+        internal bool manualPan_isRecentering;
         internal Vector3 manualPan_manualPanSpeed;
         internal Vector3 manualPan_recenterPanStartPos;
         internal float manualPan_recenterPanDuration;
@@ -35,7 +35,7 @@ namespace TenonKit.Vista.Camera3D {
         internal float manualOrbital_recenterOrbitalDuration;
         internal float manualOrbital_recenterOrbitalCurrent;
         internal EasingMode manualOrbital_recenterOrbitalEasingMode;
-        internal EasingType manualOrbital_recenterOrbitalEasingType; 
+        internal EasingType manualOrbital_recenterOrbitalEasingType;
         internal TPCamera3DFSMStatus manualOrbital_lastStatus;
 
         internal TPCamera3DFSMComponent() { }
@@ -61,14 +61,14 @@ namespace TenonKit.Vista.Camera3D {
             Reset();
             manualOrbital_lastStatus = status;
             manualPan_isEntring = true;
-            manualPan_isRecenteringPan = false;
+            manualPan_isRecentering = false;
             status = TPCamera3DFSMStatus.ManualPanXYZ;
             manualPan_manualPanSpeed = speed;
             manualPan_originPos = originPos;
         }
 
         internal void ManualPanXYZ_Recenter(float duration, Vector3 startPos, EasingType easingType, EasingMode easingMode) {
-            manualPan_isRecenteringPan = true;
+            manualPan_isRecentering = true;
             manualPan_recenterPanDuration = duration;
             manualPan_recenterPanCurrent = 0;
             manualPan_recenterPanStartPos = startPos;
@@ -88,7 +88,7 @@ namespace TenonKit.Vista.Camera3D {
             Reset();
             manualOrbital_isEntring = true;
             manualOrbital_isRecentering = false;
-            status = TPCamera3DFSMStatus.FollowXYZAndManualOrbitalXZ;
+            status = TPCamera3DFSMStatus.ManualOrbitalXZ;
             manualOrbital_manualOrbitalSpeed = speed;
             manualOrbital_originPos = originPos;
             manualOrbital_originRot = originRot;
@@ -104,6 +104,10 @@ namespace TenonKit.Vista.Camera3D {
             manualOrbital_recenterOrbitalEasingType = easingType;
         }
 
+        internal void ManualOrbitalXZ_Exit() {
+            Enter(manualOrbital_lastStatus);
+        }
+
         internal void ManualOrbitalXZ_IncRecenterTimer(float dt) {
             manualOrbital_recenterOrbitalCurrent += dt;
         }
@@ -113,7 +117,7 @@ namespace TenonKit.Vista.Camera3D {
             followXYZ_isEntring = false;
             followYZAndOrbitalZ_isEntring = false;
             manualPan_isEntring = false;
-            manualPan_isRecenteringPan = false;
+            manualPan_isRecentering = false;
             manualPan_recenterPanDuration = 0;
             manualPan_recenterPanCurrent = 0;
             manualOrbital_isEntring = false;
@@ -135,7 +139,7 @@ namespace TenonKit.Vista.Camera3D {
             if (status == TPCamera3DFSMStatus.ManualPanXYZ) {
                 ManualPanXYZ_Enter(Vector3.zero, Vector3.zero);
             }
-            if (status == TPCamera3DFSMStatus.FollowXYZAndManualOrbitalXZ) {
+            if (status == TPCamera3DFSMStatus.ManualOrbitalXZ) {
                 ManualOrbitalXZ_Enter(Vector2.zero, Vector3.zero, Quaternion.identity);
             }
         }

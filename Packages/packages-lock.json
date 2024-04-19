@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "com.mortise.swing": {
-      "version": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing#unity-edition",
+      "version": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing#main",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "28e16b6f750137587b7527e6832b8d9bb2dac059"
+      "hash": "d232dc90d39181e8c171a67616f215b02f0a95f6"
     },
     "com.unity.collab-proxy": {
       "version": "2.2.0",

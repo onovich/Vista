@@ -6,7 +6,7 @@ namespace TenonKit.Vista.Camera3D {
         FollowXYZ,
         FollowYZAndOrbitalZ,
         ManualPanXYZ,
-        FollowXYZAndManualOrbitalXZ,
+        ManualOrbitalXZ,
 
     }
 

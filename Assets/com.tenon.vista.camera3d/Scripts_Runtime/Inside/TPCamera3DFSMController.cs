@@ -46,6 +46,7 @@ namespace TenonKit.Vista.Camera3D {
         static void TickFSM_PanXYZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
 
             if (!camera.fsmComponent.manualPan_isRecentering) {
+                Camera3DManualPanPhase.ApplyPan(ctx, camera.id, ctx.cameraAgent, camera.inputComponent.manualPanAxis, dt);
                 return;
             }
 
@@ -64,11 +65,13 @@ namespace TenonKit.Vista.Camera3D {
             var pos = EasingHelper.Easing3D(start, end, current, duration, type, mode);
             camera.fsmComponent.ManualPanXYZ_IncRecenterTimer(dt);
             TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
+
         }
 
         static void TickFSM_OrbitalXZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
 
             if (!camera.fsmComponent.manualOrbital_isRecentering) {
+                Camera3DManualOrbitalPhase.ApplyOrbital(ctx, camera.id, ctx.cameraAgent, camera.inputComponent.manualOrbitalAxis, dt);
                 return;
             }
 

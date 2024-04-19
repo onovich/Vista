@@ -24,6 +24,9 @@ namespace TenonKit.Vista.Camera3D {
         // Rotation
         internal Quaternion rotation;
 
+        // Input
+        internal InputComponent inputComponent;
+
         // Dead Zone
         internal TPCamera3DDeadZoneComponent deadZone;
         internal TPCamera3DDeadZoneComponent softZone;
@@ -50,6 +53,7 @@ namespace TenonKit.Vista.Camera3D {
         #endregion
 
         internal TPCamera3DModel() {
+            inputComponent = new InputComponent();
             deadZone = new TPCamera3DDeadZoneComponent();
             softZone = new TPCamera3DDeadZoneComponent();
             shakeComponent = new Camera3DShakeComponent();

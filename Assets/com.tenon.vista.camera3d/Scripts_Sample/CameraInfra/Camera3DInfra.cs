@@ -35,8 +35,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.ManualPan_Set(ctx.mainCameraID, speed, originPos);
         }
 
-        public static void ManualPan_Apply(Main3DContext ctx, Vector3 axis, float dt) {
-            ctx.core.ManualPan_Apply(ctx.mainCameraID, axis, dt);
+        public static void ManualPan_Apply(Main3DContext ctx, Vector3 axis) {
+            ctx.core.ManualPan_Apply(ctx.mainCameraID, axis);
         }
 
         public static void ManualPan_Cancle(Main3DContext ctx, float duration, EasingType easingType, EasingMode easingMode) {
@@ -50,8 +50,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.ManualOrbital_Set(ctx.mainCameraID, speed, originPos, originRot);
         }
 
-        public static void ManualOrbital_Apply(Main3DContext ctx, Vector3 axis, float dt) {
-            ctx.core.ManualOrbital_Apply(ctx.mainCameraID, axis, dt);
+        public static void ManualOrbital_Apply(Main3DContext ctx, Vector3 axis) {
+            ctx.core.ManualOrbital_Apply(ctx.mainCameraID, axis);
         }
 
         public static void ManualOrbital_Cancle(Main3DContext ctx, float duration, EasingType easingType, EasingMode easingMode) {

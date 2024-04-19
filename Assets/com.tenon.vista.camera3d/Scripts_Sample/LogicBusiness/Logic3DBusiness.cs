@@ -190,7 +190,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var axis = ctx.cameraPanAxis;
             var dt = Time.deltaTime;
 
-            Camera3DInfra.ManualPan_Apply(ctx, axis, dt);
+            Camera3DInfra.ManualPan_Apply(ctx, axis);
         }
 
         public static void CameraPan_ApplyCancle(Main3DContext ctx) {
@@ -229,7 +229,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var axis = ctx.cameraOrbitalAxis;
             var dt = Time.deltaTime;
 
-            Camera3DInfra.ManualOrbital_Apply(ctx, axis, dt);
+            Camera3DInfra.ManualOrbital_Apply(ctx, axis);
         }
 
         public static void CameraOrbital_ApplyCancle(Main3DContext ctx) {

@@ -11,8 +11,7 @@ namespace TenonKit.Vista.Camera3D {
         internal TPCamera3DFSMStatus Status => status;
 
         internal bool doNothing_isEntring;
-        internal bool followXYZ_isEntring;
-        internal bool followYZAndOrbitalZ_isEntring;
+        internal bool autoFollow_isEntring;
 
         internal bool manualPan_isEntring;
         internal bool manualPan_isRecentering;
@@ -42,28 +41,22 @@ namespace TenonKit.Vista.Camera3D {
             doNothing_isEntring = true;
         }
 
-        internal void FollowXYZ_Enter() {
+        internal void AutoFollow_Enter() {
             Reset();
-            followXYZ_isEntring = true;
-            status = TPCamera3DFSMStatus.FollowXYZ;
+            autoFollow_isEntring = true;
+            status = TPCamera3DFSMStatus.AutoFollow;
         }
 
-        internal void FollowYZAndOrbitalZ_Enter() {
-            Reset();
-            followYZAndOrbitalZ_isEntring = true;
-            status = TPCamera3DFSMStatus.FollowYZAndOrbitalZ;
-        }
-
-        internal void ManualPanXYZ_Enter(Vector3 speed) {
+        internal void ManualPan_Enter(Vector3 speed) {
             Reset();
             manualPan_lastStatus = status;
             manualPan_isEntring = true;
             manualPan_isRecentering = false;
-            status = TPCamera3DFSMStatus.ManualPanXYZ;
+            status = TPCamera3DFSMStatus.ManualPan;
             manualPan_manualPanSpeed = speed;
         }
 
-        internal void ManualPanXYZ_Recenter(float duration, Vector3 startPos, EasingType easingType, EasingMode easingMode) {
+        internal void ManualPan_Recenter(float duration, Vector3 startPos, EasingType easingType, EasingMode easingMode) {
             manualPan_isRecentering = true;
             manualPan_recenterPanDuration = duration;
             manualPan_recenterPanCurrent = 0;
@@ -72,24 +65,24 @@ namespace TenonKit.Vista.Camera3D {
             manualPan_recenterPanEasingType = easingType;
         }
 
-        internal void ManualPanXYZ_Exit() {
+        internal void ManualPan_Exit() {
             ResumeToAuto(manualPan_lastStatus);
         }
 
-        internal void ManualPanXYZ_IncRecenterTimer(float dt) {
+        internal void ManualPan_IncRecenterTimer(float dt) {
             manualPan_recenterPanCurrent += dt;
         }
 
-        internal void ManualOrbitalXZ_Enter(Vector2 speed) {
+        internal void ManualOrbital_Enter(Vector2 speed) {
             Reset();
             manualOrbital_lastStatus = status;
             manualOrbital_isEntring = true;
             manualOrbital_isRecentering = false;
-            status = TPCamera3DFSMStatus.ManualOrbitalXZ;
+            status = TPCamera3DFSMStatus.ManualOrbital;
             manualOrbital_manualOrbitalSpeed = speed;
         }
 
-        internal void ManualOrbitalXZ_Recenter(float duration, Vector3 startPos, Quaternion startRot, EasingType easingType, EasingMode easingMode) {
+        internal void ManualOrbital_Recenter(float duration, Vector3 startPos, Quaternion startRot, EasingType easingType, EasingMode easingMode) {
             manualOrbital_isRecentering = true;
             manualOrbital_recenterOrbitalDuration = duration;
             manualOrbital_recenterOrbitalCurrent = 0;
@@ -99,18 +92,17 @@ namespace TenonKit.Vista.Camera3D {
             manualOrbital_recenterOrbitalEasingType = easingType;
         }
 
-        internal void ManualOrbitalXZ_Exit() {
+        internal void ManualOrbital_Exit() {
             ResumeToAuto(manualOrbital_lastStatus);
         }
 
-        internal void ManualOrbitalXZ_IncRecenterTimer(float dt) {
+        internal void ManualOrbital_IncRecenterTimer(float dt) {
             manualOrbital_recenterOrbitalCurrent += dt;
         }
 
         internal void Reset() {
             doNothing_isEntring = false;
-            followXYZ_isEntring = false;
-            followYZAndOrbitalZ_isEntring = false;
+            autoFollow_isEntring = false;
             manualPan_isEntring = false;
             manualPan_isRecentering = false;
             manualPan_recenterPanDuration = 0;
@@ -125,11 +117,8 @@ namespace TenonKit.Vista.Camera3D {
             if (status == TPCamera3DFSMStatus.DoNothing) {
                 DoNothing_Enter();
             }
-            if (status == TPCamera3DFSMStatus.FollowXYZ) {
-                FollowXYZ_Enter();
-            }
-            if (status == TPCamera3DFSMStatus.FollowYZAndOrbitalZ) {
-                FollowYZAndOrbitalZ_Enter();
+            if (status == TPCamera3DFSMStatus.AutoFollow) {
+                AutoFollow_Enter();
             }
         }
 

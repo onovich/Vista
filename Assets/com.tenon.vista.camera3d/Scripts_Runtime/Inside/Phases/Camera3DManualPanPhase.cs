@@ -12,7 +12,7 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            if (camera.fsmComponent.Status != TPCamera3DFSMStatus.ManualPanXYZ) {
+            if (camera.fsmComponent.Status != TPCamera3DFSMStatus.ManualPan) {
                 return;
             }
 
@@ -39,12 +39,12 @@ namespace TenonKit.Vista.Camera3D {
             var type = camera.fsmComponent.manualPan_recenterPanEasingType;
 
             if (current >= duration) {
-                camera.fsmComponent.ManualPanXYZ_Exit();
+                camera.fsmComponent.ManualPan_Exit();
                 return;
             }
 
             var pos = EasingHelper.Easing3D(start, end, current, duration, type, mode);
-            camera.fsmComponent.ManualPanXYZ_IncRecenterTimer(dt);
+            camera.fsmComponent.ManualPan_IncRecenterTimer(dt);
             TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
         }
 

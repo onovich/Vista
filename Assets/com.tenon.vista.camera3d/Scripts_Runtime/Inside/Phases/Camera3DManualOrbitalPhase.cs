@@ -17,7 +17,12 @@ namespace TenonKit.Vista.Camera3D {
             var currentPos = camera.pos;
             var person = camera.person;
 
-            TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, id, agent, person, dt);
+            if (camera.followX) {
+                TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, camera.id, ctx.cameraAgent, camera.person, dt);
+            } else {
+                TPCamera3DMoveDomain.ApplyFollowYZ(ctx, camera.id, ctx.cameraAgent, camera.person, dt);
+                Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, ctx.cameraAgent, camera.person, dt);
+            }
 
             if (axis == Vector3.zero) {
                 return;
@@ -51,13 +56,13 @@ namespace TenonKit.Vista.Camera3D {
             var type = camera.fsmComponent.manualOrbital_recenterOrbitalEasingType;
 
             if (current >= duration) {
-                camera.fsmComponent.ManualOrbitalXZ_Exit();
+                camera.fsmComponent.ManualOrbital_Exit();
                 return;
             }
 
             var pos = EasingHelper.Easing3D(startPos, endPos, current, duration, type, mode);
             var rot = EasingHelper.SlerpEasing(startRot, endRot, current, duration, type, mode);
-            camera.fsmComponent.ManualOrbitalXZ_IncRecenterTimer(dt);
+            camera.fsmComponent.ManualOrbital_IncRecenterTimer(dt);
             TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
             TPCamera3DRotateDomain.SetRotation(ctx, camera.id, rot);
         }

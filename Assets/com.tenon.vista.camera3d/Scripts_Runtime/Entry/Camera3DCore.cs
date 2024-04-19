@@ -21,13 +21,9 @@ namespace TenonKit.Vista.Camera3D {
 
         // Camera
         public int CreateTPCamera(Vector3 pos, Vector3 offset, Quaternion rot, float fov, Transform person, bool followX = false) {
-            var camera = Camera3DFactory.CreateTPCamera(ctx, pos, offset, rot, fov, person);
-            if (followX) {
-                camera.fsmComponent.FollowXYZ_Enter();
-            } else {
-                camera.fsmComponent.FollowYZAndOrbitalZ_Enter();
-            }
+            var camera = Camera3DFactory.CreateTPCamera(ctx, pos, offset, rot, fov, person, followX);
             ctx.AddTPCamera(camera, camera.id);
+            camera.fsmComponent.AutoFollow_Enter();
             return camera.id;
         }
 
@@ -67,7 +63,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualPan_Set Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualPanXYZ_Enter(speed);
+            camera.fsmComponent.ManualPan_Enter(speed);
         }
 
         public void ManualPan_Apply(int cameraID, Vector3 axis) {
@@ -85,7 +81,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualPan_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualPanXYZ_Recenter(duration, camera.pos, easingType, easingMode);
+            camera.fsmComponent.ManualPan_Recenter(duration, camera.pos, easingType, easingMode);
         }
 
         // Manual Orbital
@@ -95,7 +91,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualOrbital_Set Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbitalXZ_Enter(speed);
+            camera.fsmComponent.ManualOrbital_Enter(speed);
         }
 
         public void ManualOrbital_Apply(int cameraID, Vector2 axis) {
@@ -113,7 +109,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualOrbital_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbitalXZ_Recenter(duration, camera.pos, camera.rotation, easingType, easingMode);
+            camera.fsmComponent.ManualOrbital_Recenter(duration, camera.pos, camera.rotation, easingType, easingMode);
         }
 
         // Shake

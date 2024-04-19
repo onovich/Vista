@@ -13,6 +13,7 @@ namespace TenonKit.Vista.Camera3D {
 
         // Mode
         Camera3DMode ICamera3D.Mode => Camera3DMode.TPCamera;
+        public bool followX; // True: Follow X & Y & Z; False: Follow Y & Z, Orbit Z
 
         // Attr
         internal float fov;

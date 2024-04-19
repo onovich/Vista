@@ -79,16 +79,16 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             // Camera Apply Orbital
             if (Input.GetKey(KeyCode.UpArrow)) {
-                ctx.cameraOrbitalAxis.x += 1;
+                ctx.cameraOrbitalAxis.y += 1;
             }
             if (Input.GetKey(KeyCode.DownArrow)) {
-                ctx.cameraOrbitalAxis.x += -1;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow)) {
                 ctx.cameraOrbitalAxis.y += -1;
             }
+            if (Input.GetKey(KeyCode.LeftArrow)) {
+                ctx.cameraOrbitalAxis.x += -1;
+            }
             if (Input.GetKey(KeyCode.RightArrow)) {
-                ctx.cameraOrbitalAxis.y += 1;
+                ctx.cameraOrbitalAxis.x += 1;
             }
 
             ctx.roleMoveAxis.Normalize();
@@ -99,10 +99,15 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             ctx.roleMoveAxis = Vector2.zero;
             ctx.cameraPanAxis = Vector3.zero;
+            ctx.cameraOrbitalAxis = Vector2.zero;
+
             ctx.roleJumpAxis = 0;
 
             ctx.isCameraPan = false;
             ctx.isCancleCameraPan = false;
+
+            ctx.isCameraOrbital = false;
+            ctx.isCancleCameraOrbital = false;
         }
 
         // Role
@@ -113,6 +118,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var camera = ctx.mainCamera;
             var axis = ctx.roleMoveAxis;
             role.Move(axis, camera);
+            if (ctx.isOrbitaling) {
+                return;
+            }
             role.FaceTo(axis, camera);
         }
 
@@ -177,7 +185,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         public static void CameraPan_Apply(Main3DContext ctx) {
             if (!ctx.isGameStart) return;
-            if(!ctx.isPaning) return;
+            if (!ctx.isPaning) return;
 
             var axis = ctx.cameraPanAxis;
             var dt = Time.deltaTime;
@@ -216,7 +224,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         public static void CameraOrbital_Apply(Main3DContext ctx) {
             if (!ctx.isGameStart) return;
-            if(!ctx.isOrbitaling) return;
+            if (!ctx.isOrbitaling) return;
 
             var axis = ctx.cameraOrbitalAxis;
             var dt = Time.deltaTime;

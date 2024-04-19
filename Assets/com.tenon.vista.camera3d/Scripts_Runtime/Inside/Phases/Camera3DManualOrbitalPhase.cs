@@ -1,10 +1,11 @@
+using MortiseFrame.Swing;
 using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DManualOrbitalPhase {
 
-        internal static void ApplyOrbital(Camera3DContext ctx, int id, Camera agent, Vector3 axis, float deltaTime) {
+        internal static void ApplyOrbital(Camera3DContext ctx, int id, Camera agent, Vector3 axis, float dt) {
 
             var has = ctx.TryGetTPCamera(id, out var camera);
             if (!has) {
@@ -12,31 +13,24 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            // 获取当前相机的旋转的欧拉角
-            Vector3 currentEulerAngles = camera.rotation.eulerAngles;
+            var speed = camera.fsmComponent.manualOrbital_manualOrbitalSpeed;
 
-            // 只改变Yaw的新旋转，保留Pitch和Roll
-            Quaternion targetWorldRot = Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y + axis.x, currentEulerAngles.z);
+            var currentPos = camera.pos;
+            var person = camera.person;
 
-            // 使用Slerp进行平滑过渡
-            float rotationDamping = 1 - camera.lookAtDampingFactor;
-            Quaternion rot = Quaternion.Slerp(camera.rotation, targetWorldRot, rotationDamping);
+            if (axis == Vector3.zero) {
+                return;
+            }
 
-            // 设置相机的新旋转
-            TPCamera3DRotateDomain.SetRotation(ctx, id, rot);
+            // 投影 Person 到 xz 平面
+            Vector3 projCenter = new Vector3(person.position.x, camera.pos.y, person.position.z);
+            Vector3 localOffset = axis * speed * dt;
+            Vector3 targetPos = currentPos + camera.rotation * localOffset;
+            bool isClockWise = axis.x < 0;
+            Vector3 pos = OrbitHelper.Round3D(currentPos, targetPos, projCenter, 1, 1, isClockWise);
 
-            // 计算目标方向
-            Vector3 directionToTarget = camera.rotation * Vector3.forward;
-
-            // 计算目标位置
-            Vector3 targetPosition = camera.pos + directionToTarget * axis.y;
-
-            // 使用Slerp进行平滑过渡
-            float positionDamping = 1 - camera.lookAtDampingFactor;
-            Vector3 pos = Vector3.Slerp(camera.pos, targetPosition, positionDamping);
-
-            // 设置相机的新位置
             TPCamera3DMoveDomain.SetPos(ctx, id, agent, pos);
+            TPCamera3DRotateDomain.ApplyLookAtPerson(ctx, id, agent, person, 1, dt);
 
         }
 

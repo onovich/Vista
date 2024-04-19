@@ -89,13 +89,13 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Manual Orbital
-        public void ManualOrbital_Set(int cameraID, Vector2 speed, Vector3 originPos, Quaternion originRot) {
+        public void ManualOrbital_Set(int cameraID, Vector2 speed, Quaternion originalOrbitalRot) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
             if (!has) {
                 V3Log.Error($"ManualOrbital_Set Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbitalXZ_Enter(speed, originPos, originRot);
+            camera.fsmComponent.ManualOrbitalXZ_Enter(speed, originalOrbitalRot);
         }
 
         public void ManualOrbital_Apply(int cameraID, Vector2 axis) {

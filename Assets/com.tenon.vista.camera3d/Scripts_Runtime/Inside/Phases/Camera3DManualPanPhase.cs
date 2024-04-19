@@ -32,7 +32,7 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             var start = camera.fsmComponent.manualPan_recenterPanStartPos;
-            var end = camera.pos;
+            var end = camera.PersonWorldFollowPoint;
             var duration = camera.fsmComponent.manualPan_recenterPanDuration;
             var current = camera.fsmComponent.manualPan_recenterPanCurrent;
             var mode = camera.fsmComponent.manualPan_recenterPanEasingMode;

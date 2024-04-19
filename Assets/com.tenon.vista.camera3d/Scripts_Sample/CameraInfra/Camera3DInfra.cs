@@ -44,9 +44,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         // Manual Orbit
         public static void ManualOrbital_Set(Main3DContext ctx, Vector2 speed) {
-            var originPos = ctx.mainCamera.transform.position;
-            var originRot = ctx.mainCamera.transform.rotation;
-            ctx.core.ManualOrbital_Set(ctx.mainCameraID, speed, originPos, originRot);
+            var originalOrbitalRot = ctx.mainCamera.transform.rotation;
+            ctx.core.ManualOrbital_Set(ctx.mainCameraID, speed, originalOrbitalRot);
         }
 
         public static void ManualOrbital_Apply(Main3DContext ctx, Vector3 axis) {

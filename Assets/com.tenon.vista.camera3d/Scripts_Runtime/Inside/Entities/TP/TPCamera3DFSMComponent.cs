@@ -25,11 +25,10 @@ namespace TenonKit.Vista.Camera3D {
         internal TPCamera3DFSMStatus manualPan_lastStatus;
 
         internal bool manualOrbital_isEntring;
-        internal Vector3 manualOrbital_originPos;
-        internal Quaternion manualOrbital_originRot;
         internal bool manualOrbital_isRecentering;
         internal Vector2 manualOrbital_manualOrbitalSpeed;
         internal Vector3 manualOrbital_recenterOrbitalStartPos;
+        internal Quaternion manualOrbital_originalOrbitalRot;
         internal Quaternion manualOrbital_recenterOrbitalStartRot;
         internal float manualOrbital_recenterOrbitalDuration;
         internal float manualOrbital_recenterOrbitalCurrent;
@@ -58,7 +57,7 @@ namespace TenonKit.Vista.Camera3D {
 
         internal void ManualPanXYZ_Enter(Vector3 speed) {
             Reset();
-            manualOrbital_lastStatus = status;
+            manualPan_lastStatus = status;
             manualPan_isEntring = true;
             manualPan_isRecentering = false;
             status = TPCamera3DFSMStatus.ManualPanXYZ;
@@ -75,21 +74,21 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         internal void ManualPanXYZ_Exit() {
-            ResumeToAuto(manualOrbital_lastStatus);
+            ResumeToAuto(manualPan_lastStatus);
         }
 
         internal void ManualPanXYZ_IncRecenterTimer(float dt) {
             manualPan_recenterPanCurrent += dt;
         }
 
-        internal void ManualOrbitalXZ_Enter(Vector2 speed, Vector3 originPos, Quaternion originRot) {
+        internal void ManualOrbitalXZ_Enter(Vector2 speed, Quaternion originalOrbitalRot) {
             Reset();
+            manualOrbital_lastStatus = status;
             manualOrbital_isEntring = true;
             manualOrbital_isRecentering = false;
             status = TPCamera3DFSMStatus.ManualOrbitalXZ;
             manualOrbital_manualOrbitalSpeed = speed;
-            manualOrbital_originPos = originPos;
-            manualOrbital_originRot = originRot;
+            manualOrbital_originalOrbitalRot = originalOrbitalRot;
         }
 
         internal void ManualOrbitalXZ_Recenter(float duration, Vector3 startPos, Quaternion startRot, EasingType easingType, EasingMode easingMode) {

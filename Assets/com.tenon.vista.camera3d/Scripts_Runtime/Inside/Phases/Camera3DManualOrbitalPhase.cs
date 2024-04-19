@@ -40,9 +40,9 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             var startRot = camera.fsmComponent.manualOrbital_recenterOrbitalStartRot;
-            var endRot = camera.fsmComponent.manualOrbital_originRot;
+            var endRot = camera.fsmComponent.manualOrbital_originalOrbitalRot;
             var startPos = camera.fsmComponent.manualOrbital_recenterOrbitalStartPos;
-            var endPos = camera.fsmComponent.manualOrbital_originPos;
+            var endPos = camera.PersonWorldFollowPoint;
             var duration = camera.fsmComponent.manualOrbital_recenterOrbitalDuration;
             var current = camera.fsmComponent.manualOrbital_recenterOrbitalCurrent;
             var mode = camera.fsmComponent.manualOrbital_recenterOrbitalEasingMode;

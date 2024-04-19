@@ -1,3 +1,4 @@
+using MortiseFrame.Swing;
 using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D {
@@ -21,6 +22,30 @@ namespace TenonKit.Vista.Camera3D {
             var pos = currentPos + deltaDistance;
 
             TPCamera3DMoveDomain.SetPos(ctx, id, agent, pos);
+        }
+
+        internal static void ApplyRecentering(Camera3DContext ctx, int id, float dt) {
+            var has = ctx.TryGetTPCamera(id, out var camera);
+            if (!has) {
+                V3Log.Error($"PanDriver Error, Camera Not Found: ID = {id}");
+                return;
+            }
+
+            var start = camera.fsmComponent.manualPan_recenterPanStartPos;
+            var end = camera.fsmComponent.manualPan_originPos;
+            var duration = camera.fsmComponent.manualPan_recenterPanDuration;
+            var current = camera.fsmComponent.manualPan_recenterPanCurrent;
+            var mode = camera.fsmComponent.manualPan_recenterPanEasingMode;
+            var type = camera.fsmComponent.manualPan_recenterPanEasingType;
+
+            if (current >= duration) {
+                camera.fsmComponent.ManualPanXYZ_Exit();
+                return;
+            }
+
+            var pos = EasingHelper.Easing3D(start, end, current, duration, type, mode);
+            camera.fsmComponent.ManualPanXYZ_IncRecenterTimer(dt);
+            TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
         }
 
     }

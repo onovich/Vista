@@ -44,57 +44,21 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         static void TickFSM_PanXYZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
-
             if (!camera.fsmComponent.manualPan_isRecentering) {
                 Camera3DManualPanPhase.ApplyPan(ctx, camera.id, ctx.cameraAgent, camera.inputComponent.manualPanAxis, dt);
                 return;
             }
 
-            var start = camera.fsmComponent.manualPan_recenterPanStartPos;
-            var end = camera.fsmComponent.manualPan_originPos;
-            var duration = camera.fsmComponent.manualPan_recenterPanDuration;
-            var current = camera.fsmComponent.manualPan_recenterPanCurrent;
-            var mode = camera.fsmComponent.manualPan_recenterPanEasingMode;
-            var type = camera.fsmComponent.manualPan_recenterPanEasingType;
-
-            if (current >= duration) {
-                camera.fsmComponent.ManualPanXYZ_Exit();
-                return;
-            }
-
-            var pos = EasingHelper.Easing3D(start, end, current, duration, type, mode);
-            camera.fsmComponent.ManualPanXYZ_IncRecenterTimer(dt);
-            TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
-
+            Camera3DManualPanPhase.ApplyRecentering(ctx, camera.id, dt);
         }
 
         static void TickFSM_OrbitalXZ(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
-
             if (!camera.fsmComponent.manualOrbital_isRecentering) {
                 Camera3DManualOrbitalPhase.ApplyOrbital(ctx, camera.id, ctx.cameraAgent, camera.inputComponent.manualOrbitalAxis, dt);
                 return;
             }
 
-            var startRot = camera.fsmComponent.manualOrbital_recenterOrbitalStartRot;
-            var endRot = camera.fsmComponent.manualOrbital_originRot;
-            var startPos = camera.fsmComponent.manualOrbital_recenterOrbitalStartPos;
-            var endPos = camera.fsmComponent.manualOrbital_originPos;
-            var duration = camera.fsmComponent.manualOrbital_recenterOrbitalDuration;
-            var current = camera.fsmComponent.manualOrbital_recenterOrbitalCurrent;
-            var mode = camera.fsmComponent.manualOrbital_recenterOrbitalEasingMode;
-            var type = camera.fsmComponent.manualOrbital_recenterOrbitalEasingType;
-
-            if (current >= duration) {
-                camera.fsmComponent.ManualOrbitalXZ_Exit();
-                return;
-            }
-
-            var pos = EasingHelper.Easing3D(startPos, endPos, current, duration, type, mode);
-            var rot = EasingHelper.SlerpEasing(startRot, endRot, current, duration, type, mode);
-            camera.fsmComponent.ManualOrbitalXZ_IncRecenterTimer(dt);
-            TPCamera3DMoveDomain.SetPos(ctx, camera.id, ctx.cameraAgent, pos);
-            TPCamera3DRotateDomain.SetRotation(ctx, camera.id, rot);
-
+            Camera3DManualOrbitalPhase.ApplyRecentering(ctx, camera.id, dt);
         }
 
     }

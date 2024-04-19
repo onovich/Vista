@@ -55,7 +55,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             rb.velocity = velo;
         }
 
-        public void FaceTo(Vector2 axis, Camera camera) {
+        public void FaceTo(Camera camera) {
             Vector3 camDir = camera.transform.forward;
             camDir = Vector3.ProjectOnPlane(camDir, Vector3.up);
             rb.rotation = Quaternion.LookRotation(camDir);

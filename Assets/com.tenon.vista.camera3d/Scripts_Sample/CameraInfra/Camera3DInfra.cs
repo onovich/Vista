@@ -31,8 +31,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         // Manual Pan
         public static void ManualPan_Set(Main3DContext ctx, Vector3 speed) {
-            var originPos = ctx.mainCamera.transform.position;
-            ctx.core.ManualPan_Set(ctx.mainCameraID, speed, originPos);
+            ctx.core.ManualPan_Set(ctx.mainCameraID, speed);
         }
 
         public static void ManualPan_Apply(Main3DContext ctx, Vector3 axis) {

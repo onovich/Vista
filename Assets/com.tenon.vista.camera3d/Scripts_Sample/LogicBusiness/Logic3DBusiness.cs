@@ -117,11 +117,13 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var role = ctx.roleEntity;
             var camera = ctx.mainCamera;
             var axis = ctx.roleMoveAxis;
-            role.Move(axis, camera);
-            if (ctx.isOrbitaling) {
+
+            if (axis == Vector2.zero) {
                 return;
             }
-            role.FaceTo(axis, camera);
+
+            role.Move(axis, camera);
+            role.FaceTo(camera);
         }
 
         public static void RoleJump(Main3DContext ctx) {

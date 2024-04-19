@@ -15,7 +15,6 @@ namespace TenonKit.Vista.Camera3D {
         internal bool followYZAndOrbitalZ_isEntring;
 
         internal bool manualPan_isEntring;
-        internal Vector3 manualPan_originPos;
         internal bool manualPan_isRecentering;
         internal Vector3 manualPan_manualPanSpeed;
         internal Vector3 manualPan_recenterPanStartPos;
@@ -57,14 +56,13 @@ namespace TenonKit.Vista.Camera3D {
             status = TPCamera3DFSMStatus.FollowYZAndOrbitalZ;
         }
 
-        internal void ManualPanXYZ_Enter(Vector3 speed, Vector3 originPos) {
+        internal void ManualPanXYZ_Enter(Vector3 speed) {
             Reset();
             manualOrbital_lastStatus = status;
             manualPan_isEntring = true;
             manualPan_isRecentering = false;
             status = TPCamera3DFSMStatus.ManualPanXYZ;
             manualPan_manualPanSpeed = speed;
-            manualPan_originPos = originPos;
         }
 
         internal void ManualPanXYZ_Recenter(float duration, Vector3 startPos, EasingType easingType, EasingMode easingMode) {
@@ -77,7 +75,7 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         internal void ManualPanXYZ_Exit() {
-            Enter(manualOrbital_lastStatus);
+            ResumeToAuto(manualOrbital_lastStatus);
         }
 
         internal void ManualPanXYZ_IncRecenterTimer(float dt) {
@@ -105,7 +103,7 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         internal void ManualOrbitalXZ_Exit() {
-            Enter(manualOrbital_lastStatus);
+            ResumeToAuto(manualOrbital_lastStatus);
         }
 
         internal void ManualOrbitalXZ_IncRecenterTimer(float dt) {
@@ -126,7 +124,7 @@ namespace TenonKit.Vista.Camera3D {
             manualOrbital_recenterOrbitalCurrent = 0;
         }
 
-        void Enter(TPCamera3DFSMStatus status) {
+        void ResumeToAuto(TPCamera3DFSMStatus status) {
             if (status == TPCamera3DFSMStatus.DoNothing) {
                 DoNothing_Enter();
             }
@@ -135,12 +133,6 @@ namespace TenonKit.Vista.Camera3D {
             }
             if (status == TPCamera3DFSMStatus.FollowYZAndOrbitalZ) {
                 FollowYZAndOrbitalZ_Enter();
-            }
-            if (status == TPCamera3DFSMStatus.ManualPanXYZ) {
-                ManualPanXYZ_Enter(Vector3.zero, Vector3.zero);
-            }
-            if (status == TPCamera3DFSMStatus.ManualOrbitalXZ) {
-                ManualOrbitalXZ_Enter(Vector2.zero, Vector3.zero, Quaternion.identity);
             }
         }
 

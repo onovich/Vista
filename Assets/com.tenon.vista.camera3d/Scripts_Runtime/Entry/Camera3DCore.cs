@@ -20,8 +20,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Camera
-        public int CreateTPCamera(Vector3 pos, Vector3 offset, Vector3 eulerRotation, float fov, Transform person, bool followX = false) {
-            var camera = Camera3DFactory.CreateTPCamera(ctx, pos, offset, eulerRotation, fov, person);
+        public int CreateTPCamera(Vector3 pos, Vector3 offset, Quaternion rot, float fov, Transform person, bool followX = false) {
+            var camera = Camera3DFactory.CreateTPCamera(ctx, pos, offset, rot, fov, person);
             if (followX) {
                 camera.fsmComponent.FollowXYZ_Enter();
             } else {
@@ -89,13 +89,13 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Manual Orbital
-        public void ManualOrbital_Set(int cameraID, Vector2 speed, Quaternion originalOrbitalRot) {
+        public void ManualOrbital_Set(int cameraID, Vector2 speed) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
             if (!has) {
                 V3Log.Error($"ManualOrbital_Set Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbitalXZ_Enter(speed, originalOrbitalRot);
+            camera.fsmComponent.ManualOrbitalXZ_Enter(speed);
         }
 
         public void ManualOrbital_Apply(int cameraID, Vector2 axis) {

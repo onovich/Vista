@@ -17,6 +17,8 @@ namespace TenonKit.Vista.Camera3D {
             var currentPos = camera.pos;
             var person = camera.person;
 
+            TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, id, agent, person, dt);
+
             if (axis == Vector3.zero) {
                 return;
             }
@@ -40,7 +42,7 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             var startRot = camera.fsmComponent.manualOrbital_recenterOrbitalStartRot;
-            var endRot = camera.fsmComponent.manualOrbital_originalOrbitalRot;
+            var endRot = camera.PersonWorldLookAtRotation;
             var startPos = camera.fsmComponent.manualOrbital_recenterOrbitalStartPos;
             var endPos = camera.PersonWorldFollowPoint;
             var duration = camera.fsmComponent.manualOrbital_recenterOrbitalDuration;

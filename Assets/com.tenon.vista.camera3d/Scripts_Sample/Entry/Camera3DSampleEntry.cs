@@ -65,7 +65,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
             // Camera
             var cameraOriginPos = agent.transform.position;
-            var cameraOriginRot = agent.transform.eulerAngles;
+            var cameraOriginRot = agent.transform.rotation;
             var cameraOriginFov = agent.fieldOfView;
             var cameraID = Camera3DInfra.CreateTPCamera(ctx, cameraOriginPos, cameraOriginPos, cameraOriginRot, cameraOriginFov, person.transform, followX);
 

@@ -4,7 +4,7 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DFactory {
 
-        internal static TPCamera3DModel CreateTPCamera(Camera3DContext ctx, Vector3 pos, Vector3 offset, Vector3 eulerAngle, float fov, Transform person) {
+        internal static TPCamera3DModel CreateTPCamera(Camera3DContext ctx, Vector3 pos, Vector3 offset, Quaternion rot, float fov, Transform person) {
             var id = ctx.idService.PickCameraID();
 
             // 屏幕坐标系
@@ -12,7 +12,8 @@ namespace TenonKit.Vista.Camera3D {
             camera.id = id;
             camera.pos = pos;
             camera.personFollowPointLocalOffset = offset;
-            camera.Rotation_SetByEulerAngle(eulerAngle);
+            camera.rotation = rot;
+            camera.personLocalLookAtRotation = rot;
             camera.fov = fov;
             camera.person = person;
             return camera;

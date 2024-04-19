@@ -43,6 +43,8 @@ namespace TenonKit.Vista.Camera3D {
         internal Vector3 personFollowPointLocalOffset;
         internal Vector3 PersonWorldFollowPoint => GetPersonWorldFollowPoint();
         internal Bounds personBounds;
+        internal Quaternion personLocalLookAtRotation;
+        internal Quaternion PersonWorldLookAtRotation => person.rotation * personLocalLookAtRotation;
 
         // FSM
         internal TPCamera3DFSMComponent fsmComponent;

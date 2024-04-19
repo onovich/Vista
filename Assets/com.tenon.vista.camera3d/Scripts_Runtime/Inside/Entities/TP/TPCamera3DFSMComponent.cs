@@ -28,7 +28,6 @@ namespace TenonKit.Vista.Camera3D {
         internal bool manualOrbital_isRecentering;
         internal Vector2 manualOrbital_manualOrbitalSpeed;
         internal Vector3 manualOrbital_recenterOrbitalStartPos;
-        internal Quaternion manualOrbital_originalOrbitalRot;
         internal Quaternion manualOrbital_recenterOrbitalStartRot;
         internal float manualOrbital_recenterOrbitalDuration;
         internal float manualOrbital_recenterOrbitalCurrent;
@@ -81,14 +80,13 @@ namespace TenonKit.Vista.Camera3D {
             manualPan_recenterPanCurrent += dt;
         }
 
-        internal void ManualOrbitalXZ_Enter(Vector2 speed, Quaternion originalOrbitalRot) {
+        internal void ManualOrbitalXZ_Enter(Vector2 speed) {
             Reset();
             manualOrbital_lastStatus = status;
             manualOrbital_isEntring = true;
             manualOrbital_isRecentering = false;
             status = TPCamera3DFSMStatus.ManualOrbitalXZ;
             manualOrbital_manualOrbitalSpeed = speed;
-            manualOrbital_originalOrbitalRot = originalOrbitalRot;
         }
 
         internal void ManualOrbitalXZ_Recenter(float duration, Vector3 startPos, Quaternion startRot, EasingType easingType, EasingMode easingMode) {

@@ -14,8 +14,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         // Camera
-        public static int CreateTPCamera(Main3DContext ctx, Vector3 pos, Vector3 offset, Vector3 eulerRotation, float fov, Transform person, bool followX) {
-            var mainCameraID = ctx.core.CreateTPCamera(pos, offset, eulerRotation, fov, person, followX);
+        public static int CreateTPCamera(Main3DContext ctx, Vector3 pos, Vector3 offset, Quaternion rot, float fov, Transform person, bool followX) {
+            var mainCameraID = ctx.core.CreateTPCamera(pos, offset, rot, fov, person, followX);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
         }
@@ -44,8 +44,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         // Manual Orbit
         public static void ManualOrbital_Set(Main3DContext ctx, Vector2 speed) {
-            var originalOrbitalRot = ctx.mainCamera.transform.rotation;
-            ctx.core.ManualOrbital_Set(ctx.mainCameraID, speed, originalOrbitalRot);
+            ctx.core.ManualOrbital_Set(ctx.mainCameraID, speed);
         }
 
         public static void ManualOrbital_Apply(Main3DContext ctx, Vector3 axis) {

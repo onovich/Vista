@@ -31,6 +31,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
         public EasingType manualOrbitalEasingType;
         public EasingMode manualOrbitalEasingMode;
 
+        public bool isPaning;
+        public bool isOrbitaling;
+
         public bool isGameStart;
 
         public RaycastHit[] hitResults;

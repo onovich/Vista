@@ -169,15 +169,15 @@ namespace TenonKit.Vista.Camera3D.Sample {
                 return;
             }
 
-            Debug.Log("CameraPan_ApplySet");
+            ctx.isPaning = true;
 
             var speed = ctx.camaraPanSpeed;
-
             Camera3DInfra.ManualPan_Set(ctx, speed);
         }
 
         public static void CameraPan_Apply(Main3DContext ctx) {
             if (!ctx.isGameStart) return;
+            if(!ctx.isPaning) return;
 
             var axis = ctx.cameraPanAxis;
             var dt = Time.deltaTime;
@@ -191,6 +191,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (!isCancle) {
                 return;
             }
+
+            ctx.isPaning = false;
 
             var duration = ctx.manualPanCancleDuration;
             var easingType = ctx.manualPanEasingType;
@@ -206,15 +208,15 @@ namespace TenonKit.Vista.Camera3D.Sample {
                 return;
             }
 
-            Debug.Log("CameraOrbital_ApplySet");
+            ctx.isOrbitaling = true;
 
             var speed = ctx.manualOrbitalSpeed;
-
             Camera3DInfra.ManualOrbital_Set(ctx, speed);
         }
 
         public static void CameraOrbital_Apply(Main3DContext ctx) {
             if (!ctx.isGameStart) return;
+            if(!ctx.isOrbitaling) return;
 
             var axis = ctx.cameraOrbitalAxis;
             var dt = Time.deltaTime;
@@ -228,6 +230,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             if (!isCancle) {
                 return;
             }
+
+            ctx.isOrbitaling = false;
 
             var duration = ctx.manualOrbitalCancleDuration;
             var easingType = ctx.manualOrbitalEasingType;

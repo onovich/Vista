@@ -394,6 +394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followX: 0
+  deadZoneNormalizedSize: {x: 0.2, y: 0.2}
+  softZoneNormalizedSize: {x: 0.3, y: 0.3}
   followDampingFactor: {x: 0.98, y: 0.98, z: 0.98}
   lookAtDampingFactor: 0.98
   person: {fileID: 931528810}

@@ -16,40 +16,40 @@ namespace TenonKit.Vista.Camera3D {
             // DeadZone
             if (camera.deadZone.IsEnable) {
                 var color = Color.red;
-                var screenPos = camera.deadZone.Center;
-                var screenSize = camera.deadZone.Size;
-                DrawBox(ctx.cameraAgent, screenPos, screenSize, color);
+                var LT = camera.deadZone.LT;
+                var RT = camera.deadZone.RT;
+                var RB = camera.deadZone.RB;
+                var LB = camera.deadZone.LB;
+                DrawBox(ctx.cameraAgent, LT, RT, LB, RB, color);
             }
 
             // SoftZone
             if (camera.softZone.IsEnable) {
                 var color = Color.blue;
-                var screenPos = camera.softZone.Center;
-                var screenSize = camera.softZone.Size;
-                DrawBox(ctx.cameraAgent, screenPos, screenSize, color);
+                var LT = camera.softZone.LT;
+                var RT = camera.softZone.RT;
+                var RB = camera.softZone.RB;
+                var LB = camera.softZone.LB;
+                DrawBox(ctx.cameraAgent, LT, RT, LB, RB, color);
             }
 
         }
 
-        static void DrawBox(Camera agent, Vector2 screenPos, Vector2 screenSize, Color color) {
+        static void DrawBox(Camera agent, Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB, Color color) {
             Gizmos.color = color;
 
-            // 将屏幕位置调整为左上角的基础上进行计算
-            Vector2 adjustedLeftTopScreenPos = new Vector2(screenPos.x - screenSize.x / 2, screenPos.y + screenSize.y / 2);
-            Vector2 adjustedRightTopScreenPos = new Vector2(screenPos.x + screenSize.x / 2, screenPos.y + screenSize.y / 2);
-            Vector2 adjustedRightBottomScreenPos = new Vector2(screenPos.x + screenSize.x / 2, screenPos.y - screenSize.y / 2);
-            Vector2 adjustedLeftBottomScreenPos = new Vector2(screenPos.x - screenSize.x / 2, screenPos.y - screenSize.y / 2);
-
             // 使用调整后的屏幕位置来转换为世界坐标
-            Vector3 leftTop = agent.ScreenToWorldPoint(new Vector3(adjustedLeftTopScreenPos.x, adjustedLeftTopScreenPos.y, agent.nearClipPlane));
-            Vector3 rightTop = agent.ScreenToWorldPoint(new Vector3(adjustedRightTopScreenPos.x, adjustedRightTopScreenPos.y, agent.nearClipPlane));
-            Vector3 rightBottom = agent.ScreenToWorldPoint(new Vector3(adjustedRightBottomScreenPos.x, adjustedRightBottomScreenPos.y, agent.nearClipPlane));
-            Vector3 leftBottom = agent.ScreenToWorldPoint(new Vector3(adjustedLeftBottomScreenPos.x, adjustedLeftBottomScreenPos.y, agent.nearClipPlane));
+            LT = agent.ScreenToWorldPoint(new Vector3(LT.x, LT.y, agent.nearClipPlane));
+            RT = agent.ScreenToWorldPoint(new Vector3(RT.x, RT.y, agent.nearClipPlane));
+            RB = agent.ScreenToWorldPoint(new Vector3(RB.x, RB.y, agent.nearClipPlane));
+            LB = agent.ScreenToWorldPoint(new Vector3(LB.x, LB.y, agent.nearClipPlane));
 
-            Gizmos.DrawLine(leftTop, rightTop);
-            Gizmos.DrawLine(rightTop, rightBottom);
-            Gizmos.DrawLine(rightBottom, leftBottom);
-            Gizmos.DrawLine(leftBottom, leftTop);
+            Gizmos.DrawLine(LT, RT);
+            Gizmos.DrawLine(RT, RB);
+            Gizmos.DrawLine(RB, LB);
+            Gizmos.DrawLine(LB, LT);
+
+            Debug.Log("DrawBox: " + LT + " " + RT + " " + LB + " " + RB);
         }
 
     }

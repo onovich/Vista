@@ -10,6 +10,12 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [Header("Follow Mode Config")]
         [SerializeField] bool followX;
 
+        [Header("Dead Zone Config")]
+        [SerializeField] Vector2 deadZoneNormalizedSize;
+
+        [Header("Soft Zone Config")]
+        [SerializeField] Vector2 softZoneNormalizedSize;
+
         [Header("DampingFactor Config")]
         [SerializeField] Vector3 followDampingFactor;
         [SerializeField] float lookAtDampingFactor;
@@ -68,6 +74,14 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var cameraOriginRot = agent.transform.rotation;
             var cameraOriginFov = agent.fieldOfView;
             var cameraID = Camera3DInfra.CreateTPCamera(ctx, cameraOriginPos, cameraOriginPos, cameraOriginRot, cameraOriginFov, person.transform, followX);
+
+            // Dead Zone
+            Camera3DInfra.SetTPCameraDeadZone(ctx, deadZoneNormalizedSize);
+            Camera3DInfra.SetTPCameraDeadZoneEnable(ctx, true);
+
+            // Soft Zone
+            Camera3DInfra.SetTPCameraSoftZone(ctx, softZoneNormalizedSize);
+            Camera3DInfra.SetTPCameraSoftZoneEnable(ctx, true);
 
             // Damping Factor
             Camera3DInfra.SetTPCameraFollowDamppingFactor(ctx, followDampingFactor);

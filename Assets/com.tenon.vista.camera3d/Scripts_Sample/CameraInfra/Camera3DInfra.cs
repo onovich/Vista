@@ -10,7 +10,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         public static void DrawGizmos(Main3DContext ctx) {
-            // ctx.core.DrawGizmos();
+            ctx.core.DrawGizmos(ctx.mainCameraID);
         }
 
         // Camera
@@ -18,6 +18,24 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var mainCameraID = ctx.core.CreateTPCamera(pos, offset, rot, fov, person, followX);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
+        }
+
+        // Dead Zone
+        public static void SetTPCameraDeadZone(Main3DContext ctx, Vector2 deadZoneNormalizedSize) {
+            ctx.core.SetTPCameraDeadZone(ctx.mainCameraID, deadZoneNormalizedSize);
+        }
+
+        public static void SetTPCameraDeadZoneEnable(Main3DContext ctx, bool enable) {
+            ctx.core.SetTPCameraDeadZoneEnable(ctx.mainCameraID, enable);
+        }
+
+        // Soft Zone
+        public static void SetTPCameraSoftZone(Main3DContext ctx, Vector2 softZoneNormalizedSize) {
+            ctx.core.SetTPCameraSoftZone(ctx.mainCameraID, softZoneNormalizedSize);
+        }
+
+        public static void SetTPCameraSoftZoneEnable(Main3DContext ctx, bool enable) {
+            ctx.core.SetTPCameraSoftZoneEnable(ctx.mainCameraID, enable);
         }
 
         // Damping Factor

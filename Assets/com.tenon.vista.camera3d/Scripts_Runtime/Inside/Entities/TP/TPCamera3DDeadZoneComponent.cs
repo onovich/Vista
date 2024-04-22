@@ -16,6 +16,11 @@ namespace TenonKit.Vista.Camera3D {
         internal Vector2 Center => (deadZoneScreenMin + deadZoneScreenMax) / 2f;
         internal Vector2 Size => deadZoneScreenMax - deadZoneScreenMin;
 
+        internal Vector2 LT => new Vector2(deadZoneScreenMin.x, deadZoneScreenMax.y);
+        internal Vector2 RT => deadZoneScreenMax;
+        internal Vector2 RB => new Vector2(deadZoneScreenMax.x, deadZoneScreenMin.y);
+        internal Vector2 LB => deadZoneScreenMin;
+
         internal TPCamera3DDeadZoneComponent() {
             deadZoneScreenMin = Vector2.zero;
             deadZoneScreenMax = Vector2.zero;

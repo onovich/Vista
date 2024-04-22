@@ -5,7 +5,7 @@ namespace TenonKit.Vista.Camera3D {
     internal class TPCamera3DDeadZoneComponent {
 
         bool enable;
-        internal bool Enable => enable;
+        internal bool IsEnable => enable;
 
         Vector2 deadZoneScreenMin;
         internal Vector2 DeadZoneScreenMin => deadZoneScreenMin;

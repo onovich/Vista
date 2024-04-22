@@ -1,13 +1,12 @@
-using System;
 using UnityEngine;
-using MortiseFrame.Swing;
-using UnityEditor;
 
 namespace TenonKit.Vista.Camera3D {
 
     internal static class DrawGizmos3DHelper {
 
-        internal static void DrawGizmos(Camera3DContext ctx, int cameraID) {
+        static GUIStyle guiStyle;
+
+        internal static void OnDrawGUI(Camera3DContext ctx, int cameraID) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
             if (!has) {
                 return;
@@ -16,40 +15,47 @@ namespace TenonKit.Vista.Camera3D {
             // DeadZone
             if (camera.deadZone.IsEnable) {
                 var color = Color.red;
-                var LT = camera.deadZone.LT;
-                var RT = camera.deadZone.RT;
-                var RB = camera.deadZone.RB;
-                var LB = camera.deadZone.LB;
-                DrawBox(ctx.cameraAgent, LT, RT, LB, RB, color);
+                var lb = camera.deadZone.LB;
+                var size = camera.deadZone.Size;
+                DrawBox(lb, size, color);
             }
 
             // SoftZone
             if (camera.softZone.IsEnable) {
                 var color = Color.blue;
-                var LT = camera.softZone.LT;
-                var RT = camera.softZone.RT;
-                var RB = camera.softZone.RB;
-                var LB = camera.softZone.LB;
-                DrawBox(ctx.cameraAgent, LT, RT, LB, RB, color);
+                var lb = camera.softZone.LB;
+                var size = camera.softZone.Size;
+                DrawBox(lb, size, color);
             }
 
         }
 
-        static void DrawBox(Camera agent, Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB, Color color) {
-            Gizmos.color = color;
+        static void DrawBox(Vector2 lb, Vector2 size, Color color) {
+            if (guiStyle == null) {
+                InitStyle();
+            }
 
-            // 使用调整后的屏幕位置来转换为世界坐标
-            LT = agent.ScreenToWorldPoint(new Vector3(LT.x, LT.y, agent.nearClipPlane));
-            RT = agent.ScreenToWorldPoint(new Vector3(RT.x, RT.y, agent.nearClipPlane));
-            RB = agent.ScreenToWorldPoint(new Vector3(RB.x, RB.y, agent.nearClipPlane));
-            LB = agent.ScreenToWorldPoint(new Vector3(LB.x, LB.y, agent.nearClipPlane));
+            guiStyle.normal.background = MakeTex(2, 2, color);
+            guiStyle.border = new RectOffset(0, 0, 0, 0);
+            GUI.Box(new Rect(lb.x, lb.y, size.x, size.y), "", guiStyle);
+        }
 
-            Gizmos.DrawLine(LT, RT);
-            Gizmos.DrawLine(RT, RB);
-            Gizmos.DrawLine(RB, LB);
-            Gizmos.DrawLine(LB, LT);
+        static void InitStyle() {
+            guiStyle = new GUIStyle(GUI.skin.box);
+            guiStyle.normal.background = MakeTex(1, 1, Color.white);
+        }
 
-            Debug.Log("DrawBox: " + LT + " " + RT + " " + LB + " " + RB);
+        static Texture2D MakeTex(int width, int height, Color col) {
+            col = new Color(col.r, col.g, col.b, 0.2f);
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; ++i) {
+                pix[i] = col;
+            }
+
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
 
     }

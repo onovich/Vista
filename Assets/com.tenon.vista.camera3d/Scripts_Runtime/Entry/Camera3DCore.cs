@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using MortiseFrame.Swing;
 
@@ -164,8 +163,8 @@ namespace TenonKit.Vista.Camera3D {
             ctx.Clear();
         }
 
-        public void DrawGizmos(int id) {
-            DrawGizmos3DHelper.DrawGizmos(ctx, id);
+        public void OnDrawGUI(int id) {
+            DrawGizmos3DHelper.OnDrawGUI(ctx, id);
         }
 
     }

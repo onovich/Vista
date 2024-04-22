@@ -218,11 +218,11 @@ namespace TenonKit.Vista.Camera3D.Sample {
             Unbinding();
         }
 
-        void OnDrawGizmos() {
+        void OnGUI() {
             if (ctx == null || ctx.core == null) {
                 return;
             }
-            Camera3DInfra.DrawGizmos(ctx);
+            Camera3DInfra.OnDrawGUI(ctx);
         }
 
     }

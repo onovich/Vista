@@ -9,8 +9,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.core.Tick(dt);
         }
 
-        public static void DrawGizmos(Main3DContext ctx) {
-            ctx.core.DrawGizmos(ctx.mainCameraID);
+        public static void OnDrawGUI(Main3DContext ctx) {
+            ctx.core.OnDrawGUI(ctx.mainCameraID);
         }
 
         // Camera

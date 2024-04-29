@@ -26,44 +26,6 @@ namespace TenonKit.Vista.Camera3D {
             return camera.id;
         }
 
-        // Dead Zone
-        public void SetTPCameraDeadZone(int cameraID, Vector2 deadZoneNormalizedSize) {
-            var has = ctx.TryGetTPCamera(cameraID, out var camera);
-            if (!has) {
-                V3Log.Error($"SetDeadZone Error, Camera Not Found: ID = {cameraID}");
-                return;
-            }
-            camera.deadZone.Zone_Set(deadZoneNormalizedSize, ctx.viewSize);
-        }
-
-        public void SetTPCameraDeadZoneEnable(int cameraID, bool enable) {
-            var has = ctx.TryGetTPCamera(cameraID, out var camera);
-            if (!has) {
-                V3Log.Error($"SetDeadZoneEnable Error, Camera Not Found: ID = {cameraID}");
-                return;
-            }
-            camera.deadZone.Enable_Set(enable);
-        }
-
-        // Soft Zone
-        public void SetTPCameraSoftZone(int cameraID, Vector2 softZoneNormalizedSize) {
-            var has = ctx.TryGetTPCamera(cameraID, out var camera);
-            if (!has) {
-                V3Log.Error($"SetSoftZone Error, Camera Not Found: ID = {cameraID}");
-                return;
-            }
-            camera.softZone.Zone_Set(softZoneNormalizedSize, ctx.viewSize);
-        }
-
-        public void SetTPCameraSoftZoneEnable(int cameraID, bool enable) {
-            var has = ctx.TryGetTPCamera(cameraID, out var camera);
-            if (!has) {
-                V3Log.Error($"SetSoftZoneEnable Error, Camera Not Found: ID = {cameraID}");
-                return;
-            }
-            camera.softZone.Enable_Set(enable);
-        }
-
         // Damping Factor
         public void SetTPCameraFollowDamppingFactor(int cameraID, Vector3 followDampingFactor) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);

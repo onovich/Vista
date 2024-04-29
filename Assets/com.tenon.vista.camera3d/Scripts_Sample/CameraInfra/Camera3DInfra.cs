@@ -20,24 +20,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
             return mainCameraID;
         }
 
-        // Dead Zone
-        public static void SetTPCameraDeadZone(Main3DContext ctx, Vector2 deadZoneNormalizedSize) {
-            ctx.core.SetTPCameraDeadZone(ctx.mainCameraID, deadZoneNormalizedSize);
-        }
-
-        public static void SetTPCameraDeadZoneEnable(Main3DContext ctx, bool enable) {
-            ctx.core.SetTPCameraDeadZoneEnable(ctx.mainCameraID, enable);
-        }
-
-        // Soft Zone
-        public static void SetTPCameraSoftZone(Main3DContext ctx, Vector2 softZoneNormalizedSize) {
-            ctx.core.SetTPCameraSoftZone(ctx.mainCameraID, softZoneNormalizedSize);
-        }
-
-        public static void SetTPCameraSoftZoneEnable(Main3DContext ctx, bool enable) {
-            ctx.core.SetTPCameraSoftZoneEnable(ctx.mainCameraID, enable);
-        }
-
         // Damping Factor
         public static void SetTPCameraFollowDamppingFactor(Main3DContext ctx, Vector3 followDampingFactor) {
             ctx.core.SetTPCameraFollowDamppingFactor(ctx.mainCameraID, followDampingFactor);

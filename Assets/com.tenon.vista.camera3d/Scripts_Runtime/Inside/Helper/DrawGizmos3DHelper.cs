@@ -13,20 +13,20 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             // DeadZone
-            if (camera.deadZone.IsEnable) {
-                var color = Color.red;
-                var lb = camera.deadZone.LB;
-                var size = camera.deadZone.Size;
-                DrawBox(lb, size, color);
-            }
+            // if (camera.deadZone.IsEnable) {
+            //     var color = Color.red;
+            //     var lb = camera.deadZone.LB;
+            //     var size = camera.deadZone.Size;
+            //     DrawBox(lb, size, color);
+            // }
 
-            // SoftZone
-            if (camera.softZone.IsEnable) {
-                var color = Color.blue;
-                var lb = camera.softZone.LB;
-                var size = camera.softZone.Size;
-                DrawBox(lb, size, color);
-            }
+            // // SoftZone
+            // if (camera.softZone.IsEnable) {
+            //     var color = Color.blue;
+            //     var lb = camera.softZone.LB;
+            //     var size = camera.softZone.Size;
+            //     DrawBox(lb, size, color);
+            // }
 
         }
 

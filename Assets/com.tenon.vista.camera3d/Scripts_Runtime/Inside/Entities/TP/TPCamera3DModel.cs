@@ -31,16 +31,6 @@ namespace TenonKit.Vista.Camera3D {
         // Input
         internal InputComponent inputComponent;
 
-        // Dead Zone
-        internal TPCamera3DDeadZoneComponent deadZone;
-        internal TPCamera3DDeadZoneComponent softZone;
-
-        // internal float followDeadZoneYMax;
-        // internal float followDeadZoneYMin;
-
-        // internal float followSoftZoneYMax;
-        // internal float followSoftZoneYMin;
-
         // Damping Factor
         internal Vector3 followDampingFactor;
         internal float lookAtDampingFactor;
@@ -63,8 +53,6 @@ namespace TenonKit.Vista.Camera3D {
 
         internal TPCamera3DModel() {
             inputComponent = new InputComponent();
-            deadZone = new TPCamera3DDeadZoneComponent();
-            softZone = new TPCamera3DDeadZoneComponent();
             shakeComponent = new Camera3DShakeComponent();
             fsmComponent = new TPCamera3DFSMComponent();
         }

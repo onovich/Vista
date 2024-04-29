@@ -75,14 +75,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var cameraOriginFov = agent.fieldOfView;
             var cameraID = Camera3DInfra.CreateTPCamera(ctx, cameraOriginPos, cameraOriginPos, cameraOriginRot, cameraOriginFov, person.transform, followX);
 
-            // Dead Zone
-            Camera3DInfra.SetTPCameraDeadZone(ctx, deadZoneNormalizedSize);
-            Camera3DInfra.SetTPCameraDeadZoneEnable(ctx, true);
-
-            // Soft Zone
-            Camera3DInfra.SetTPCameraSoftZone(ctx, softZoneNormalizedSize);
-            Camera3DInfra.SetTPCameraSoftZoneEnable(ctx, true);
-
             // Damping Factor
             Camera3DInfra.SetTPCameraFollowDamppingFactor(ctx, followDampingFactor);
             Camera3DInfra.SetTPCameraLookAtDamppingFactor(ctx, lookAtDampingFactor);

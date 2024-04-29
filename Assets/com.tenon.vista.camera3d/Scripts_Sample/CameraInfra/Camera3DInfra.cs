@@ -25,8 +25,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
             return mainCameraID;
         }
 
-        public static Vector3 GetTPCameraPos(Main3DContext ctx) {
-            return ctx.core.GetTPCameraPos(ctx.mainCameraID);
+        public static void GetTPCameraTR(Main3DContext ctx, out Vector3 t, out Quaternion r) {
+            ctx.core.GetTPCameraTR(ctx.mainCameraID, out t, out r);
         }
 
         public static void SetTPCameraFollowX(Main3DContext ctx, bool followX) {

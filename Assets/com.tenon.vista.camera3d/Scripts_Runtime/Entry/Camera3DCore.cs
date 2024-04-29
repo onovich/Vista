@@ -34,13 +34,16 @@ namespace TenonKit.Vista.Camera3D {
             return camera.id;
         }
 
-        public Vector3 GetTPCameraPos(int cameraID) {
+        public void GetTPCameraTR(int cameraID, out Vector3 t, out Quaternion r) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            t = Vector3.zero;
+            r = Quaternion.identity;
             if (!has) {
                 V3Log.Error($"GetTPCameraPos Error, Camera Not Found: ID = {cameraID}");
-                return Vector3.zero;
+                return;
             }
-            return camera.trs.t;
+            t = camera.trs.t;
+            r = camera.trs.r;
         }
 
         public void SetTPCameraFollowX(int cameraID, bool followX) {

@@ -34,6 +34,7 @@ namespace TenonKit.Vista.Camera3D {
 
         static void TickFSM_AutoFollow(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
             Camera3DFollowPhase.ApplyAutoFollow(ctx, camera, dt);
+            Camera3DLookAtPhase.ApplyAutoLookAtPerson(ctx, camera, dt);
         }
 
         static void TickFSM_ManualPan(Camera3DContext ctx, TPCamera3DModel camera, float dt) {

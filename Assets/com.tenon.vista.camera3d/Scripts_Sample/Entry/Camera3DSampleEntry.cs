@@ -214,8 +214,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             Logic3DBusiness.CameraOrbital_Apply(ctx);
             Logic3DBusiness.CameraOrbital_ApplyCancle(ctx);
 
-            var pos = Camera3DInfra.GetTPCameraPos(ctx);
+            Camera3DInfra.GetTPCameraTR(ctx, out var pos, out var rot);
             agent.transform.position = pos;
+            agent.transform.rotation = rot;
 
             Logic3DBusiness.ResetInput(ctx);
         }

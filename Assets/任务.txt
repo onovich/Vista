@@ -22,5 +22,3 @@
 # 3D 相机功能
 1. LootAtGroup 待设计
 2. 死区应该采用 Fov, 而非屏幕坐标系矩形, 避免使用 ScreenToWorld 变换
-3. TRSComponent 应改为 TRSModel, 使用结构体，并通过 ref 修改, 通过 in 传参，避免 GC
-4. CameraModel 应改为 CameraEntity. 

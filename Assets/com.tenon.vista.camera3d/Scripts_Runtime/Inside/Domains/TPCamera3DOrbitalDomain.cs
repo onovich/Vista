@@ -18,10 +18,10 @@ namespace TenonKit.Vista.Camera3D {
             var person = camera.personTRS;
 
             if (camera.followX) {
-                TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, camera.id, camera.personTRS, dt);
+                TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, camera.id, in camera.personTRS, dt);
             } else {
-                TPCamera3DMoveDomain.ApplyFollowYZ(ctx, camera.id, camera.personTRS, dt);
-                Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, camera.personTRS, dt);
+                TPCamera3DMoveDomain.ApplyFollowYZ(ctx, camera.id, in camera.personTRS, dt);
+                Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, in camera.personTRS, dt);
             }
 
             if (axis == Vector3.zero) {

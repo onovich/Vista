@@ -24,7 +24,7 @@ namespace TenonKit.Vista.Camera3D {
             camera.trs.r = rotation;
         }
 
-        internal static void ApplyLookAtPerson(Camera3DContext ctx, int id, TRS3DModel person, float rotationDamping, float deltaTime) {
+        internal static void ApplyLookAtPerson(Camera3DContext ctx, int id, in TRS3DModel person, float rotationDamping, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var camera);
             if (!has) {
                 V3Log.Error($"LookAtDriver Error, Camera Not Found: ID = {id}");

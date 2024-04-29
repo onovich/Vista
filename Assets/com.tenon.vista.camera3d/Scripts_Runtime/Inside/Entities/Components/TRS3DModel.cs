@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D {
 
-    public class TRS3DModel {
+    public struct TRS3DModel {
 
         public Vector3 t;
         public Quaternion r;

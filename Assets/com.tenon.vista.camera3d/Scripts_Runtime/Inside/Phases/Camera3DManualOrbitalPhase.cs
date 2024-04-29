@@ -12,7 +12,7 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
             TPCamera3DOrbitalDomain.ApplyOrbital(ctx, id, axis, dt);
-            TPCamera3DRotateDomain.ApplyLookAtPerson(ctx, id, camera.personTRS, 1, dt);
+            TPCamera3DRotateDomain.ApplyLookAtPerson(ctx, id, in camera.personTRS, 1, dt);
         }
 
         internal static void ApplyRecentering(Camera3DContext ctx, int id, float dt) {

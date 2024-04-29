@@ -17,7 +17,7 @@ namespace TenonKit.Vista.Camera3D {
 
         // TRS
         internal TRS3DModel trs;
-        TRS3DModel ICamera3D.TRS => trs;
+        TRS3DModel ICamera3D.TRS => GetTRS_Ref();
 
         internal TRS3DModel personTRS;
         internal TRS3DModel personOffsetTRS;
@@ -53,6 +53,11 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         #region Functions
+        // TRS
+        ref TRS3DModel GetTRS_Ref() {
+            return ref trs;
+        }
+
         // FollowX
         internal void FollowX_Set(bool followX) {
             this.followX = followX;

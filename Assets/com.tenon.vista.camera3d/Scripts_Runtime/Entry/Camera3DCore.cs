@@ -68,7 +68,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualPan_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmCom.ManualPan_Recenter(duration, camera.trsCom.t, easingType, easingMode);
+            camera.fsmCom.ManualPan_Recenter(duration, camera.trs.t, easingType, easingMode);
         }
 
         // Manual Orbital
@@ -96,7 +96,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualOrbital_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmCom.ManualOrbital_Recenter(duration, camera.trsCom.t, camera.trsCom.r, easingType, easingMode);
+            camera.fsmCom.ManualOrbital_Recenter(duration, camera.trs.t, camera.trs.r, easingType, easingMode);
         }
 
         // Shake

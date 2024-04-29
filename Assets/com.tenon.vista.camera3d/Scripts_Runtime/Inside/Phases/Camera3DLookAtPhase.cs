@@ -4,7 +4,7 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DLookAtPhase {
 
-        internal static void ApplyLookAtPerson(Camera3DContext ctx, int id, Transform person, float deltaTime) {
+        internal static void ApplyLookAtPerson(Camera3DContext ctx, int id, TRS3DComponent person, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var camera);
             if (!has) {
                 V3Log.Error($"LookAtDriver Error, Camera Not Found: ID = {id}");

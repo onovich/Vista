@@ -16,8 +16,11 @@ namespace TenonKit.Vista.Camera3D {
         public bool followX; // When True: Follow X & Y & Z; False: Follow Y & Z, Orbit Z
 
         // TRS
-        internal TRS3DComponent trsCom;
-        TRS3DComponent ICamera3D.TRS => trsCom;
+        internal TRS3DComponent trs;
+        TRS3DComponent ICamera3D.TRS => trs;
+
+        internal TRS3DComponent personTRS;
+        internal TRS3DComponent personOffsetTRS;
 
         // Input
         internal InputComponent inputCom;
@@ -28,14 +31,6 @@ namespace TenonKit.Vista.Camera3D {
         // Damping Factor
         internal Vector3 followDampingFactor;
         internal float lookAtDampingFactor;
-
-        // Person
-
-        internal Transform person;
-        internal Vector3 personFollowPointLocalOffset;
-        internal Vector3 PersonWorldFollowPoint => GetPersonWorldFollowPoint();
-        internal Quaternion personLocalLookAtRotation;
-        internal Quaternion PersonWorldLookAtRotation => person.rotation * personLocalLookAtRotation;
 
         // FSM
         internal TPCamera3DFSMComponent fsmCom;
@@ -51,18 +46,13 @@ namespace TenonKit.Vista.Camera3D {
             shakeCom = new Camera3DShakeComponent();
             fsmCom = new TPCamera3DFSMComponent();
             attrCom = new Camera3DAttributeComponent(fov, nearClip, farClip, aspectRatio);
-            trsCom = new TRS3DComponent(t, r, s);
+            trs = new TRS3DComponent(t, r, s);
         }
 
         #region Functions
         // Rotation
         internal void Rotation_SetByEulerAngle(Vector3 eulerAngle) {
-            trsCom.r = Quaternion.Euler(eulerAngle);
-        }
-
-        Vector3 GetPersonWorldFollowPoint() {
-            Vector3 worldOffset = person.TransformDirection(personFollowPointLocalOffset);
-            return person.position + worldOffset;
+            trs.r = Quaternion.Euler(eulerAngle);
         }
 
         // Matrix
@@ -71,13 +61,22 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         Matrix4x4 ICamera3D.GetViewMatrix() {
-            var m = Matrix4x4.TRS(trsCom.t, trsCom.r, trsCom.s);
+            var m = Matrix4x4.TRS(trs.t, trs.r, trs.s);
             m = Matrix4x4.Inverse(m);
             // m.m20 *= -1f;
             // m.m21 *= -1f;
             // m.m22 *= -1f;
             // m.m23 *= -1f;
             return m;
+        }
+
+        // Target
+        public Vector3 GetPersonWorldFollowPoint() {
+            return MatrixUtil.TransformDirection(personTRS, personOffsetTRS.t) + personTRS.t;
+        }
+
+        public Quaternion GetPersonWorldFollowRotation() {
+            return personOffsetTRS.r * trs.r;
         }
         #endregion
 

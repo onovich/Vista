@@ -14,14 +14,14 @@ namespace TenonKit.Vista.Camera3D {
             }
             var speed = camera.fsmCom.manualOrbital_manualOrbitalSpeed;
 
-            var currentPos = camera.trsCom.t;
-            var person = camera.person;
+            var currentPos = camera.trs.t;
+            var person = camera.personTRS;
 
             if (camera.followX) {
-                TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, camera.id, camera.person, dt);
+                TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, camera.id, camera.personTRS, dt);
             } else {
-                TPCamera3DMoveDomain.ApplyFollowYZ(ctx, camera.id, camera.person, dt);
-                Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, camera.person, dt);
+                TPCamera3DMoveDomain.ApplyFollowYZ(ctx, camera.id, camera.personTRS, dt);
+                Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, camera.personTRS, dt);
             }
 
             if (axis == Vector3.zero) {
@@ -29,9 +29,9 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             // 投影 Person 到 xz 平面
-            Vector3 projCenter = new Vector3(person.position.x, camera.trsCom.t.y, person.position.z);
+            Vector3 projCenter = new Vector3(person.t.x, camera.trs.t.y, person.t.z);
             Vector3 localOffset = axis * speed * dt;
-            Vector3 targetPos = currentPos + camera.trsCom.r * localOffset;
+            Vector3 targetPos = currentPos + camera.trs.r * localOffset;
             bool isClockWise = axis.x < 0;
             Vector3 pos = OrbitHelper.Round3D(currentPos, targetPos, projCenter, 1, 1, isClockWise);
 

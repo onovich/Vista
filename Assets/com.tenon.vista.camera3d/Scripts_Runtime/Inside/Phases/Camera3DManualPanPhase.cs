@@ -16,7 +16,7 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            var currentPos = camera.trsCom.t;
+            var currentPos = camera.trs.t;
             var speed = camera.fsmCom.manualPan_manualPanSpeed;
             var deltaDistance = new Vector3(axis.x * speed.x, axis.y * speed.y, axis.z * speed.z) * deltaTime;
             var pos = currentPos + deltaDistance;
@@ -32,7 +32,7 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             var start = camera.fsmCom.manualPan_recenterPanStartPos;
-            var end = camera.PersonWorldFollowPoint;
+            var end = camera.GetPersonWorldFollowPoint();
             var duration = camera.fsmCom.manualPan_recenterPanDuration;
             var current = camera.fsmCom.manualPan_recenterPanCurrent;
             var mode = camera.fsmCom.manualPan_recenterPanEasingMode;

@@ -13,22 +13,22 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            currentCamera.trsCom.t = cameraWorldPos;
+            currentCamera.trs.t = cameraWorldPos;
         }
 
-        internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, Transform person, float deltaTime) {
+        internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, TRS3DComponent personTRS, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            Vector3 cameraWorldPos = currentCamera.trsCom.t;
-            Vector3 targetWorldPos = currentCamera.PersonWorldFollowPoint;
+            Vector3 cameraWorldPos = currentCamera.trs.t;
+            Vector3 targetWorldPos = currentCamera.GetPersonWorldFollowPoint();
 
             // 将目标位置转换为基于角色的局部坐标系
-            var driverRotation = person.rotation;
-            var driverWorldPos = person.position;
+            var driverRotation = personTRS.r;
+            var driverWorldPos = personTRS.t;
             Vector3 targetLocalPos = Quaternion.Inverse(driverRotation) * (targetWorldPos - driverWorldPos);
             Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
 
@@ -45,19 +45,19 @@ namespace TenonKit.Vista.Camera3D {
             return;
         }
 
-        internal static void ApplyFollowYZ(Camera3DContext ctx, int id, Transform person, float deltaTime) {
+        internal static void ApplyFollowYZ(Camera3DContext ctx, int id, TRS3DComponent person, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            Vector3 cameraWorldPos = currentCamera.trsCom.t;
-            Vector3 targetWorldPos = currentCamera.PersonWorldFollowPoint;
+            Vector3 cameraWorldPos = currentCamera.trs.t;
+            Vector3 targetWorldPos = currentCamera.GetPersonWorldFollowPoint();
 
             // 将目标位置转换为基于角色的局部坐标系
-            var driverRotation = person.rotation;
-            var driverWorldPos = person.position;
+            var driverRotation = person.r;
+            var driverWorldPos = person.t;
             Vector3 targetLocalPos = Quaternion.Inverse(driverRotation) * (targetWorldPos - driverWorldPos);
             Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
 

@@ -12,7 +12,7 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
             TPCamera3DOrbitalDomain.ApplyOrbital(ctx, id, axis, dt);
-            TPCamera3DRotateDomain.ApplyLookAtPerson(ctx, id, camera.person, 1, dt);
+            TPCamera3DRotateDomain.ApplyLookAtPerson(ctx, id, camera.personTRS, 1, dt);
         }
 
         internal static void ApplyRecentering(Camera3DContext ctx, int id, float dt) {
@@ -23,9 +23,9 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             var startRot = camera.fsmCom.manualOrbital_recenterOrbitalStartRot;
-            var endRot = camera.PersonWorldLookAtRotation;
+            var endRot = camera.GetPersonWorldFollowRotation();
             var startPos = camera.fsmCom.manualOrbital_recenterOrbitalStartPos;
-            var endPos = camera.PersonWorldFollowPoint;
+            var endPos = camera.GetPersonWorldFollowPoint();
             var duration = camera.fsmCom.manualOrbital_recenterOrbitalDuration;
             var current = camera.fsmCom.manualOrbital_recenterOrbitalCurrent;
             var mode = camera.fsmCom.manualOrbital_recenterOrbitalEasingMode;

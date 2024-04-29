@@ -2,23 +2,31 @@ using UnityEngine;
 
 namespace TenonKit.Vista.Camera3D {
 
-    public static class MatrixUtil {
+    internal static class MatrixUtil {
 
         // TRS
-        internal static TRS3DComponent ApplyTRSWithOffset(in TRS3DComponent src, in TRS3DComponent offset) {
-            Matrix4x4 m = Matrix4x4.identity;
-            m.SetTRS(src.t, src.r, src.s);
+        internal static TRS3DComponent ApplyTRSWithOffset(in TRS3DComponent target, in TRS3DComponent offset) {
+            if (target.r.x == 0 && target.r.y == 0 && target.r.z == 0 && target.r.w == 0) {
+                return target;
+            }
+            Matrix4x4 m = Matrix4x4.TRS(target.t, target.r, target.s);
             TRS3DComponent dst = new TRS3DComponent(
                 m.MultiplyPoint(offset.t),
-                src.r * offset.r,
+                target.r * offset.r,
                 new Vector3(
-                    src.s.x * offset.s.x,
-                    src.s.y * offset.s.y,
-                    src.s.z * offset.s.z
+                    target.s.x * offset.s.x,
+                    target.s.y * offset.s.y,
+                    target.s.z * offset.s.z
                 )
             );
-
             return dst;
+        }
+
+        internal static Vector3 TransformDirection(TRS3DComponent trs, Vector3 direction) {
+            Vector4 dir = new Vector4(direction.x, direction.y, direction.z, 0);
+            var matrix = GetModelMatrix(trs);
+            Vector4 transformedDir = matrix * dir;
+            return new Vector3(transformedDir.x, transformedDir.y, transformedDir.z).normalized;
         }
 
         // MVP

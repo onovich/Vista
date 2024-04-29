@@ -49,11 +49,11 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // DeadZone
-        internal void SetDeadZone(Vector2 deadZoneNormalizedSize, Vector2 viewSize) {
-            deadZoneComponent.Zone_Set(deadZoneNormalizedSize, viewSize);
+        internal void SetDeadZone(Vector2 deadZoneNormalizedSize, Vector2 screenSize) {
+            deadZoneComponent.Zone_Set(deadZoneNormalizedSize, screenSize);
         }
-        internal Vector2 GetDeadZoneScreenDiff(Vector2 screenPos) {
-            return deadZoneComponent.ScreenDiff_Get(screenPos);
+        internal Vector2 GetDeadZoneScreenDiff(Vector2 screenPoint) {
+            return deadZoneComponent.ScreenDiff_Get(screenPoint);
         }
 
         internal Vector2 GetDeadZoneSize() {
@@ -69,13 +69,13 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // SoftZone
-        internal void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 viewSize, Vector2 dampingFactor) {
-            softZoneComponent.Zone_Set(softZoneNormalizedSize, viewSize);
+        internal void SetSoftZone(Vector2 softZoneNormalizedSize, Vector2 screenSize, Vector2 dampingFactor) {
+            softZoneComponent.Zone_Set(softZoneNormalizedSize, screenSize);
             this.softZoneDampingFactor = dampingFactor;
         }
 
-        internal Vector2 GetSoftZoneScreenDiff(Vector2 screenPos) {
-            return softZoneComponent.ScreenDiff_Get(screenPos);
+        internal Vector2 GetSoftZoneScreenDiff(Vector2 screenPoint) {
+            return softZoneComponent.ScreenDiff_Get(screenPoint);
         }
 
         internal Vector2 GetSoftZoneSize() {

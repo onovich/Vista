@@ -55,7 +55,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             agent = GameObject.Find("MainCamera").GetComponent<Camera>();
 
             // Context
-            var viewSize = new Vector2(Screen.width, Screen.height);
+            var screenSize = new Vector2(Screen.width, Screen.height);
             ctx = new Main3DContext(agent,
                                     manualPanSpeed,
                                     manualPanCancleDuration,

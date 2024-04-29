@@ -45,8 +45,8 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
             Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
-            var viewSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main2DContext(mainCamera, viewSize);
+            var screenSize = new Vector2(Screen.width, Screen.height);
+            ctx = new Main2DContext(mainCamera, screenSize);
             var cameraID = Camera2DInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
             Camera2DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);

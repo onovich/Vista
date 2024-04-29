@@ -16,8 +16,8 @@ namespace TenonKit.Vista.Camera2D {
         Camera mainCamera;
         internal Camera MainCamera => mainCamera;
 
-        Vector2 viewSize;
-        internal Vector2 ViewSize => viewSize;
+        Vector2 screenSize;
+        internal Vector2 ScreenSize => screenSize;
 
         float orthographicSize;
         internal float OrthographicSize => orthographicSize;
@@ -37,8 +37,8 @@ namespace TenonKit.Vista.Camera2D {
             confinerIsVaild = false;
         }
 
-        internal void Init(Vector2 viewSize) {
-            this.viewSize = viewSize;
+        internal void Init(Vector2 screenSize) {
+            this.screenSize = screenSize;
             inited = true;
         }
 

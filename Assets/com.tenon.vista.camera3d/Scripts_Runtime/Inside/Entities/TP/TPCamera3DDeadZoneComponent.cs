@@ -7,34 +7,15 @@ namespace TenonKit.Vista.Camera3D {
         bool enable;
         internal bool IsEnable => enable;
 
-        Vector2 deadZoneScreenMin;
-        internal Vector2 DeadZoneScreenMin => deadZoneScreenMin;
-
-        Vector2 deadZoneScreenMax;
-        internal Vector2 DeadZoneScreenMax => deadZoneScreenMax;
-
-        internal Vector2 Center => (deadZoneScreenMin + deadZoneScreenMax) / 2f;
-        internal Vector2 Size => deadZoneScreenMax - deadZoneScreenMin;
-
-        internal Vector2 LT => new Vector2(deadZoneScreenMin.x, deadZoneScreenMax.y);
-        internal Vector2 RT => deadZoneScreenMax;
-        internal Vector2 RB => new Vector2(deadZoneScreenMax.x, deadZoneScreenMin.y);
-        internal Vector2 LB => deadZoneScreenMin;
+        Vector2 deadZoneFOV;
+        internal Vector2 DeadZoneFOV => deadZoneFOV;
 
         internal TPCamera3DDeadZoneComponent() {
-            deadZoneScreenMin = Vector2.zero;
-            deadZoneScreenMax = Vector2.zero;
             enable = false;
         }
 
-        internal void Zone_Set(Vector2 deadZoneNormalizedSize, Vector2 viewSize) {
-            Vector2 deadZoneSize;
-            deadZoneSize.x = viewSize.x * deadZoneNormalizedSize.x;
-            deadZoneSize.y = viewSize.y * deadZoneNormalizedSize.y;
-            var screenCenter = viewSize / 2f;
-            var deadZoneHalfSize = deadZoneSize / 2f;
-            deadZoneScreenMin = screenCenter - deadZoneHalfSize;
-            deadZoneScreenMax = screenCenter + deadZoneHalfSize;
+        internal void Zone_Set(Vector2 deadZoneFOV) {
+            this.deadZoneFOV = deadZoneFOV;
             enable = true;
         }
 
@@ -42,26 +23,29 @@ namespace TenonKit.Vista.Camera3D {
             this.enable = enable;
         }
 
-        internal Vector2 ScreenDiff_Get(Vector2 screenPos) {
-            Vector2 diff = Vector2.zero;
+        Vector2 CalculateOffsetOutOfDeadZone(in TRS3DModel person, in TRS3DModel camera) {
+            // 计算相机到角色的方向向量
+            Vector3 toCharacterDirection = (person.t - camera.t).normalized;
+            Vector3 cameraForward = camera.forward;
 
-            if (screenPos.x < deadZoneScreenMin.x) {
-                diff.x = screenPos.x - deadZoneScreenMin.x;
-            }
+            // 计算水平和垂直死区角度
+            float horizontalDeadZoneAngle = deadZoneFOV.x / 2;
+            float verticalDeadZoneAngle = deadZoneFOV.y / 2;
 
-            if (screenPos.x > deadZoneScreenMax.x) {
-                diff.x = screenPos.x - deadZoneScreenMax.x;
-            }
+            // 计算水平和垂直方向的夹角
+            float horizontalAngle = Mathf.Acos(Vector3.Dot(toCharacterDirection, cameraForward) / toCharacterDirection.magnitude) * Mathf.Rad2Deg;
+            float verticalAngle = Mathf.Asin((person.t.y - camera.t.y) / Vector3.Distance(camera.t, person.t)) * Mathf.Rad2Deg;
 
-            if (screenPos.y < deadZoneScreenMin.y) {
-                diff.y = screenPos.y - deadZoneScreenMin.y;
-            }
+            // 计算偏移角度
+            float horizontalOffsetAngle = Mathf.Max(0, Mathf.Abs(horizontalAngle) - horizontalDeadZoneAngle);
+            float verticalOffsetAngle = Mathf.Max(0, Mathf.Abs(verticalAngle) - verticalDeadZoneAngle);
 
-            if (screenPos.y > deadZoneScreenMax.y) {
-                diff.y = screenPos.y - deadZoneScreenMax.y;
-            }
+            // 将偏移角度转换为实际偏移距离
+            float distanceToCharacter = Vector3.Distance(camera.t, person.t);
+            float horizontalOffset = Mathf.Tan(horizontalOffsetAngle * Mathf.Deg2Rad) * distanceToCharacter;
+            float verticalOffset = Mathf.Tan(verticalOffsetAngle * Mathf.Deg2Rad) * distanceToCharacter;
 
-            return diff;
+            return new Vector2(horizontalOffset, verticalOffset);
         }
 
     }

@@ -57,9 +57,9 @@ namespace TenonKit.Vista.Camera2D {
             }
 
             var mainCamera = ctx.MainCamera;
-            var driverWorldPos = driver.position;
+            var driverWorldPoint = driver.position;
 
-            Camera2DMoveDomain.MoveByDriver(ctx, current.ID, mainCamera, driverWorldPos, dt);
+            Camera2DMoveDomain.MoveByDriver(ctx, current.ID, mainCamera, driverWorldPoint, dt);
         }
 
         static void TickMovingToTarget(Camera2DContext ctx, float dt) {

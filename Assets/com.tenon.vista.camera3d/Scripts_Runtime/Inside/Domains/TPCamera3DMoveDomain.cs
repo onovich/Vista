@@ -6,14 +6,14 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class TPCamera3DMoveDomain {
 
-        internal static void SetPos(Camera3DContext ctx, int id, Vector3 cameraWorldPos) {
+        internal static void SetPos(Camera3DContext ctx, int id, Vector3 cameraWorldPoint) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            currentCamera.trs.t = cameraWorldPos;
+            currentCamera.trs.t = cameraWorldPoint;
         }
 
         internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, in TRS3DModel personTRS, float deltaTime) {
@@ -23,25 +23,25 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            Vector3 cameraWorldPos = currentCamera.trs.t;
-            Vector3 targetWorldPos = currentCamera.GetPersonWorldFollowPoint();
+            Vector3 cameraWorldPoint = currentCamera.trs.t;
+            Vector3 targetWorldPoint = currentCamera.GetPersonWorldFollowPoint();
 
             // 将目标位置转换为基于角色的局部坐标系
             var driverRotation = personTRS.r;
-            var driverWorldPos = personTRS.t;
-            Vector3 targetLocalPos = Quaternion.Inverse(driverRotation) * (targetWorldPos - driverWorldPos);
-            Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
+            var driverWorldPoint = personTRS.t;
+            Vector3 targetLocalPoint = Quaternion.Inverse(driverRotation) * (targetWorldPoint - driverWorldPoint);
+            Vector3 cameraLocalPoint = Quaternion.Inverse(driverRotation) * (cameraWorldPoint - driverWorldPoint);
 
             // 使用 Lerp 实现阻尼
             var dampingFactor = Vector3.one - currentCamera.followDampingFactor;
-            cameraLocalPos.x = Mathf.Lerp(cameraLocalPos.x, targetLocalPos.x, dampingFactor.x);
-            cameraLocalPos.y = Mathf.Lerp(cameraLocalPos.y, targetLocalPos.y, dampingFactor.y);
-            cameraLocalPos.z = Mathf.Lerp(cameraLocalPos.z, targetLocalPos.z, dampingFactor.z);
+            cameraLocalPoint.x = Mathf.Lerp(cameraLocalPoint.x, targetLocalPoint.x, dampingFactor.x);
+            cameraLocalPoint.y = Mathf.Lerp(cameraLocalPoint.y, targetLocalPoint.y, dampingFactor.y);
+            cameraLocalPoint.z = Mathf.Lerp(cameraLocalPoint.z, targetLocalPoint.z, dampingFactor.z);
 
             // 将修改后的局部坐标转换回全局坐标系
-            cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
+            cameraWorldPoint = driverWorldPoint + (driverRotation * cameraLocalPoint);
 
-            TPCamera3DMoveDomain.SetPos(ctx, id, cameraWorldPos);
+            TPCamera3DMoveDomain.SetPos(ctx, id, cameraWorldPoint);
             return;
         }
 
@@ -52,24 +52,24 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            Vector3 cameraWorldPos = currentCamera.trs.t;
-            Vector3 targetWorldPos = currentCamera.GetPersonWorldFollowPoint();
+            Vector3 cameraWorldPoint = currentCamera.trs.t;
+            Vector3 targetWorldPoint = currentCamera.GetPersonWorldFollowPoint();
 
             // 将目标位置转换为基于角色的局部坐标系
             var driverRotation = person.r;
-            var driverWorldPos = person.t;
-            Vector3 targetLocalPos = Quaternion.Inverse(driverRotation) * (targetWorldPos - driverWorldPos);
-            Vector3 cameraLocalPos = Quaternion.Inverse(driverRotation) * (cameraWorldPos - driverWorldPos);
+            var driverWorldPoint = person.t;
+            Vector3 targetLocalPoint = Quaternion.Inverse(driverRotation) * (targetWorldPoint - driverWorldPoint);
+            Vector3 cameraLocalPoint = Quaternion.Inverse(driverRotation) * (cameraWorldPoint - driverWorldPoint);
 
             // 使用 Lerp 实现阻尼，仅修改局部 y 和 z 坐标
             var dampingFactor = Vector3.one - currentCamera.followDampingFactor;
-            cameraLocalPos.y = Mathf.Lerp(cameraLocalPos.y, targetLocalPos.y, dampingFactor.y);
-            cameraLocalPos.z = Mathf.Lerp(cameraLocalPos.z, targetLocalPos.z, dampingFactor.z);
+            cameraLocalPoint.y = Mathf.Lerp(cameraLocalPoint.y, targetLocalPoint.y, dampingFactor.y);
+            cameraLocalPoint.z = Mathf.Lerp(cameraLocalPoint.z, targetLocalPoint.z, dampingFactor.z);
 
             // 将修改后的局部坐标转换回全局坐标系
-            cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
+            cameraWorldPoint = driverWorldPoint + (driverRotation * cameraLocalPoint);
 
-            SetPos(ctx, id, cameraWorldPos);
+            SetPos(ctx, id, cameraWorldPoint);
             return;
         }
 

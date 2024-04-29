@@ -57,13 +57,13 @@ namespace TenonKit.Vista.Camera3D {
             );
 
             // ViewPort -> Screen
-            Vector3 screenPos = new Vector3(
+            Vector3 screenPoint = new Vector3(
                 viewportPoint.x * screenSize.x,
                 viewportPoint.y * screenSize.y,
                 viewportPoint.z
             );
 
-            return screenPos;
+            return screenPoint;
         }
 
     }

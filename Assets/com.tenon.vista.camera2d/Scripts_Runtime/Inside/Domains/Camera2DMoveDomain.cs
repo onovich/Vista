@@ -17,7 +17,7 @@ namespace TenonKit.Vista.Camera2D {
             ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
-        internal static void MoveByDriver(Camera2DContext ctx, int id, Camera mainCamera, Vector2 driverWorldPos, float deltaTime) {
+        internal static void MoveByDriver(Camera2DContext ctx, int id, Camera mainCamera, Vector2 driverWorldPoint, float deltaTime) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V2Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
@@ -25,20 +25,20 @@ namespace TenonKit.Vista.Camera2D {
             }
             bool deadZoneEnable = currentCamera.IsDeadZoneEnable();
             bool softZoneEnable = currentCamera.IsSoftZoneEnable();
-            Vector2 cameraWorldPos = currentCamera.Pos;
-            float cameraWorldPosX = cameraWorldPos.x;
-            float cameraWorldPosY = cameraWorldPos.y;
-            Vector2 targetPos = cameraWorldPos;
+            Vector2 cameraWorldPoint = currentCamera.Pos;
+            float cameraWorldPointX = cameraWorldPoint.x;
+            float cameraWorldPointY = cameraWorldPoint.y;
+            Vector2 targetPos = cameraWorldPoint;
 
             // DeadZone 禁用时: 硬跟随 Driver
             if (!deadZoneEnable) {
-                targetPos = driverWorldPos;
+                targetPos = driverWorldPoint;
                 RefreshCameraPos(ctx, id, mainCamera, targetPos);
                 return;
             }
 
-            var driverScreenPos = Camera2DMathUtil.WorldToScreenPos(mainCamera, driverWorldPos);
-            var deadZoneDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPos);
+            var driverScreenPoint = Camera2DMathUtil.WorldToScreenPoint(mainCamera, driverWorldPoint);
+            var deadZoneDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPoint);
 
             // Driver 在 DeadZone 内：不跟随
             if (deadZoneDiff == Vector2.zero && softZoneEnable) {
@@ -48,45 +48,45 @@ namespace TenonKit.Vista.Camera2D {
             // Driver 在 SoftZone 内
             //// - SoftZone 禁用时：硬跟随 DeadZone Diff
             if (!softZoneEnable) {
-                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ScreenSize);
                 targetPos += deadZoneWorldDiff;
                 RefreshCameraPos(ctx, id, mainCamera, targetPos);
                 return;
             }
 
             //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
-            var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPos);
+            var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPoint);
             if (softZoneDiff == Vector2.zero) {
-                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ViewSize);
+                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ScreenSize);
                 targetPos += deadZoneWorldDiff;
 
                 float dampingX = currentCamera.SoftZoneDampingFactor.x;
                 float dampingY = currentCamera.SoftZoneDampingFactor.y;
-                cameraWorldPosX += deadZoneWorldDiff.x * dampingX * deltaTime;
-                cameraWorldPosY += deadZoneWorldDiff.y * dampingY * deltaTime;
+                cameraWorldPointX += deadZoneWorldDiff.x * dampingX * deltaTime;
+                cameraWorldPointY += deadZoneWorldDiff.y * dampingY * deltaTime;
 
-                cameraWorldPos = new Vector2(cameraWorldPosX, cameraWorldPosY);
+                cameraWorldPoint = new Vector2(cameraWorldPointX, cameraWorldPointY);
 
-                RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
+                RefreshCameraPos(ctx, id, mainCamera, cameraWorldPoint);
                 return;
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
-            var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, softZoneDiff, ctx.ViewSize);
-            cameraWorldPos += softZoneWorldDiff;
-            RefreshCameraPos(ctx, id, mainCamera, cameraWorldPos);
+            var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, softZoneDiff, ctx.ScreenSize);
+            cameraWorldPoint += softZoneWorldDiff;
+            RefreshCameraPos(ctx, id, mainCamera, cameraWorldPoint);
 
         }
 
-        static void RefreshCameraPos(Camera2DContext ctx, int id, Camera mainCamera, Vector2 cameraWorldPos) {
+        static void RefreshCameraPos(Camera2DContext ctx, int id, Camera mainCamera, Vector2 cameraWorldPoint) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V2Log.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            currentCamera.SetPos(cameraWorldPos);
-            ctx.MainCamera.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, ctx.MainCamera.transform.position.z);
+            currentCamera.SetPos(cameraWorldPoint);
+            ctx.MainCamera.transform.position = new Vector3(cameraWorldPoint.x, cameraWorldPoint.y, ctx.MainCamera.transform.position.z);
         }
 
     }

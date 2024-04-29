@@ -32,23 +32,23 @@ namespace TenonKit.Vista.Camera2D {
             this.enable = enable;
         }
 
-        internal Vector2 ScreenDiff_Get(Vector2 screenPos) {
+        internal Vector2 ScreenDiff_Get(Vector2 screenPoint) {
             Vector2 diff = Vector2.zero;
 
-            if (screenPos.x < deadZoneScreenMin.x) {
-                diff.x = screenPos.x - deadZoneScreenMin.x;
+            if (screenPoint.x < deadZoneScreenMin.x) {
+                diff.x = screenPoint.x - deadZoneScreenMin.x;
             }
 
-            if (screenPos.x > deadZoneScreenMax.x) {
-                diff.x = screenPos.x - deadZoneScreenMax.x;
+            if (screenPoint.x > deadZoneScreenMax.x) {
+                diff.x = screenPoint.x - deadZoneScreenMax.x;
             }
 
-            if (screenPos.y < deadZoneScreenMin.y) {
-                diff.y = screenPos.y - deadZoneScreenMin.y;
+            if (screenPoint.y < deadZoneScreenMin.y) {
+                diff.y = screenPoint.y - deadZoneScreenMin.y;
             }
 
-            if (screenPos.y > deadZoneScreenMax.y) {
-                diff.y = screenPos.y - deadZoneScreenMax.y;
+            if (screenPoint.y > deadZoneScreenMax.y) {
+                diff.y = screenPoint.y - deadZoneScreenMax.y;
             }
 
             return diff;

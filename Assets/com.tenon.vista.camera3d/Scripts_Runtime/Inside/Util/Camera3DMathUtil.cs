@@ -4,14 +4,14 @@ namespace TenonKit.Vista.Camera3D {
 
     public static class Camera3DMathUtil {
 
-        public static Vector2 WorldToScreenPos(Camera camera, Vector3 worldPos) {
-            var screenPos = camera.WorldToScreenPoint(worldPos);
-            return new Vector2(screenPos.x, screenPos.y);
+        public static Vector2 WorldToScreenPoint(Camera camera, Vector3 worldPoint) {
+            var screenPoint = camera.WorldToScreenPoint(worldPoint);
+            return new Vector2(screenPoint.x, screenPoint.y);
         }
 
-        public static Vector3 ScreenToWorldPos(Camera camera, Vector2 screenPos) {
-            var worldPos = camera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0));
-            return new Vector3(worldPos.x, worldPos.y, worldPos.z);
+        public static Vector3 ScreenToWorldPoint(Camera camera, Vector2 screenPoint) {
+            var worldPoint = camera.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, 0));
+            return new Vector3(worldPoint.x, worldPoint.y, worldPoint.z);
         }
 
         public static float GetDepth(Camera camera, Vector3 fromCameraToObject) {

@@ -10,16 +10,7 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
 
-            Vector3 cameraWorldPos = camera.personTRS.t;
-            Vector3 targetPos = cameraWorldPos;
-
-            ApplyWhenDisableDeadZone(ctx, camera, targetPos, dt);
-
-        }
-
-        static void ApplyWhenDisableDeadZone(Camera3DContext ctx, TPCamera3DModel camera, Vector3 targetPos, float dt) {
             TPCamera3DMoveDomain.ApplyFollowYZ(ctx, camera.id, camera.personTRS, dt);
-            Camera3DLookAtPhase.ApplyLookAtPerson(ctx, camera.id, camera.personTRS, dt);
         }
 
     }

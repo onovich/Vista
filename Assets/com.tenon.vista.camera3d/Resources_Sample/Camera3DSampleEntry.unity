@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54eb481b9b4014235bfdf6c88881c2e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followX: 0
+  followX: 1
   deadZoneNormalizedSize: {x: 0.4, y: 0.4}
   softZoneNormalizedSize: {x: 0.6, y: 0.6}
   followDampingFactor: {x: 0.98, y: 0.98, z: 0.98}

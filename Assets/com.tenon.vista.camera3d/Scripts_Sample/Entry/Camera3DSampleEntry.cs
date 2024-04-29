@@ -86,6 +86,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             // Offset
             Camera3DInfra.SetPersonOffset(ctx, t, r, s);
 
+            // Follow Mode
+            Camera3DInfra.SetTPCameraFollowX(ctx, followX);
+
             Binding();
             RefreshInfo(ctx.mainCameraID);
 

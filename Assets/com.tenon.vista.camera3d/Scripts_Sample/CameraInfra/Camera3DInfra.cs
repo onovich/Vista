@@ -29,6 +29,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
             return ctx.core.GetTPCameraPos(ctx.mainCameraID);
         }
 
+        public static void SetTPCameraFollowX(Main3DContext ctx, bool followX) {
+            ctx.core.SetTPCameraFollowX(ctx.mainCameraID, followX);
+        }
+
         // Damping Factor
         public static void SetTPCameraFollowDamppingFactor(Main3DContext ctx, Vector3 followDampingFactor) {
             ctx.core.SetTPCameraFollowDamppingFactor(ctx.mainCameraID, followDampingFactor);

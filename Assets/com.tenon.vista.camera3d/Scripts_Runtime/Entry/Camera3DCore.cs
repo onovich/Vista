@@ -43,6 +43,15 @@ namespace TenonKit.Vista.Camera3D {
             return camera.trs.t;
         }
 
+        public void SetTPCameraFollowX(int cameraID, bool followX) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetFollowX Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.FollowX_Set(followX);
+        }
+
         // Damping Factor
         public void SetTPCameraFollowDamppingFactor(int cameraID, Vector3 followDampingFactor) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);

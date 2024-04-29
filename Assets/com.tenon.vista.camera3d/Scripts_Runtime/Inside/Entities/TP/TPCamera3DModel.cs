@@ -49,9 +49,15 @@ namespace TenonKit.Vista.Camera3D {
             trs = new TRS3DComponent(t, r, s);
             personTRS = new TRS3DComponent(Vector3.zero, Quaternion.identity, Vector2.zero);
             personOffsetTRS = new TRS3DComponent(Vector3.zero, Quaternion.identity, Vector2.zero);
+            followX = false;
         }
 
         #region Functions
+        // FollowX
+        internal void FollowX_Set(bool followX) {
+            this.followX = followX;
+        }
+
         // Rotation
         internal void Rotation_SetByEulerAngle(Vector3 eulerAngle) {
             trs.r = Quaternion.Euler(eulerAngle);

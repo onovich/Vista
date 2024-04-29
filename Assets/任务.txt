@@ -1,7 +1,3 @@
-# 架构
-1. 重构, 改变当前 IoC 的方式, 使其对上层项目去除劫持, 避免注入 Camera 和 Transform
-2. 命名问题, 目前 Camera MainCamera、CameraEntity CurrentCamera、int MainCameraID 意义混淆，考虑把 CameraEntity 改为 CameraState 或者 云台之类的概念
-
 # 2D 相机功能
 2d 相机库未实现：
 1. 双死区 或 动态死区
@@ -25,4 +21,6 @@
 
 # 3D 相机功能
 1. LootAtGroup 待设计
-2. 阻尼需要重新设计(Rotate Damping / Move Damping...)
+2. 死区应该采用 Fov, 而非屏幕坐标系矩形, 避免使用 ScreenToWorld 变换
+3. TRSComponent 应改为 TRSModel, 使用结构体，并通过 ref 修改, 通过 in 传参，避免 GC
+4. CameraModel 应改为 CameraEntity. 

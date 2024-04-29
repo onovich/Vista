@@ -12,8 +12,18 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Tick
-        public void Tick(float dt) {
-            Camera3DBusiness.Tick(ctx, dt);
+        public void Tick(float dt, Vector3 personT, Quaternion personR, Vector3 personS) {
+            Camera3DBusiness.Tick(ctx, personT, personR, personS, dt);
+        }
+
+        // Person
+        public void SetPersonOffset(int cameraID, Vector3 t, Quaternion r, Vector3 s) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetPersonOffset Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.PersonOffset_SetTRS(t, r, s);
         }
 
         // Camera
@@ -22,6 +32,15 @@ namespace TenonKit.Vista.Camera3D {
             ctx.AddTPCamera(camera, camera.id);
             camera.fsmCom.AutoFollow_Enter();
             return camera.id;
+        }
+
+        public Vector3 GetTPCameraPos(int cameraID) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"GetTPCameraPos Error, Camera Not Found: ID = {cameraID}");
+                return Vector3.zero;
+            }
+            return camera.trs.t;
         }
 
         // Damping Factor

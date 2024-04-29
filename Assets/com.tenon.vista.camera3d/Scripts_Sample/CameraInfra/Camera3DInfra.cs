@@ -5,12 +5,17 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
     public static class Camera3DInfra {
 
-        public static void Tick(Main3DContext ctx, float dt) {
-            ctx.core.Tick(dt);
+        public static void Tick(Main3DContext ctx, Transform person, float dt) {
+            ctx.core.Tick(dt, person.position, person.rotation, person.localScale);
         }
 
         public static void OnDrawGUI(Main3DContext ctx) {
             ctx.core.OnDrawGUI(ctx.mainCameraID);
+        }
+
+        // Person
+        public static void SetPersonOffset(Main3DContext ctx, Vector3 t, Quaternion r, Vector3 s) {
+            ctx.core.SetPersonOffset(ctx.mainCameraID, t, r, s);
         }
 
         // Camera
@@ -18,6 +23,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var mainCameraID = ctx.core.CreateTPCamera(t, r, s, fov, nearClip, farClip, aspectRatio);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
+        }
+
+        public static Vector3 GetTPCameraPos(Main3DContext ctx) {
+            return ctx.core.GetTPCameraPos(ctx.mainCameraID);
         }
 
         // Damping Factor

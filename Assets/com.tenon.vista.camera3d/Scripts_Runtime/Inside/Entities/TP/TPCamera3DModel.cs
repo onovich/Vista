@@ -47,12 +47,27 @@ namespace TenonKit.Vista.Camera3D {
             fsmCom = new TPCamera3DFSMComponent();
             attrCom = new Camera3DAttributeComponent(fov, nearClip, farClip, aspectRatio);
             trs = new TRS3DComponent(t, r, s);
+            personTRS = new TRS3DComponent(Vector3.zero, Quaternion.identity, Vector2.zero);
+            personOffsetTRS = new TRS3DComponent(Vector3.zero, Quaternion.identity, Vector2.zero);
         }
 
         #region Functions
         // Rotation
         internal void Rotation_SetByEulerAngle(Vector3 eulerAngle) {
             trs.r = Quaternion.Euler(eulerAngle);
+        }
+
+        // Person
+        internal void Person_SetTRS(Vector3 t, Quaternion r, Vector3 s) {
+            personTRS.t = t;
+            personTRS.r = r;
+            personTRS.s = s;
+        }
+
+        internal void PersonOffset_SetTRS(Vector3 t, Quaternion r, Vector3 s) {
+            personOffsetTRS.t = t;
+            personOffsetTRS.r = r;
+            personOffsetTRS.s = s;
         }
 
         // Matrix

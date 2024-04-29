@@ -6,6 +6,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
     public class Camera3DSampleEntry : MonoBehaviour {
 
         Main3DContext ctx;
+        Camera agent;
 
         [Header("Follow Mode Config")]
         [SerializeField] bool followX;
@@ -51,7 +52,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
             V3Log.Error = Debug.LogError;
 
             // Camera Agent
-            Camera agent = GameObject.Find("MainCamera").GetComponent<Camera>();
+            agent = GameObject.Find("MainCamera").GetComponent<Camera>();
 
             // Context
             var viewSize = new Vector2(Screen.width, Screen.height);
@@ -81,6 +82,9 @@ namespace TenonKit.Vista.Camera3D.Sample {
             // Damping Factor
             Camera3DInfra.SetTPCameraFollowDamppingFactor(ctx, followDampingFactor);
             Camera3DInfra.SetTPCameraLookAtDamppingFactor(ctx, lookAtDampingFactor);
+
+            // Offset
+            Camera3DInfra.SetPersonOffset(ctx, t, r, s);
 
             Binding();
             RefreshInfo(ctx.mainCameraID);
@@ -197,7 +201,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         void LateUpdate() {
             var dt = Time.deltaTime;
-            Camera3DInfra.Tick(ctx, dt);
+            Camera3DInfra.Tick(ctx, person.transform, dt);
 
             Logic3DBusiness.CameraPan_ApplySet(ctx);
             Logic3DBusiness.CameraPan_Apply(ctx);
@@ -206,6 +210,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
             Logic3DBusiness.CameraOrbital_ApplySet(ctx);
             Logic3DBusiness.CameraOrbital_Apply(ctx);
             Logic3DBusiness.CameraOrbital_ApplyCancle(ctx);
+
+            var pos = Camera3DInfra.GetTPCameraPos(ctx);
+            agent.transform.position = pos;
+
             Logic3DBusiness.ResetInput(ctx);
         }
 

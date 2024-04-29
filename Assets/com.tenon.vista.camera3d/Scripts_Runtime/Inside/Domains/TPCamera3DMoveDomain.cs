@@ -16,7 +16,7 @@ namespace TenonKit.Vista.Camera3D {
             currentCamera.trs.t = cameraWorldPos;
         }
 
-        internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, TRS3DComponent personTRS, float deltaTime) {
+        internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, TRS3DModel personTRS, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
@@ -45,7 +45,7 @@ namespace TenonKit.Vista.Camera3D {
             return;
         }
 
-        internal static void ApplyFollowYZ(Camera3DContext ctx, int id, TRS3DComponent person, float deltaTime) {
+        internal static void ApplyFollowYZ(Camera3DContext ctx, int id, TRS3DModel person, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");

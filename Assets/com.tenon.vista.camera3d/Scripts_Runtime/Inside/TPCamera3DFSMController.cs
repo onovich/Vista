@@ -6,7 +6,7 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class TPCamera3DFSMController {
 
-        internal static void TickFSM(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        internal static void TickFSM(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
 
             TickFSM_Any(ctx, camera, dt);
 
@@ -25,19 +25,19 @@ namespace TenonKit.Vista.Camera3D {
 
         }
 
-        static void TickFSM_Any(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_Any(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
         }
 
-        static void TickFSM_DoNothing(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_DoNothing(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
 
         }
 
-        static void TickFSM_AutoFollow(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_AutoFollow(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
             Camera3DFollowPhase.ApplyAutoFollow(ctx, camera, dt);
             Camera3DLookAtPhase.ApplyAutoLookAtPerson(ctx, camera, dt);
         }
 
-        static void TickFSM_ManualPan(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_ManualPan(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
             if (!camera.fsmCom.manualPan_isRecentering) {
                 Camera3DManualPanPhase.ApplyPan(ctx, camera.id, camera.inputCom.manualPanAxis, dt);
                 return;
@@ -46,7 +46,7 @@ namespace TenonKit.Vista.Camera3D {
             Camera3DManualPanPhase.ApplyRecentering(ctx, camera.id, dt);
         }
 
-        static void TickFSM_ManualOrbital(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        static void TickFSM_ManualOrbital(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
             if (!camera.fsmCom.manualOrbital_isRecentering) {
                 Camera3DManualOrbitalPhase.ApplyOrbital(ctx, camera.id, camera.inputCom.manualOrbitalAxis, dt);
                 return;

@@ -4,7 +4,7 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class Camera3DFollowPhase {
 
-        internal static void ApplyAutoFollow(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
+        internal static void ApplyAutoFollow(Camera3DContext ctx, TPCamera3DEntity camera, float dt) {
             if (camera.followX) {
                 TPCamera3DMoveDomain.ApplyFollowXYZ(ctx, camera.id, camera.personTRS, dt);
                 return;

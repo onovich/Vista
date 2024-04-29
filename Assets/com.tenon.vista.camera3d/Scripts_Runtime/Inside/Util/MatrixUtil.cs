@@ -5,12 +5,12 @@ namespace TenonKit.Vista.Camera3D {
     internal static class MatrixUtil {
 
         // TRS
-        internal static TRS3DComponent ApplyTRSWithOffset(in TRS3DComponent target, in TRS3DComponent offset) {
+        internal static TRS3DModel ApplyTRSWithOffset(in TRS3DModel target, in TRS3DModel offset) {
             if (target.r.x == 0 && target.r.y == 0 && target.r.z == 0 && target.r.w == 0) {
                 return target;
             }
             Matrix4x4 m = Matrix4x4.TRS(target.t, target.r, target.s);
-            TRS3DComponent dst = new TRS3DComponent(
+            TRS3DModel dst = new TRS3DModel(
                 m.MultiplyPoint(offset.t),
                 target.r * offset.r,
                 new Vector3(
@@ -23,7 +23,7 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // MVP
-        internal static Matrix4x4 GetModelMatrix(in TRS3DComponent trs) {
+        internal static Matrix4x4 GetModelMatrix(in TRS3DModel trs) {
             return Matrix4x4.TRS(trs.t, trs.r, trs.s);
         }
 

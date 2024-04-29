@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TenonKit.Vista.Camera3D {
 
     // 第三人称相机
-    internal class TPCamera3DModel : ICamera3D {
+    internal class TPCamera3DEntity : ICamera3D {
 
         #region Properties & Components
         // ID
@@ -16,11 +16,11 @@ namespace TenonKit.Vista.Camera3D {
         public bool followX; // When True: Follow X & Y & Z; False: Follow Y & Z, Orbit Z
 
         // TRS
-        internal TRS3DComponent trs;
-        TRS3DComponent ICamera3D.TRS => trs;
+        internal TRS3DModel trs;
+        TRS3DModel ICamera3D.TRS => trs;
 
-        internal TRS3DComponent personTRS;
-        internal TRS3DComponent personOffsetTRS;
+        internal TRS3DModel personTRS;
+        internal TRS3DModel personOffsetTRS;
 
         // Input
         internal InputComponent inputCom;
@@ -40,15 +40,15 @@ namespace TenonKit.Vista.Camera3D {
         Camera3DShakeComponent ICamera3D.ShakeCom => shakeCom;
         #endregion
 
-        internal TPCamera3DModel(int id, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
+        internal TPCamera3DEntity(int id, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
             this.id = id;
             inputCom = new InputComponent();
             shakeCom = new Camera3DShakeComponent();
             fsmCom = new TPCamera3DFSMComponent();
             attrCom = new Camera3DAttributeComponent(fov, nearClip, farClip, aspectRatio);
-            trs = new TRS3DComponent(t, r, s);
-            personTRS = new TRS3DComponent(Vector3.zero, Quaternion.identity, Vector2.zero);
-            personOffsetTRS = new TRS3DComponent(Vector3.zero, Quaternion.identity, Vector2.zero);
+            trs = new TRS3DModel(t, r, s);
+            personTRS = new TRS3DModel(Vector3.zero, Quaternion.identity, Vector2.zero);
+            personOffsetTRS = new TRS3DModel(Vector3.zero, Quaternion.identity, Vector2.zero);
             followX = false;
         }
 

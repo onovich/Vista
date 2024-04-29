@@ -39,7 +39,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
         public RaycastHit[] hitResults;
 
         public Main3DContext(Camera mainCamera,
-                             Vector2 viewSize,
                              Vector3 camaraPanSpeed,
                              float manualPanCancleDuration,
                              EasingType manualPanEasingType,
@@ -48,7 +47,7 @@ namespace TenonKit.Vista.Camera3D.Sample {
                              float manualOrbitalCancleDuration,
                              EasingType manualOrbitalEasingType,
                              EasingMode manualOrbitalEasingMode) {
-            core = new Camera3DCore(mainCamera, viewSize);
+            core = new Camera3DCore();
             this.mainCamera = mainCamera;
             isGameStart = false;
             hitResults = new RaycastHit[10];

@@ -7,10 +7,8 @@ namespace TenonKit.Vista.Camera3D {
 
         Camera3DContext ctx;
 
-        public Camera3DCore(Camera mainCamera, Vector2 viewSize) {
+        public Camera3DCore() {
             ctx = new Camera3DContext();
-            ctx.Inject(mainCamera);
-            ctx.Init(viewSize, mainCamera.fieldOfView);
         }
 
         // Tick
@@ -19,10 +17,10 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Camera
-        public int CreateTPCamera(Vector3 pos, Vector3 offset, Quaternion rot, float fov, Transform person, bool followX = false) {
-            var camera = Camera3DFactory.CreateTPCamera(ctx, pos, offset, rot, fov, person, followX);
+        public int CreateTPCamera(Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
+            var camera = Camera3DFactory.CreateTPCamera(ctx, t, r, s, fov, nearClip, farClip, aspectRatio);
             ctx.AddTPCamera(camera, camera.id);
-            camera.fsmComponent.AutoFollow_Enter();
+            camera.fsmCom.AutoFollow_Enter();
             return camera.id;
         }
 
@@ -45,16 +43,6 @@ namespace TenonKit.Vista.Camera3D {
             camera.lookAtDampingFactor = lookAtDampingFactor;
         }
 
-        // Person
-        public void SetTPCameraPersonBounds(int cameraID, Bounds bounds) {
-            var has = ctx.TryGetTPCamera(cameraID, out var camera);
-            if (!has) {
-                V3Log.Error($"SetPersonBounds Error, Camera Not Found: ID = {cameraID}");
-                return;
-            }
-            camera.personBounds = bounds;
-        }
-
         // Manual Pan
         public void ManualPan_Set(int cameraID, Vector3 speed) {
             var has = ctx.TryGetTPCamera(cameraID, out var camera);
@@ -62,7 +50,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualPan_Set Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualPan_Enter(speed);
+            camera.fsmCom.ManualPan_Enter(speed);
         }
 
         public void ManualPan_Apply(int cameraID, Vector3 axis) {
@@ -71,7 +59,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualPan_Apply Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.inputComponent.SetManualPanAxis(axis);
+            camera.inputCom.SetManualPanAxis(axis);
         }
 
         public void ManualPan_Cancle(int cameraID, float duration, EasingType easingType = EasingType.Sine, EasingMode easingMode = EasingMode.EaseIn) {
@@ -80,7 +68,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualPan_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualPan_Recenter(duration, camera.pos, easingType, easingMode);
+            camera.fsmCom.ManualPan_Recenter(duration, camera.trsCom.t, easingType, easingMode);
         }
 
         // Manual Orbital
@@ -90,7 +78,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualOrbital_Set Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbital_Enter(speed);
+            camera.fsmCom.ManualOrbital_Enter(speed);
         }
 
         public void ManualOrbital_Apply(int cameraID, Vector2 axis) {
@@ -99,7 +87,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualOrbital_Apply Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.inputComponent.SetManualOrbitalAxis(axis);
+            camera.inputCom.SetManualOrbitalAxis(axis);
         }
 
         public void ManualOrbital_Cancle(int cameraID, float duration, EasingType easingType = EasingType.Sine, EasingMode easingMode = EasingMode.EaseIn) {
@@ -108,7 +96,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"ManualOrbital_Recenter Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.fsmComponent.ManualOrbital_Recenter(duration, camera.pos, camera.rotation, easingType, easingMode);
+            camera.fsmCom.ManualOrbital_Recenter(duration, camera.trsCom.t, camera.trsCom.r, easingType, easingMode);
         }
 
         // Shake
@@ -118,7 +106,7 @@ namespace TenonKit.Vista.Camera3D {
                 V3Log.Error($"Shake Error, Camera Not Found: ID = {cameraID}");
                 return;
             }
-            camera.shakeComponent.ShakeOnce(frequency, amplitude, duration, easingType, easingMode);
+            camera.shakeCom.ShakeOnce(frequency, amplitude, duration, easingType, easingMode);
         }
 
         public void Clear() {

@@ -9,7 +9,7 @@ namespace TenonKit.Vista.Camera3D {
             ctx.TPCamera_ForEach((camera) => {
                 TPCamera3DFSMController.TickFSM(ctx, camera, fixdt);
                 Camera3DShakePhase.Tick(ctx, camera, fixdt);
-                camera.inputComponent.Reset();
+                camera.inputCom.Reset();
             });
 
         }

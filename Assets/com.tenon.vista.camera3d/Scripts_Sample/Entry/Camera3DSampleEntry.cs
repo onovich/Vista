@@ -56,7 +56,6 @@ namespace TenonKit.Vista.Camera3D.Sample {
             // Context
             var viewSize = new Vector2(Screen.width, Screen.height);
             ctx = new Main3DContext(agent,
-                                    viewSize,
                                     manualPanSpeed,
                                     manualPanCancleDuration,
                                     manualPanEasingType,
@@ -70,10 +69,14 @@ namespace TenonKit.Vista.Camera3D.Sample {
             ctx.SetPerson(person);
 
             // Camera
-            var cameraOriginPos = agent.transform.position;
-            var cameraOriginRot = agent.transform.rotation;
-            var cameraOriginFov = agent.fieldOfView;
-            var cameraID = Camera3DInfra.CreateTPCamera(ctx, cameraOriginPos, cameraOriginPos, cameraOriginRot, cameraOriginFov, person.transform, followX);
+            var t = agent.transform.position;
+            var r = agent.transform.rotation;
+            var s = agent.transform.localScale;
+            var fov = agent.fieldOfView;
+            var nearClip = agent.nearClipPlane;
+            var farClip = agent.farClipPlane;
+            var aspectRatio = agent.aspect;
+            var cameraID = Camera3DInfra.CreateTPCamera(ctx, t, r, s, fov, nearClip, farClip, aspectRatio);
 
             // Damping Factor
             Camera3DInfra.SetTPCameraFollowDamppingFactor(ctx, followDampingFactor);

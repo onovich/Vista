@@ -6,25 +6,24 @@ namespace TenonKit.Vista.Camera3D {
 
     internal static class TPCamera3DMoveDomain {
 
-        internal static void SetPos(Camera3DContext ctx, int id, Camera agent, Vector3 cameraWorldPos) {
+        internal static void SetPos(Camera3DContext ctx, int id, Vector3 cameraWorldPos) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            currentCamera.pos = cameraWorldPos;
-            agent.transform.position = new Vector3(cameraWorldPos.x, cameraWorldPos.y, cameraWorldPos.z);
+            currentCamera.trsCom.t = cameraWorldPos;
         }
 
-        internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, Camera adgent, Transform person, float deltaTime) {
+        internal static void ApplyFollowXYZ(Camera3DContext ctx, int id, Transform person, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            Vector3 cameraWorldPos = currentCamera.pos;
+            Vector3 cameraWorldPos = currentCamera.trsCom.t;
             Vector3 targetWorldPos = currentCamera.PersonWorldFollowPoint;
 
             // 将目标位置转换为基于角色的局部坐标系
@@ -42,18 +41,18 @@ namespace TenonKit.Vista.Camera3D {
             // 将修改后的局部坐标转换回全局坐标系
             cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
 
-            TPCamera3DMoveDomain.SetPos(ctx, id, adgent, cameraWorldPos);
+            TPCamera3DMoveDomain.SetPos(ctx, id, cameraWorldPos);
             return;
         }
 
-        internal static void ApplyFollowYZ(Camera3DContext ctx, int id, Camera agent, Transform person, float deltaTime) {
+        internal static void ApplyFollowYZ(Camera3DContext ctx, int id, Transform person, float deltaTime) {
             var has = ctx.TryGetTPCamera(id, out var currentCamera);
             if (!has) {
                 V3Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
                 return;
             }
 
-            Vector3 cameraWorldPos = currentCamera.pos;
+            Vector3 cameraWorldPos = currentCamera.trsCom.t;
             Vector3 targetWorldPos = currentCamera.PersonWorldFollowPoint;
 
             // 将目标位置转换为基于角色的局部坐标系
@@ -70,7 +69,7 @@ namespace TenonKit.Vista.Camera3D {
             // 将修改后的局部坐标转换回全局坐标系
             cameraWorldPos = driverWorldPos + (driverRotation * cameraLocalPos);
 
-            TPCamera3DMoveDomain.SetPos(ctx, id, agent, cameraWorldPos);
+            SetPos(ctx, id, cameraWorldPos);
             return;
         }
 

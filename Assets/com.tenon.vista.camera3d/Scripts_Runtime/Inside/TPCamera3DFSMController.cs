@@ -10,7 +10,7 @@ namespace TenonKit.Vista.Camera3D {
 
             TickFSM_Any(ctx, camera, dt);
 
-            TPCamera3DFSMStatus status = camera.fsmComponent.Status;
+            TPCamera3DFSMStatus status = camera.fsmCom.Status;
             if (status == TPCamera3DFSMStatus.DoNothing) {
                 TickFSM_DoNothing(ctx, camera, dt);
             } else if (status == TPCamera3DFSMStatus.AutoFollow) {
@@ -37,8 +37,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         static void TickFSM_ManualPan(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
-            if (!camera.fsmComponent.manualPan_isRecentering) {
-                Camera3DManualPanPhase.ApplyPan(ctx, camera.id, ctx.cameraAgent, camera.inputComponent.manualPanAxis, dt);
+            if (!camera.fsmCom.manualPan_isRecentering) {
+                Camera3DManualPanPhase.ApplyPan(ctx, camera.id, camera.inputCom.manualPanAxis, dt);
                 return;
             }
 
@@ -46,8 +46,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         static void TickFSM_ManualOrbital(Camera3DContext ctx, TPCamera3DModel camera, float dt) {
-            if (!camera.fsmComponent.manualOrbital_isRecentering) {
-                Camera3DManualOrbitalPhase.ApplyOrbital(ctx, camera.id, ctx.cameraAgent, camera.inputComponent.manualOrbitalAxis, dt);
+            if (!camera.fsmCom.manualOrbital_isRecentering) {
+                Camera3DManualOrbitalPhase.ApplyOrbital(ctx, camera.id, camera.inputCom.manualOrbitalAxis, dt);
                 return;
             }
 

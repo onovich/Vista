@@ -14,8 +14,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         // Camera
-        public static int CreateTPCamera(Main3DContext ctx, Vector3 pos, Vector3 offset, Quaternion rot, float fov, Transform person, bool followX) {
-            var mainCameraID = ctx.core.CreateTPCamera(pos, offset, rot, fov, person, followX);
+        public static int CreateTPCamera(Main3DContext ctx, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
+            var mainCameraID = ctx.core.CreateTPCamera(t, r, s, fov, nearClip, farClip, aspectRatio);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
         }

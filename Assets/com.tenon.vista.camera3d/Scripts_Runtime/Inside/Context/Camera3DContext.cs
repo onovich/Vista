@@ -9,15 +9,8 @@ namespace TenonKit.Vista.Camera3D {
         // Service
         internal IDService3D idService;
 
-        // Global Info
-        internal Vector2 viewSize;
-        internal float aspect;
-
         // Repo
         internal SortedList<int, TPCamera3DModel> tpCameras;
-
-        // IoC
-        internal Camera cameraAgent;
 
         // State
         internal bool confinerIsVaild;
@@ -26,15 +19,6 @@ namespace TenonKit.Vista.Camera3D {
             tpCameras = new SortedList<int, TPCamera3DModel>();
             idService = new IDService3D();
             confinerIsVaild = true;
-        }
-
-        internal void Init(Vector2 viewSize, float aspect) {
-            this.viewSize = viewSize;
-            this.aspect = aspect;
-        }
-
-        internal void Inject(Camera cameraAgent) {
-            this.cameraAgent = cameraAgent;
         }
 
         internal void AddTPCamera(TPCamera3DModel camera, int id) {

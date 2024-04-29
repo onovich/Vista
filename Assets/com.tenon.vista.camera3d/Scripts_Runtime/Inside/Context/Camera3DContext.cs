@@ -15,9 +15,6 @@ namespace TenonKit.Vista.Camera3D {
 
         // Repo
         internal SortedList<int, TPCamera3DModel> tpCameras;
-        internal SortedList<int, FPCamera3DModel> fpCameras;
-        internal SortedList<int, DollyTrackCamera3DModel> dollyTrackCameras;
-        internal SortedList<int, FlyCamera3DModel> flyCameras;
 
         // IoC
         internal Camera cameraAgent;
@@ -27,10 +24,6 @@ namespace TenonKit.Vista.Camera3D {
 
         internal Camera3DContext() {
             tpCameras = new SortedList<int, TPCamera3DModel>();
-            fpCameras = new SortedList<int, FPCamera3DModel>();
-            dollyTrackCameras = new SortedList<int, DollyTrackCamera3DModel>();
-            flyCameras = new SortedList<int, FlyCamera3DModel>();
-
             idService = new IDService3D();
             confinerIsVaild = true;
         }
@@ -72,29 +65,8 @@ namespace TenonKit.Vista.Camera3D {
             }
         }
 
-        internal void FPCamera_ForEach(Action<FPCamera3DModel> action) {
-            foreach (var camera in fpCameras.Values) {
-                action(camera);
-            }
-        }
-
-        internal void DollyTrackCamera_ForEach(Action<DollyTrackCamera3DModel> action) {
-            foreach (var camera in dollyTrackCameras.Values) {
-                action(camera);
-            }
-        }
-
-        internal void FlyCamera_ForEach(Action<FlyCamera3DModel> action) {
-            foreach (var camera in flyCameras.Values) {
-                action(camera);
-            }
-        }
-
         internal void Clear() {
             tpCameras.Clear();
-            fpCameras.Clear();
-            dollyTrackCameras.Clear();
-            flyCameras.Clear();
         }
 
     }

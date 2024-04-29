@@ -17,6 +17,9 @@ namespace TenonKit.Vista.Camera3D {
 
         // Attr
         internal float fov;
+        internal float nearClip;
+        internal float farClip;
+        internal float aspectRatio;
 
         // Pos
         internal Vector3 pos;
@@ -75,6 +78,21 @@ namespace TenonKit.Vista.Camera3D {
         Vector3 GetPersonWorldFollowPoint() {
             Vector3 worldOffset = person.TransformDirection(personFollowPointLocalOffset);
             return person.position + worldOffset;
+        }
+
+        // Matrix
+        Matrix4x4 ICamera3D.GetProjectionMatrix() {
+            return Matrix4x4.Perspective(fov, aspectRatio, nearClip, farClip);
+        }
+
+        Matrix4x4 ICamera3D.GetViewMatrix() {
+            var m = Matrix4x4.TRS(pos, rotation, Vector3.one);
+            m = Matrix4x4.Inverse(m);
+            // m.m20 *= -1f;
+            // m.m21 *= -1f;
+            // m.m22 *= -1f;
+            // m.m23 *= -1f;
+            return m;
         }
         #endregion
 

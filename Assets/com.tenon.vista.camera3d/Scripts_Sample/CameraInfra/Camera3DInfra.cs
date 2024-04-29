@@ -19,8 +19,8 @@ namespace TenonKit.Vista.Camera3D.Sample {
         }
 
         // Camera
-        public static int CreateTPCamera(Main3DContext ctx, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
-            var mainCameraID = ctx.core.CreateTPCamera(t, r, s, fov, nearClip, farClip, aspectRatio);
+        public static int CreateTPCamera(Main3DContext ctx, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio, float screenWidth) {
+            var mainCameraID = ctx.core.CreateTPCamera(t, r, s, fov, nearClip, farClip, aspectRatio, screenWidth);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
         }
@@ -31,6 +31,16 @@ namespace TenonKit.Vista.Camera3D.Sample {
 
         public static void SetTPCameraFollowX(Main3DContext ctx, bool followX) {
             ctx.core.SetTPCameraFollowX(ctx.mainCameraID, followX);
+        }
+
+        // DeadZone
+        public static void SetTPCameraDeadZone(Main3DContext ctx, Vector2 deadZoneFOV) {
+            ctx.core.SetTPCameraDeadZone(ctx.mainCameraID, deadZoneFOV);
+        }
+
+        // SoftZone
+        public static void SetTPCameraSoftZone(Main3DContext ctx, Vector2 softZoneFOV) {
+            ctx.core.SetTPCameraSoftZone(ctx.mainCameraID, softZoneFOV);
         }
 
         // Damping Factor

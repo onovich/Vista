@@ -13,21 +13,37 @@ namespace TenonKit.Vista.Camera3D {
             }
 
             // DeadZone
-            // if (camera.deadZone.IsEnable) {
-            //     var color = Color.red;
-            //     var lb = camera.deadZone.LB;
-            //     var size = camera.deadZone.Size;
-            //     DrawBox(lb, size, color);
-            // }
+            if (camera.deadZoneCom.IsEnable) {
+                var color = Color.red;
+                var fov = camera.deadZoneCom.DeadZoneFOV;
+                var dist = Vector3.Distance(camera.trs.t, camera.personTRS.t);
+                var screenSize = camera.attrCom.screenSize;
+                DrawFOVRectangle(camera, dist, screenSize, fov, color);
+            }
 
-            // // SoftZone
-            // if (camera.softZone.IsEnable) {
-            //     var color = Color.blue;
-            //     var lb = camera.softZone.LB;
-            //     var size = camera.softZone.Size;
-            //     DrawBox(lb, size, color);
-            // }
+            // SoftZone
+            if (camera.softZoneCom.IsEnable) {
+                var color = Color.blue;
+                var fov = camera.softZoneCom.DeadZoneFOV;
+                var dist = Vector3.Distance(camera.trs.t, camera.personTRS.t);
+                var screenSize = camera.attrCom.screenSize;
+                DrawFOVRectangle(camera, dist, screenSize, fov, color);
+            }
 
+        }
+
+        static void DrawFOVRectangle(TPCamera3DEntity camera, float dist, Vector2 screenSize, Vector2 fov, Color color) {
+            float deadZoneVerticalFOV = fov.y;
+            float deadZoneHorizontalFOV = fov.x;
+
+            float cameraVerticalFOV = camera.attrCom.fov;
+            float cameraHorizontalFOV = cameraVerticalFOV * camera.attrCom.aspectRatio;
+
+            float deadZoneHeight = screenSize.y * (deadZoneVerticalFOV / cameraVerticalFOV);
+            float deadZoneWidth = screenSize.x * (deadZoneHorizontalFOV / cameraHorizontalFOV);
+
+            Vector2 bottomLeft = new Vector2((screenSize.x - deadZoneWidth) / 2, (screenSize.y - deadZoneHeight) / 2);
+            DrawBox(bottomLeft, new Vector2(deadZoneWidth, deadZoneHeight), color);
         }
 
         static void DrawBox(Vector2 lb, Vector2 size, Color color) {

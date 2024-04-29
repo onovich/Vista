@@ -27,8 +27,8 @@ namespace TenonKit.Vista.Camera3D {
         }
 
         // Camera
-        public int CreateTPCamera(Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
-            var camera = Camera3DFactory.CreateTPCamera(ctx, t, r, s, fov, nearClip, farClip, aspectRatio);
+        public int CreateTPCamera(Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio, float screenWidth) {
+            var camera = Camera3DFactory.CreateTPCamera(ctx, t, r, s, fov, nearClip, farClip, aspectRatio, screenWidth);
             ctx.AddTPCamera(camera, camera.id);
             camera.fsmCom.AutoFollow_Enter();
             return camera.id;
@@ -53,6 +53,26 @@ namespace TenonKit.Vista.Camera3D {
                 return;
             }
             camera.FollowX_Set(followX);
+        }
+
+        // DeadZone
+        public void SetTPCameraDeadZone(int cameraID, Vector2 deadZoneFOV) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetDeadZone Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.deadZoneCom.Zone_Set(deadZoneFOV);
+        }
+
+        // SoftZone
+        public void SetTPCameraSoftZone(int cameraID, Vector2 softZoneFOV) {
+            var has = ctx.TryGetTPCamera(cameraID, out var camera);
+            if (!has) {
+                V3Log.Error($"SetSoftZone Error, Camera Not Found: ID = {cameraID}");
+                return;
+            }
+            camera.softZoneCom.Zone_Set(softZoneFOV);
         }
 
         // Damping Factor

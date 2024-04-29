@@ -12,10 +12,10 @@ namespace TenonKit.Vista.Camera3D.Sample {
         [SerializeField] bool followX;
 
         [Header("Dead Zone Config")]
-        [SerializeField] Vector2 deadZoneNormalizedSize;
+        [SerializeField] Vector2 deadZoneFOV;
 
         [Header("Soft Zone Config")]
-        [SerializeField] Vector2 softZoneNormalizedSize;
+        [SerializeField] Vector2 softZoneFOV;
 
         [Header("DampingFactor Config")]
         [SerializeField] Vector3 followDampingFactor;
@@ -77,11 +77,18 @@ namespace TenonKit.Vista.Camera3D.Sample {
             var nearClip = agent.nearClipPlane;
             var farClip = agent.farClipPlane;
             var aspectRatio = agent.aspect;
-            var cameraID = Camera3DInfra.CreateTPCamera(ctx, t, r, s, fov, nearClip, farClip, aspectRatio);
+            var screenWidth = screenSize.x;
+            var cameraID = Camera3DInfra.CreateTPCamera(ctx, t, r, s, fov, nearClip, farClip, aspectRatio, screenWidth);
 
             // Damping Factor
             Camera3DInfra.SetTPCameraFollowDamppingFactor(ctx, followDampingFactor);
             Camera3DInfra.SetTPCameraLookAtDamppingFactor(ctx, lookAtDampingFactor);
+
+            // Dead Zone
+            Camera3DInfra.SetTPCameraDeadZone(ctx, deadZoneFOV);
+
+            // Soft Zone
+            Camera3DInfra.SetTPCameraSoftZone(ctx, softZoneFOV);
 
             // Offset
             Camera3DInfra.SetPersonOffset(ctx, t, r, s);

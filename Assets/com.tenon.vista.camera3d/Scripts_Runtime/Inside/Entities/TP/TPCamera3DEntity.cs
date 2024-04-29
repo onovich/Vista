@@ -32,6 +32,12 @@ namespace TenonKit.Vista.Camera3D {
         internal Vector3 followDampingFactor;
         internal float lookAtDampingFactor;
 
+        // DeadZone
+        internal TPCamera3DDeadZoneComponent deadZoneCom;
+
+        // SoftZone
+        internal TPCamera3DDeadZoneComponent softZoneCom;
+
         // FSM
         internal TPCamera3DFSMComponent fsmCom;
 
@@ -40,12 +46,14 @@ namespace TenonKit.Vista.Camera3D {
         Camera3DShakeComponent ICamera3D.ShakeCom => shakeCom;
         #endregion
 
-        internal TPCamera3DEntity(int id, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio) {
+        internal TPCamera3DEntity(int id, Vector3 t, Quaternion r, Vector3 s, float fov, float nearClip, float farClip, float aspectRatio, float screenWidth) {
             this.id = id;
             inputCom = new InputComponent();
             shakeCom = new Camera3DShakeComponent();
             fsmCom = new TPCamera3DFSMComponent();
-            attrCom = new Camera3DAttributeComponent(fov, nearClip, farClip, aspectRatio);
+            attrCom = new Camera3DAttributeComponent(fov, nearClip, farClip, aspectRatio, screenWidth);
+            deadZoneCom = new TPCamera3DDeadZoneComponent();
+            softZoneCom = new TPCamera3DDeadZoneComponent();
             trs = new TRS3DModel(t, r, s);
             personTRS = new TRS3DModel(Vector3.zero, Quaternion.identity, Vector2.zero);
             personOffsetTRS = new TRS3DModel(Vector3.zero, Quaternion.identity, Vector2.zero);
@@ -79,6 +87,15 @@ namespace TenonKit.Vista.Camera3D {
             personOffsetTRS.t = t;
             personOffsetTRS.r = r;
             personOffsetTRS.s = s;
+        }
+
+        // DeadZone
+        internal void DeadZone_Set(Vector2 deadZoneFOV) {
+            deadZoneCom.Zone_Set(deadZoneFOV);
+        }
+
+        internal void DeadZone_Enable(bool enable) {
+            deadZoneCom.Enable_Set(enable);
         }
 
         // Matrix

@@ -87,7 +87,7 @@ namespace TenonKit.Vista.Camera3D {
 
         // Target
         public Vector3 GetPersonWorldFollowPoint() {
-            return MatrixUtil.TransformDirection(personTRS, personOffsetTRS.t) + personTRS.t;
+            return MatrixUtil.ApplyTRSWithOffset(in personTRS, in personOffsetTRS).t;
         }
 
         public Quaternion GetPersonWorldFollowRotation() {

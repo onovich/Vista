@@ -22,13 +22,6 @@ namespace TenonKit.Vista.Camera3D {
             return dst;
         }
 
-        internal static Vector3 TransformDirection(TRS3DComponent trs, Vector3 direction) {
-            Vector4 dir = new Vector4(direction.x, direction.y, direction.z, 0);
-            var matrix = GetModelMatrix(trs);
-            Vector4 transformedDir = matrix * dir;
-            return new Vector3(transformedDir.x, transformedDir.y, transformedDir.z).normalized;
-        }
-
         // MVP
         internal static Matrix4x4 GetModelMatrix(in TRS3DComponent trs) {
             return Matrix4x4.TRS(trs.t, trs.r, trs.s);

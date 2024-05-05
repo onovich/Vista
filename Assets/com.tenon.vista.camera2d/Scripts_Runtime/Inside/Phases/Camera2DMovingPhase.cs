@@ -52,10 +52,11 @@ namespace TenonKit.Vista.Camera2D {
 
             var driverPos = current.DriverPos;
             var lastFrameDriverPos = current.LastFrameDriverPos;
-            if (driverPos == lastFrameDriverPos) {
-                fsmCom.EnterIdle();
-                return;
-            }
+            // if (driverPos == lastFrameDriverPos) {
+            //     fsmCom.EnterIdle();
+            //     Debug.Log("$Camera2DMovingPhase.TickMovingByDriver: {driverPos} == {lastFrameDriverPos}");
+            //     return;
+            // }
 
             Camera2DMoveDomain.MoveByDriver(ctx, current.ID, driverPos, dt);
         }

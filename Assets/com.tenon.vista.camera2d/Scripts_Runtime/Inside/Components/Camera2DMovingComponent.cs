@@ -34,6 +34,7 @@ namespace TenonKit.Vista.Camera2D {
         internal void EnterIdle() {
             Status = Camera2DMovingStatus.Idle;
             Idle_isEntering = true;
+            Debug.Log("Camera2DMovingComponent.EnterIdle");
         }
 
         internal void EnterMovingByDriver() {

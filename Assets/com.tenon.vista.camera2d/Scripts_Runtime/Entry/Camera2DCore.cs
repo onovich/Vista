@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using MortiseFrame.Swing;
+using UnityEngine.UIElements.Experimental;
 
 namespace TenonKit.Vista.Camera2D {
 
@@ -52,8 +53,14 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // SoftZone
-        public void SetSoftZone(int cameraID, Vector2 normalizedSize, Vector2 offset, Vector2 dampingFactor) {
-            Camera2DDeadZoneDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset, dampingFactor);
+        public void SetSoftZone(int cameraID,
+                                Vector2 normalizedSize,
+                                Vector2 offset,
+                                Vector2 dampingFactor,
+                                EasingType recenterEasingType = EasingType.Sine,
+                                EasingMode recenterEasingMode = EasingMode.EaseOut,
+                                float recenterDuration = .2f) {
+            Camera2DDeadZoneDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset, dampingFactor, recenterEasingType, recenterEasingMode, recenterDuration);
         }
 
         public void EnableSoftZone(int cameraID, bool enable) {

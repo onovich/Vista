@@ -462,6 +462,9 @@ MonoBehaviour:
   deadZoneSize: {x: 0.2, y: 0.2}
   softZoneSize: {x: 0.6, y: 0.6}
   softZoneDampingFactor: {x: 0.2, y: 0.99}
+  recenterEasingType: 1
+  recenterEasingMode: 2
+  recenterEasingDuration: 0.2
   role: {fileID: 931528809}
   targets:
   - {fileID: 771785478}

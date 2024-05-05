@@ -51,13 +51,18 @@ namespace TenonKit.Vista.Camera2D {
 
             var driverPos = current.DriverPos;
             var lastFrameDriverPos = current.LastFrameDriverPos;
-            var targetPos = Camera2DMoveDomain.GetDriverTarget(ctx, current.ID, driverPos, dt);
+            var dampingtargetPos = Camera2DMoveDomain.GetDriverTargetWithDamping(ctx, current.ID, driverPos, dt);
+            var targetPos = Camera2DMoveDomain.GetDriverTargetWithoutDamping(ctx, current.ID, driverPos, dt);
             if (driverPos == lastFrameDriverPos) {
-                // fsmCom.EnterMovingByDriverRelease(current.Pos, targetPos, 0.2f, EasingType.Linear, EasingMode.None);
-                // return;
+                fsmCom.EnterMovingByDriverRelease(current.Pos,
+                                                  targetPos,
+                                                  current.EasingDuration,
+                                                  current.EasingType,
+                                                  current.EasingMode);
+                return;
             }
 
-            Camera2DMoveDomain.MoveByDriver(ctx, current.ID, targetPos);
+            Camera2DMoveDomain.MoveByDriver(ctx, current.ID, dampingtargetPos);
         }
 
         static void TickMovingByDriverRelease(Camera2DContext ctx, float dt) {
@@ -74,25 +79,24 @@ namespace TenonKit.Vista.Camera2D {
                 return;
             }
 
-            if (fsmCom.MovingByDriverRelease_IsDone()) {
-                return;
-            }
-
             var startPos = fsmCom.MovingByDriverRelease_startPos;
             var targetPos = fsmCom.MovingByDriverRelease_targetPos;
+
+            if (fsmCom.MovingByDriverRelease_IsDone()) {
+                Camera2DMoveDomain.RefreshCameraPos(ctx, camera.ID, targetPos);
+                return;
+            }
 
             if (startPos == targetPos) {
                 return;
             }
 
-            var currentPos = fsmCom.MovingByDriverRelease_current;
+            var current = fsmCom.MovingByDriverRelease_current;
             var duration = fsmCom.MovingByDriverRelease_duration;
             var easingType = fsmCom.MovingByDriverRelease_easingType;
             var easingMode = fsmCom.MovingByDriverRelease_easingMode;
 
-            Debug.Log("MovingByDriverRelease: " + startPos + " -> " + targetPos);
-
-            Camera2DMoveDomain.MoveToTarget(ctx, camera.ID, startPos, targetPos, currentPos, duration, easingType, easingMode);
+            Camera2DMoveDomain.MoveToTarget(ctx, camera.ID, startPos, targetPos, current, duration, easingType, easingMode);
             fsmCom.MovingByDriverRelease_IncTimer(dt);
         }
 

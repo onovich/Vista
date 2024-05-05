@@ -18,6 +18,9 @@ namespace TenonKit.Vista.Camera2D.Sample {
         [SerializeField] Vector2 deadZoneSize;
         [SerializeField] Vector2 softZoneSize;
         [SerializeField] Vector2 softZoneDampingFactor;
+        [SerializeField] EasingType recenterEasingType;
+        [SerializeField] EasingMode recenterEasingMode;
+        [SerializeField] float recenterEasingDuration;
 
         [Header("Driver Config")]
         [SerializeField] Role2DEntity role;
@@ -55,7 +58,13 @@ namespace TenonKit.Vista.Camera2D.Sample {
                                                           role.transform.position);
             Camera2DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
-            ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero, softZoneDampingFactor);
+            ctx.core.SetSoftZone(ctx.mainCameraID,
+                                 softZoneSize,
+                                 Vector2.zero,
+                                 softZoneDampingFactor,
+                                 recenterEasingType,
+                                 recenterEasingMode,
+                                 recenterEasingDuration);
             ctx.core.EnableDeadZone(ctx.mainCameraID, true);
             ctx.core.EnableSoftZone(ctx.mainCameraID, true);
             ctx.SetRole(role);

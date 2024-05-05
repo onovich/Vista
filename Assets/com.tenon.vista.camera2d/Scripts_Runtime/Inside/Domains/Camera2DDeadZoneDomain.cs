@@ -34,13 +34,21 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // SoftZone
-        internal static void SetSoftZone(Camera2DContext ctx, int id, Vector2 normalizedSize, Vector2 offset, Vector2 dampingFactor) {
+        internal static void SetSoftZone(Camera2DContext ctx,
+                                         int id,
+                                         Vector2 normalizedSize,
+                                         Vector2 offset,
+                                         Vector2 dampingFactor,
+                                         EasingType easingType,
+                                         EasingMode easingMode,
+                                         float easingDuration) {
             var has = ctx.TryGetCamera(id, out var camera);
             if (!has) {
                 V2Log.Error($"SetSoftZone Error, Camera Not Found: ID = {id}");
                 return;
             }
             camera.SetSoftZone(normalizedSize, ctx.ScreenSize, dampingFactor);
+            camera.SetEasing(easingType, easingMode, easingDuration);
         }
 
         internal static void EnableSoftZone(Camera2DContext ctx, int id, bool enable) {

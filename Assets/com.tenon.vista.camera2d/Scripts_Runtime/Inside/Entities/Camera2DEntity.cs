@@ -29,6 +29,16 @@ namespace TenonKit.Vista.Camera2D {
         float aspect;
         internal float Aspect => aspect;
 
+        // Easing
+        EasingMode easingMode;
+        internal EasingMode EasingMode => easingMode;
+
+        EasingType easingType;
+        internal EasingType EasingType => easingType;
+
+        float easingDuration;
+        internal float EasingDuration => easingDuration;
+
         // Confiner
         Camera2DConfinerComponent confinerComponent;
 
@@ -71,6 +81,13 @@ namespace TenonKit.Vista.Camera2D {
         internal void RecordDriverPos(Vector2 pos) {
             lastFrameDriverPos = driverPos;
             driverPos = pos;
+        }
+
+        // Easing
+        internal void SetEasing(EasingType type, EasingMode mode, float duration) {
+            easingType = type;
+            easingMode = mode;
+            easingDuration = duration;
         }
 
         // ID

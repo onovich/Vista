@@ -9,13 +9,24 @@ namespace TenonKit.Vista.Camera2D.Sample {
             return ctx.core.Tick(dt);
         }
 
+        public static void RecordDriverPos(Main2DContext ctx, Vector2 driverPos) {
+            ctx.core.RecordDriverPos(ctx.mainCameraID, driverPos);
+        }
+
         public static void DrawGizmos(Main2DContext ctx) {
             ctx.core.DrawGizmos();
         }
 
         // Camera
-        public static int CreateMainCamera(Main2DContext ctx, Vector3 pos, float rot, float size, float aspect, Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
-            var mainCameraID = ctx.core.CreateCamera2D(pos, rot, size, aspect, confinerWorldMax, confinerWorldMin);
+        public static int CreateMainCamera(Main2DContext ctx,
+                                           Vector3 pos,
+                                           float rot,
+                                           float size,
+                                           float aspect,
+                                           Vector2 confinerWorldMax,
+                                           Vector2 confinerWorldMin,
+                                           Vector2 driverPos) {
+            var mainCameraID = ctx.core.CreateCamera2D(pos, rot, size, aspect, confinerWorldMax, confinerWorldMin, driverPos);
             ctx.mainCameraID = mainCameraID;
             return mainCameraID;
         }
@@ -29,8 +40,8 @@ namespace TenonKit.Vista.Camera2D.Sample {
             ctx.core.SetMoveToTarget(ctx.mainCameraID, target, duration, easingType, easingMode, onComplete);
         }
 
-        public static void SetMoveByDriver(Main2DContext ctx, Transform driver) {
-            ctx.core.SetMoveByDriver(ctx.mainCameraID, driver);
+        public static void SetMoveByDriver(Main2DContext ctx) {
+            ctx.core.SetMoveByDriver(ctx.mainCameraID);
         }
 
     }

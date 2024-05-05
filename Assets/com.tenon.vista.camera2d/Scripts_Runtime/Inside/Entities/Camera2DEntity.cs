@@ -42,11 +42,18 @@ namespace TenonKit.Vista.Camera2D {
         Camera2DMovingComponent fsmCom;
         internal Camera2DMovingComponent FSMCom => fsmCom;
 
+        // Follow
+        Vector2 driverPos;
+        public Vector2 DriverPos => driverPos;
+
+        Vector2 lastFrameDriverPos;
+        public Vector2 LastFrameDriverPos => lastFrameDriverPos;
+
         // Shake
         Camera2DShakeComponent shakeComponent;
         internal Camera2DShakeComponent ShakeComponent => shakeComponent;
 
-        internal Camera2DEntity(Vector3 pos, float rot, float size, float aspect) {
+        internal Camera2DEntity(Vector3 pos, float rot, float size, float aspect, Vector2 driverPos) {
             fsmCom = new Camera2DMovingComponent();
             deadZoneComponent = new Camera2DDeadZoneComponent();
             softZoneComponent = new Camera2DDeadZoneComponent();
@@ -56,6 +63,14 @@ namespace TenonKit.Vista.Camera2D {
             SetRotation(rot);
             SetSize(size);
             SetAspectRatio(aspect);
+            lastFrameDriverPos = driverPos;
+            this.driverPos = driverPos;
+        }
+
+        // Driver
+        internal void RecordDriverPos(Vector2 pos) {
+            lastFrameDriverPos = driverPos;
+            driverPos = pos;
         }
 
         // ID

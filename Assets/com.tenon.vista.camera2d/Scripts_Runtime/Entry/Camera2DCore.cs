@@ -23,9 +23,13 @@ namespace TenonKit.Vista.Camera2D {
             return new Vector3(pos.x, pos.y, z);
         }
 
+        public void RecordDriverPos(int cameraID, Vector2 driverPos) {
+            Camera2DFollowDomain.RecordDriverPos(ctx, cameraID, driverPos);
+        }
+
         // Camera
-        public int CreateCamera2D(Vector3 pos, float rot, float size, float aspect, Vector2 confinerMax, Vector2 confinerMin) {
-            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, rot, size, aspect, confinerMax, confinerMin);
+        public int CreateCamera2D(Vector3 pos, float rot, float size, float aspect, Vector2 confinerMax, Vector2 confinerMin, Vector2 driverPos) {
+            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, rot, size, aspect, confinerMax, confinerMin, driverPos);
             ctx.AddCamera(camera, camera.ID);
             return camera.ID;
         }
@@ -65,8 +69,8 @@ namespace TenonKit.Vista.Camera2D {
             Camera2DFollowDomain.FSM_SetMoveToTarget(ctx, cameraID, target, duration, easingType, easingMode, onComplete);
         }
 
-        public void SetMoveByDriver(int cameraID, Transform driver) {
-            Camera2DFollowDomain.FSM_SetMoveByDriver(ctx, cameraID, driver);
+        public void SetMoveByDriver(int cameraID) {
+            Camera2DFollowDomain.FSM_SetMoveByDriver(ctx, cameraID);
         }
 
         // Shake

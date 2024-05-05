@@ -50,14 +50,14 @@ namespace TenonKit.Vista.Camera2D {
                 fsmCom.MovingByDriver_isEntering = false;
             }
 
-            var driver = fsmCom.MovingByDriver_driver;
-            if (driver == null) {
+            var driverPos = current.DriverPos;
+            var lastFrameDriverPos = current.LastFrameDriverPos;
+            if (driverPos == lastFrameDriverPos) {
                 fsmCom.EnterIdle();
                 return;
             }
 
-            var driverWorldPoint = driver.position;
-            Camera2DMoveDomain.MoveByDriver(ctx, current.ID, driverWorldPoint, dt);
+            Camera2DMoveDomain.MoveByDriver(ctx, current.ID, driverPos, dt);
         }
 
         static void TickMovingToTarget(Camera2DContext ctx, float dt) {

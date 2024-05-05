@@ -51,15 +51,14 @@ namespace TenonKit.Vista.Camera2D.Sample {
                                                           mainCamera.orthographicSize,
                                                           mainCamera.aspect,
                                                           confinerWorldMax,
-                                                          confinerWorldMin);
+                                                          confinerWorldMin,
+                                                          role.transform.position);
             Camera2DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
             ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero, softZoneDampingFactor);
             ctx.core.EnableDeadZone(ctx.mainCameraID, true);
             ctx.core.EnableSoftZone(ctx.mainCameraID, true);
             ctx.SetRole(role);
-
-            Camera2DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
 
             Binding();
             RefreshInfo(ctx.mainCameraID);
@@ -86,7 +85,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
                 RefreshInfo(cameraID);
             };
             navPanel.action_followDriver = () => {
-                Camera2DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+                Camera2DInfra.SetMoveByDriver(ctx);
                 cameraState = 0;
                 RefreshInfo(cameraID);
             };
@@ -148,7 +147,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
         float restDT = 0;
         void Update() {
             var dt = Time.deltaTime;
-            Logic2DBusiness.ProcessInput(ctx);
+            Tick(dt);
             float fixInterval = Time.fixedDeltaTime;
             restDT += dt;
             if (restDT <= fixInterval) {
@@ -163,6 +162,10 @@ namespace TenonKit.Vista.Camera2D.Sample {
             LateTick(dt);
         }
 
+        void Tick(float dt) {
+            Logic2DBusiness.ProcessInput(ctx);
+        }
+
         void FixTick(float dt) {
             Logic2DBusiness.RoleMove(ctx, dt);
             Logic2DBusiness.ResetInput(ctx);
@@ -170,6 +173,8 @@ namespace TenonKit.Vista.Camera2D.Sample {
         }
 
         void LateTick(float dt) {
+            Camera2DInfra.RecordDriverPos(ctx, role.transform.position);
+
             var pos = Camera2DInfra.TickPos(ctx, dt);
             mainCamera.transform.position = pos;
         }

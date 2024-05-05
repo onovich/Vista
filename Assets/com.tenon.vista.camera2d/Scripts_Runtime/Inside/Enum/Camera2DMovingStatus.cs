@@ -5,6 +5,7 @@ namespace TenonKit.Vista.Camera2D {
         None,
         Idle,
         MovingByDriver,
+        MovingByDriverRelease,
         MovingToTarget,
 
     }

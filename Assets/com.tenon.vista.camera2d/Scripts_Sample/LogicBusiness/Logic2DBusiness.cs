@@ -6,7 +6,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
         public static void EnterGame(Main2DContext ctx) {
             ctx.isGameStart = true;
-            Camera2DInfra.SetMoveByDriver(ctx, ctx.roleEntity.transform);
+            Camera2DInfra.SetMoveByDriver(ctx);
         }
 
         public static void ProcessInput(Main2DContext ctx) {

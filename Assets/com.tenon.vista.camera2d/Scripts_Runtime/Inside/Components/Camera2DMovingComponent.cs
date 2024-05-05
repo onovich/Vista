@@ -11,7 +11,14 @@ namespace TenonKit.Vista.Camera2D {
         internal bool Idle_isEntering { get; set; }
 
         internal bool MovingByDriver_isEntering { get; set; }
-        internal Transform MovingByDriver_driver { get; set; }
+
+        internal bool MovingByDriverRelease_isEntering { get; set; }
+        internal Vector2 MovingByDriverRelease_startPos { get; set; }
+        internal Vector2 MovingByDriverRelease_targetPos { get; set; }
+        internal float MovingByDriverRelease_current { get; set; }
+        internal float MovingByDriverRelease_duration { get; set; }
+        internal EasingType MovingByDriverRelease_easingType { get; set; }
+        internal EasingMode MovingByDriverRelease_easingMode { get; set; }
 
         internal bool MovingToTarget_isEntering { get; set; }
         internal Vector2 MovingToTarget_startPos { get; set; }
@@ -29,13 +36,35 @@ namespace TenonKit.Vista.Camera2D {
             Idle_isEntering = true;
         }
 
-        internal void EnterMovingByDriver(Transform driver) {
+        internal void EnterMovingByDriver() {
+            Reset();
             Status = Camera2DMovingStatus.MovingByDriver;
             MovingByDriver_isEntering = true;
-            MovingByDriver_driver = driver;
         }
 
-        internal void EnterMovingToTarget(Vector2 startPos, Vector2 targetPos, float duration, EasingType easingType, EasingMode easingMode, Action onComplete = null) {
+        internal void EnterMovingByDriverRelease(Vector2 startPos,
+                                                 Vector2 targetPos,
+                                                 float duration,
+                                                 EasingType easingType,
+                                                 EasingMode easingMode) {
+            Reset();
+            Status = Camera2DMovingStatus.MovingByDriverRelease;
+            MovingByDriverRelease_isEntering = true;
+            MovingByDriverRelease_startPos = startPos;
+            MovingByDriverRelease_targetPos = targetPos;
+            MovingByDriverRelease_current = 0f;
+            MovingByDriverRelease_duration = duration;
+            MovingByDriverRelease_easingType = easingType;
+            MovingByDriverRelease_easingMode = easingMode;
+        }
+
+        internal void EnterMovingToTarget(Vector2 startPos,
+                                          Vector2 targetPos,
+                                          float duration,
+                                          EasingType easingType,
+                                          EasingMode easingMode,
+                                          Action onComplete = null) {
+            Reset();
             Status = Camera2DMovingStatus.MovingToTarget;
             MovingToTarget_isEntering = true;
             MovingToTarget_startPos = startPos;
@@ -56,6 +85,26 @@ namespace TenonKit.Vista.Camera2D {
 
         internal void MovingToTarget_OnComplete() {
             MovingToTarget_onComplete?.Invoke();
+        }
+
+        void Reset() {
+            Idle_isEntering = false;
+            MovingByDriver_isEntering = false;
+            MovingByDriverRelease_isEntering = false;
+            MovingByDriverRelease_startPos = Vector2.zero;
+            MovingByDriverRelease_targetPos = Vector2.zero;
+            MovingByDriverRelease_current = 0f;
+            MovingByDriverRelease_duration = 0f;
+            MovingByDriverRelease_easingType = EasingType.Linear;
+            MovingByDriverRelease_easingMode = EasingMode.None;
+            MovingToTarget_isEntering = false;
+            MovingToTarget_startPos = Vector2.zero;
+            MovingToTarget_targetPos = Vector2.zero;
+            MovingToTarget_current = 0f;
+            MovingToTarget_duration = 0f;
+            MovingToTarget_easingType = EasingType.Linear;
+            MovingToTarget_easingMode = EasingMode.None;
+            MovingToTarget_onComplete = null;
         }
 
     }

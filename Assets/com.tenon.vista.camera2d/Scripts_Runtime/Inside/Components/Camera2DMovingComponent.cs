@@ -59,6 +59,14 @@ namespace TenonKit.Vista.Camera2D {
             MovingByDriverRelease_easingMode = easingMode;
         }
 
+        internal void MovingByDriverRelease_IncTimer(float dt) {
+            MovingByDriverRelease_current += dt;
+        }
+
+        internal bool MovingByDriverRelease_IsDone() {
+            return MovingByDriverRelease_current >= MovingByDriverRelease_duration;
+        }
+
         internal void EnterMovingToTarget(Vector2 startPos,
                                           Vector2 targetPos,
                                           float duration,

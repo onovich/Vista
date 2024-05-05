@@ -16,11 +16,11 @@ namespace TenonKit.Vista.Camera2D {
             camera.SetPos(pos);
         }
 
-        internal static void MoveByDriver(Camera2DContext ctx, int id, Vector2 driverWorldPoint, float deltaTime) {
+        internal static Vector2 GetDriverTarget(Camera2DContext ctx, int id, Vector2 driverWorldPoint, float deltaTime) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V2Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
-                return;
+                return Vector2.zero;
             }
             bool deadZoneEnable = currentCamera.IsDeadZoneEnable();
             bool softZoneEnable = currentCamera.IsSoftZoneEnable();
@@ -32,8 +32,7 @@ namespace TenonKit.Vista.Camera2D {
             // DeadZone 禁用时: 硬跟随 Driver
             if (!deadZoneEnable) {
                 targetPos = driverWorldPoint;
-                RefreshCameraPos(ctx, id, targetPos);
-                return;
+                return targetPos;
             }
 
             var driverScreenPoint = Camera2DMathUtil.WorldToScreenPoint(currentCamera, driverWorldPoint, ctx.ScreenSize);
@@ -41,7 +40,7 @@ namespace TenonKit.Vista.Camera2D {
 
             // Driver 在 DeadZone 内：不跟随
             if (deadZoneDiff == Vector2.zero && softZoneEnable) {
-                return;
+                return Vector2.zero;
             }
 
             // Driver 在 SoftZone 内
@@ -49,8 +48,7 @@ namespace TenonKit.Vista.Camera2D {
             if (!softZoneEnable) {
                 var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(currentCamera, deadZoneDiff, ctx.ScreenSize);
                 targetPos += deadZoneWorldDiff;
-                RefreshCameraPos(ctx, id, targetPos);
-                return;
+                return targetPos;
             }
 
             //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
@@ -77,15 +75,17 @@ namespace TenonKit.Vista.Camera2D {
                 var dampingOffset = new Vector2(dampingOffsetX, dampingOffsetY);
 
                 targetPos = cameraWorldPoint + dampingOffset;
-                RefreshCameraPos(ctx, id, targetPos);
-                return;
+                return targetPos;
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
             var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(currentCamera, softZoneDiff, ctx.ScreenSize);
-            cameraWorldPoint += softZoneWorldDiff;
-            RefreshCameraPos(ctx, id, cameraWorldPoint);
+            targetPos = cameraWorldPoint + softZoneWorldDiff;
+            return targetPos;
+        }
 
+        internal static void MoveByDriver(Camera2DContext ctx, int id, Vector2 targetPos) {
+            RefreshCameraPos(ctx, id, targetPos);
         }
 
         static void RefreshCameraPos(Camera2DContext ctx, int id, Vector2 cameraWorldPoint) {

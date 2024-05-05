@@ -13,15 +13,14 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // Tick
-        public Vector2 TickPos(float dt) {
+        public Vector3 Tick(float dt) {
             Camera2DMovingPhase.FSMTick(ctx, dt);
             Camera2DConstraintPhase.Tick(ctx, dt);
-            return ctx.CurrentCamera.Pos;
-        }
-
-        // Tick Shake
-        public Vector2 TickShakeOffset(float dt) {
-            return Camera2DShakePhase.TickShakeOffset(ctx, dt);
+            var pos = ctx.CurrentCamera.Pos;
+            var offset = Camera2DShakePhase.TickShakeOffset(ctx, dt);
+            var z = ctx.CurrentCamera.Z;
+            pos += offset;
+            return new Vector3(pos.x, pos.y, z);
         }
 
         // Camera

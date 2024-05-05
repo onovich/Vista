@@ -51,7 +51,8 @@ namespace TenonKit.Vista.Camera2D {
             deadZoneComponent = new Camera2DDeadZoneComponent();
             softZoneComponent = new Camera2DDeadZoneComponent();
             shakeComponent = new Camera2DShakeComponent();
-            SetPos(new Vector2(pos.x, pos.y));
+            this.pos = pos;
+            this.z = pos.z;
             SetRotation(rot);
             SetSize(size);
             SetAspectRatio(aspect);
@@ -63,7 +64,7 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // Pos
-        internal void SetPos(Vector3 pos) {
+        internal void SetPos(Vector2 pos) {
             this.pos = pos;
         }
 

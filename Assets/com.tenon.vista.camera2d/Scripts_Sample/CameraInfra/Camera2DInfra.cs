@@ -5,12 +5,8 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
     public static class Camera2DInfra {
 
-        public static Vector2 TickPos(Main2DContext ctx, float dt) {
-            return ctx.core.TickPos(dt);
-        }
-
-        public static Vector2 TickShakeOffset(Main2DContext ctx, float dt) {
-            return ctx.core.TickShakeOffset(dt);
+        public static Vector3 TickPos(Main2DContext ctx, float dt) {
+            return ctx.core.Tick(dt);
         }
 
         public static void DrawGizmos(Main2DContext ctx) {

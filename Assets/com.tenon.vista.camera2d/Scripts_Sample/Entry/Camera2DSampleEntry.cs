@@ -171,8 +171,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
         void LateTick(float dt) {
             var pos = Camera2DInfra.TickPos(ctx, dt);
-            var offset = Camera2DInfra.TickShakeOffset(ctx, dt);
-            mainCamera.transform.position = new Vector3(pos.x + offset.x, pos.y + offset.y, mainCamera.transform.position.z);
+            mainCamera.transform.position = pos;
         }
 
         void OnDestroy() {

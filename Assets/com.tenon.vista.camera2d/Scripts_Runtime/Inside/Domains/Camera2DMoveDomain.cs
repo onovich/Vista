@@ -40,7 +40,7 @@ namespace TenonKit.Vista.Camera2D {
 
             // Driver 在 DeadZone 内：不跟随
             if (deadZoneDiff == Vector2.zero && softZoneEnable) {
-                return Vector2.zero;
+                return currentCamera.Pos;
             }
 
             // Driver 在 SoftZone 内

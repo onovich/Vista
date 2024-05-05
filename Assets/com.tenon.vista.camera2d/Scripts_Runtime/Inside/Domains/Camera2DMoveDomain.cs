@@ -57,16 +57,27 @@ namespace TenonKit.Vista.Camera2D {
             var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPoint);
             if (softZoneDiff == Vector2.zero) {
                 var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(currentCamera, deadZoneDiff, ctx.ScreenSize);
-                targetPos += deadZoneWorldDiff;
 
                 float dampingX = currentCamera.SoftZoneDampingFactor.x;
                 float dampingY = currentCamera.SoftZoneDampingFactor.y;
-                cameraWorldPointX += deadZoneWorldDiff.x * dampingX * deltaTime;
-                cameraWorldPointY += deadZoneWorldDiff.y * dampingY * deltaTime;
 
-                cameraWorldPoint = new Vector2(cameraWorldPointX, cameraWorldPointY);
+                var dampingOffsetX = EasingHelper.Easing(0f,
+                                                            deadZoneWorldDiff.x,
+                                                            1 - dampingX,
+                                                            1,
+                                                            EasingType.Linear,
+                                                            EasingMode.None);
+                var dampingOffsetY = EasingHelper.Easing(0f,
+                                                            deadZoneWorldDiff.y,
+                                                            1 - dampingY,
+                                                            1,
+                                                            EasingType.Linear,
+                                                            EasingMode.None);
 
-                RefreshCameraPos(ctx, id, cameraWorldPoint);
+                var dampingOffset = new Vector2(dampingOffsetX, dampingOffsetY);
+
+                targetPos = cameraWorldPoint + dampingOffset;
+                RefreshCameraPos(ctx, id, targetPos);
                 return;
             }
 

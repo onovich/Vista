@@ -461,18 +461,18 @@ MonoBehaviour:
   confinerWorldMin: {x: -10, y: -6}
   deadZoneSize: {x: 0.2, y: 0.2}
   softZoneSize: {x: 0.6, y: 0.6}
-  softZoneDampingFactor: {x: 10, y: 1}
+  softZoneDampingFactor: {x: 0.2, y: 0.99}
   role: {fileID: 931528809}
   targets:
   - {fileID: 771785478}
   - {fileID: 826399709}
   - {fileID: 345231898}
   - {fileID: 213118140}
-  shakeFrequency: 0.1
-  shakeAmplitude: 1
+  shakeFrequency: 10
+  shakeAmplitude: 0.1
   shakeDuration: 0.2
   shakeEasingType: 1
-  shakeEasingMode: 0
+  shakeEasingMode: 2
   navPanel: {fileID: 1764399396}
 --- !u!1 &214594862
 GameObject:

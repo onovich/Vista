@@ -13,8 +13,8 @@ namespace TenonKit.Vista.Camera2D.Sample {
 
         public bool isGameStart;
 
-        public Main2DContext(Camera mainCamera, Vector2 screenSize) {
-            core = new Camera2DCore(mainCamera, screenSize);
+        public Main2DContext(Vector2 screenSize) {
+            core = new Camera2DCore(screenSize);
             isGameStart = false;
         }
 

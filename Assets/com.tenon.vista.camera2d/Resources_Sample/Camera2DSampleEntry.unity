@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea20fecd62ffb60418cc295b0bca69ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraOriginPos: {x: 0, y: 0}
+  mainCamera: {fileID: 963194227}
   confinerWorldMax: {x: 10, y: 8}
   confinerWorldMin: {x: -10, y: -6}
   deadZoneSize: {x: 0.2, y: 0.2}

@@ -8,25 +8,25 @@ namespace TenonKit.Vista.Camera2D {
 
         Camera2DContext ctx;
 
-        public Camera2DCore(Camera mainCamera, Vector2 screenSize) {
-            ctx = new Camera2DContext();
-            ctx.Inject(mainCamera);
-            ctx.Init(screenSize);
+        public Camera2DCore(Vector2 screenSize) {
+            ctx = new Camera2DContext(screenSize);
         }
 
         // Tick
-        public void Tick(float dt) {
-            if (!ctx.Inited) {
-                return;
-            }
+        public Vector2 TickPos(float dt) {
             Camera2DMovingPhase.FSMTick(ctx, dt);
             Camera2DConstraintPhase.Tick(ctx, dt);
-            Camera2DShakePhase.Tick(ctx, dt);
+            return ctx.CurrentCamera.Pos;
+        }
+
+        // Tick Shake
+        public Vector2 TickShakeOffset(float dt) {
+            return Camera2DShakePhase.TickShakeOffset(ctx, dt);
         }
 
         // Camera
-        public int CreateCamera2D(Vector2 pos, Vector2 confinerMax, Vector2 confinerMin) {
-            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, confinerMax, confinerMin);
+        public int CreateCamera2D(Vector3 pos, float rot, float size, float aspect, Vector2 confinerMax, Vector2 confinerMin) {
+            var camera = Camera2DFactory.CreateCamera2D(ctx, pos, rot, size, aspect, confinerMax, confinerMin);
             ctx.AddCamera(camera, camera.ID);
             return camera.ID;
         }
@@ -81,7 +81,7 @@ namespace TenonKit.Vista.Camera2D {
 
         public void DrawGizmos() {
             var camera = ctx.CurrentCamera;
-            DrawGizmos2DHelper.DrawGizmos(ctx, ctx.MainCamera);
+            DrawGizmos2DHelper.DrawGizmos(ctx);
         }
 
     }

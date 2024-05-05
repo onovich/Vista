@@ -13,39 +13,17 @@ namespace TenonKit.Vista.Camera2D {
         Camera2DEntity currentCamera;
         internal Camera2DEntity CurrentCamera => currentCamera;
 
-        Camera mainCamera;
-        internal Camera MainCamera => mainCamera;
-
         Vector2 screenSize;
         internal Vector2 ScreenSize => screenSize;
-
-        float orthographicSize;
-        internal float OrthographicSize => orthographicSize;
-
-        float aspect;
-        internal float Aspect => aspect;
-
-        bool inited;
-        internal bool Inited => inited;
 
         bool confinerIsVaild;
         internal bool ConfinerIsVaild => confinerIsVaild;
 
-        internal Camera2DContext() {
+        internal Camera2DContext(Vector2 screenSize) {
             cameras = new SortedList<int, Camera2DEntity>();
             idService = new IDService2D();
             confinerIsVaild = false;
-        }
-
-        internal void Init(Vector2 screenSize) {
             this.screenSize = screenSize;
-            inited = true;
-        }
-
-        internal void Inject(Camera mainCamera) {
-            this.mainCamera = mainCamera;
-            this.orthographicSize = mainCamera.orthographicSize;
-            this.aspect = mainCamera.aspect;
         }
 
         internal void AddCamera(Camera2DEntity camera, int id) {

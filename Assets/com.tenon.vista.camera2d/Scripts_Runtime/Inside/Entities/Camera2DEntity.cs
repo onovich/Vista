@@ -14,6 +14,21 @@ namespace TenonKit.Vista.Camera2D {
         Vector2 pos;
         internal Vector2 Pos => pos;
 
+        float z;
+        internal float Z => z;
+
+        // Rotation
+        float rot;
+        internal float Rot => rot;
+
+        // Size
+        float size;
+        internal float Size => size;
+
+        // AspectRatio
+        float aspect;
+        internal float Aspect => aspect;
+
         // Confiner
         Camera2DConfinerComponent confinerComponent;
 
@@ -31,11 +46,15 @@ namespace TenonKit.Vista.Camera2D {
         Camera2DShakeComponent shakeComponent;
         internal Camera2DShakeComponent ShakeComponent => shakeComponent;
 
-        internal Camera2DEntity() {
+        internal Camera2DEntity(Vector3 pos, float rot, float size, float aspect) {
             fsmCom = new Camera2DMovingComponent();
             deadZoneComponent = new Camera2DDeadZoneComponent();
             softZoneComponent = new Camera2DDeadZoneComponent();
             shakeComponent = new Camera2DShakeComponent();
+            SetPos(new Vector2(pos.x, pos.y));
+            SetRotation(rot);
+            SetSize(size);
+            SetAspectRatio(aspect);
         }
 
         // ID
@@ -44,8 +63,23 @@ namespace TenonKit.Vista.Camera2D {
         }
 
         // Pos
-        internal void SetPos(Vector2 pos) {
+        internal void SetPos(Vector3 pos) {
             this.pos = pos;
+        }
+
+        // Rotation
+        internal void SetRotation(float rotation) {
+            this.rot = rotation;
+        }
+
+        // Size
+        internal void SetSize(float size) {
+            this.size = size;
+        }
+
+        // AspectRatio
+        internal void SetAspectRatio(float aspectRatio) {
+            this.aspect = aspectRatio;
         }
 
         // DeadZone
@@ -56,8 +90,20 @@ namespace TenonKit.Vista.Camera2D {
             return deadZoneComponent.ScreenDiff_Get(screenPoint);
         }
 
-        internal Vector2 GetDeadZoneSize() {
-            return deadZoneComponent.DeadZoneScreenMax - deadZoneComponent.DeadZoneScreenMin;
+        internal Vector2 GetDeadZoneLT() {
+            return deadZoneComponent.LT;
+        }
+
+        internal Vector2 GetDeadZoneRB() {
+            return deadZoneComponent.RB;
+        }
+
+        internal Vector2 GetDeadZoneLB() {
+            return deadZoneComponent.LB;
+        }
+
+        internal Vector2 GetDeadZoneRT() {
+            return deadZoneComponent.RT;
         }
 
         internal bool IsDeadZoneEnable() {
@@ -78,8 +124,20 @@ namespace TenonKit.Vista.Camera2D {
             return softZoneComponent.ScreenDiff_Get(screenPoint);
         }
 
-        internal Vector2 GetSoftZoneSize() {
-            return softZoneComponent.DeadZoneScreenMax - softZoneComponent.DeadZoneScreenMin;
+        internal Vector2 GetSoftZoneLT() {
+            return softZoneComponent.LT;
+        }
+
+        internal Vector2 GetSoftZoneRB() {
+            return softZoneComponent.RB;
+        }
+
+        internal Vector2 GetSoftZoneLB() {
+            return softZoneComponent.LB;
+        }
+
+        internal Vector2 GetSoftZoneRT() {
+            return softZoneComponent.RT;
         }
 
         internal bool IsSoftZoneEnable() {

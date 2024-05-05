@@ -8,7 +8,7 @@ namespace TenonKit.Vista.Camera2D.Sample {
         Main2DContext ctx;
 
         [Header("Camera2D Config")]
-        [SerializeField] Vector2 cameraOriginPos;
+        [SerializeField] Camera mainCamera;
 
         [Header("Confiner Config")]
         [SerializeField] Vector2 confinerWorldMax;
@@ -43,11 +43,15 @@ namespace TenonKit.Vista.Camera2D.Sample {
             V2Log.Warning = Debug.LogWarning;
             V2Log.Error = Debug.LogError;
 
-            Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-
             var screenSize = new Vector2(Screen.width, Screen.height);
-            ctx = new Main2DContext(mainCamera, screenSize);
-            var cameraID = Camera2DInfra.CreateMainCamera(ctx, cameraOriginPos, confinerWorldMax, confinerWorldMin);
+            ctx = new Main2DContext(screenSize);
+            var cameraID = Camera2DInfra.CreateMainCamera(ctx,
+                                                          mainCamera.transform.position,
+                                                          mainCamera.transform.rotation.eulerAngles.z,
+                                                          mainCamera.orthographicSize,
+                                                          mainCamera.aspect,
+                                                          confinerWorldMax,
+                                                          confinerWorldMin);
             Camera2DInfra.SetCurrentCamera(ctx, ctx.mainCameraID);
             ctx.core.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
             ctx.core.SetSoftZone(ctx.mainCameraID, softZoneSize, Vector2.zero, softZoneDampingFactor);
@@ -141,16 +145,34 @@ namespace TenonKit.Vista.Camera2D.Sample {
             navPanel.action_shakeOnce = null;
         }
 
+        float restDT = 0;
         void Update() {
             var dt = Time.deltaTime;
             Logic2DBusiness.ProcessInput(ctx);
-            Logic2DBusiness.RoleMove(ctx, dt);
-            Logic2DBusiness.ResetInput(ctx);
+            float fixInterval = Time.fixedDeltaTime;
+            restDT += dt;
+            if (restDT <= fixInterval) {
+                FixTick(restDT);
+                restDT = 0;
+            } else {
+                while (restDT > fixInterval) {
+                    FixTick(fixInterval);
+                    restDT -= fixInterval;
+                }
+            }
+            LateTick(dt);
         }
 
-        void LateUpdate() {
-            var dt = Time.deltaTime;
-            Camera2DInfra.Tick(ctx, dt);
+        void FixTick(float dt) {
+            Logic2DBusiness.RoleMove(ctx, dt);
+            Logic2DBusiness.ResetInput(ctx);
+            Physics2D.Simulate(dt);
+        }
+
+        void LateTick(float dt) {
+            var pos = Camera2DInfra.TickPos(ctx, dt);
+            var offset = Camera2DInfra.TickShakeOffset(ctx, dt);
+            mainCamera.transform.position = new Vector3(pos.x + offset.x, pos.y + offset.y, mainCamera.transform.position.z);
         }
 
         void OnDestroy() {

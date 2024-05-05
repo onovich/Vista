@@ -14,10 +14,9 @@ namespace TenonKit.Vista.Camera2D {
             }
             var pos = EasingHelper.Easing2D(startPos, targetPos, current, duration, easingType, easingMode);
             camera.SetPos(pos);
-            ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
-        internal static void MoveByDriver(Camera2DContext ctx, int id, Camera mainCamera, Vector2 driverWorldPoint, float deltaTime) {
+        internal static void MoveByDriver(Camera2DContext ctx, int id, Vector2 driverWorldPoint, float deltaTime) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V2Log.Error($"MoveByDriver Error, Camera Not Found: ID = {id}");
@@ -33,11 +32,11 @@ namespace TenonKit.Vista.Camera2D {
             // DeadZone 禁用时: 硬跟随 Driver
             if (!deadZoneEnable) {
                 targetPos = driverWorldPoint;
-                RefreshCameraPos(ctx, id, mainCamera, targetPos);
+                RefreshCameraPos(ctx, id, targetPos);
                 return;
             }
 
-            var driverScreenPoint = Camera2DMathUtil.WorldToScreenPoint(mainCamera, driverWorldPoint);
+            var driverScreenPoint = Camera2DMathUtil.WorldToScreenPoint(currentCamera, driverWorldPoint, ctx.ScreenSize);
             var deadZoneDiff = currentCamera.GetDeadZoneScreenDiff(driverScreenPoint);
 
             // Driver 在 DeadZone 内：不跟随
@@ -48,16 +47,16 @@ namespace TenonKit.Vista.Camera2D {
             // Driver 在 SoftZone 内
             //// - SoftZone 禁用时：硬跟随 DeadZone Diff
             if (!softZoneEnable) {
-                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ScreenSize);
+                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(currentCamera, deadZoneDiff, ctx.ScreenSize);
                 targetPos += deadZoneWorldDiff;
-                RefreshCameraPos(ctx, id, mainCamera, targetPos);
+                RefreshCameraPos(ctx, id, targetPos);
                 return;
             }
 
             //// - SoftZone 未禁用时：阻尼跟随 DeadZone Diff
             var softZoneDiff = currentCamera.GetSoftZoneScreenDiff(driverScreenPoint);
             if (softZoneDiff == Vector2.zero) {
-                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, deadZoneDiff, ctx.ScreenSize);
+                var deadZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(currentCamera, deadZoneDiff, ctx.ScreenSize);
                 targetPos += deadZoneWorldDiff;
 
                 float dampingX = currentCamera.SoftZoneDampingFactor.x;
@@ -67,18 +66,18 @@ namespace TenonKit.Vista.Camera2D {
 
                 cameraWorldPoint = new Vector2(cameraWorldPointX, cameraWorldPointY);
 
-                RefreshCameraPos(ctx, id, mainCamera, cameraWorldPoint);
+                RefreshCameraPos(ctx, id, cameraWorldPoint);
                 return;
             }
 
             // Driver 在 SoftZone 外：硬跟随 SoftZone Diff
-            var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(mainCamera, softZoneDiff, ctx.ScreenSize);
+            var softZoneWorldDiff = Camera2DMathUtil.ScreenToWorldLength(currentCamera, softZoneDiff, ctx.ScreenSize);
             cameraWorldPoint += softZoneWorldDiff;
-            RefreshCameraPos(ctx, id, mainCamera, cameraWorldPoint);
+            RefreshCameraPos(ctx, id, cameraWorldPoint);
 
         }
 
-        static void RefreshCameraPos(Camera2DContext ctx, int id, Camera mainCamera, Vector2 cameraWorldPoint) {
+        static void RefreshCameraPos(Camera2DContext ctx, int id, Vector2 cameraWorldPoint) {
             var has = ctx.TryGetCamera(id, out var currentCamera);
             if (!has) {
                 V2Log.Error($"RefreshCameraPos Error, Camera Not Found: ID = {id}");
@@ -86,7 +85,6 @@ namespace TenonKit.Vista.Camera2D {
             }
 
             currentCamera.SetPos(cameraWorldPoint);
-            ctx.MainCamera.transform.position = new Vector3(cameraWorldPoint.x, cameraWorldPoint.y, ctx.MainCamera.transform.position.z);
         }
 
     }

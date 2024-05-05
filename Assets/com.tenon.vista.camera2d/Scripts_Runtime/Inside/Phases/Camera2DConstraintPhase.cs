@@ -10,14 +10,12 @@ namespace TenonKit.Vista.Camera2D {
                 return;
             }
             ApplyConfiner(ctx, camera);
-            var pos = camera.Pos;
-            ctx.MainCamera.transform.position = new Vector3(pos.x, pos.y, ctx.MainCamera.transform.position.z);
         }
 
         static void ApplyConfiner(Camera2DContext ctx, Camera2DEntity camera) {
             var src = camera.Pos;
-            var aspect = ctx.Aspect;
-            var orthographicSize = ctx.MainCamera.orthographicSize;
+            var aspect = camera.Aspect;
+            var orthographicSize = camera.Size;
             var succ = camera.TryClampByConfiner(src, orthographicSize, aspect, out Vector2 dst);
             ctx.SetConfinerValid(succ);
             camera.SetPos(dst);

@@ -19,6 +19,11 @@ namespace TenonKit.Vista.Camera2D {
             enable = false;
         }
 
+        internal Vector2 LB => deadZoneScreenMin;
+        internal Vector2 RT => deadZoneScreenMax;
+        internal Vector2 LT => new Vector2(deadZoneScreenMin.x, deadZoneScreenMax.y);
+        internal Vector2 RB => new Vector2(deadZoneScreenMax.x, deadZoneScreenMin.y);
+
         internal void Zone_Set(Vector2 deadZoneNormalizedSize, Vector2 screenSize) {
             var deadZoneSize = new Vector2(screenSize.x * deadZoneNormalizedSize.x, screenSize.y * deadZoneNormalizedSize.y);
             var screenCenter = screenSize / 2f;

@@ -464,7 +464,7 @@ MonoBehaviour:
   softZoneDampingFactor: {x: 0.2, y: 0.99}
   recenterEasingType: 1
   recenterEasingMode: 2
-  recenterEasingDuration: 0.2
+  recenterEasingDuration: 0.3
   role: {fileID: 931528809}
   targets:
   - {fileID: 771785478}

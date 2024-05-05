@@ -59,7 +59,7 @@ namespace TenonKit.Vista.Camera2D {
                                 Vector2 dampingFactor,
                                 EasingType recenterEasingType = EasingType.Sine,
                                 EasingMode recenterEasingMode = EasingMode.EaseOut,
-                                float recenterDuration = .2f) {
+                                float recenterDuration = .3f) {
             Camera2DDeadZoneDomain.SetSoftZone(ctx, cameraID, normalizedSize, offset, dampingFactor, recenterEasingType, recenterEasingMode, recenterDuration);
         }
 

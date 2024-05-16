@@ -1,8 +1,9 @@
 {
-    "name": "TenonKit.Vista.Camera3D",
+    "name": "TenonKit.Vista.Sample",
     "rootNamespace": "",
     "references": [
-        "GUID:3e1313b9d6abf4d0394d17448e7e610f"
+        "GUID:3e1313b9d6abf4d0394d17448e7e610f",
+        "GUID:c7a1d41357ba98345ab1406e0233b825"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

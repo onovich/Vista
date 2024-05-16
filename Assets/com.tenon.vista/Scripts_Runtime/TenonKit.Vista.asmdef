@@ -1,9 +1,8 @@
 {
-    "name": "TenonKit.Vista.Camera2D.Sample",
+    "name": "TenonKit.Vista",
     "rootNamespace": "",
     "references": [
-        "GUID:3e1313b9d6abf4d0394d17448e7e610f",
-        "GUID:c7a1d41357ba98345ab1406e0233b825"
+        "GUID:3e1313b9d6abf4d0394d17448e7e610f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

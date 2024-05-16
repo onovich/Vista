@@ -95,33 +95,39 @@ void Start() {
                                                   confinerWorldMin,
                                                   role.transform.position);
     cameraCore.SetCurrentCamera(mainCameraID);
-    cameraCore.SetDeadZone(ctx.mainCameraID, deadZoneSize, Vector2.zero);
-    cameraCore.SetSoftZone(ctx.mainCameraID,
+    cameraCore.SetDeadZone(mainCameraID, deadZoneSize, Vector2.zero);
+    cameraCore.SetSoftZone(mainCameraID,
                            softZoneSize,
                            Vector2.zero,
                            softZoneDampingFactor,
                            recenterEasingType,
                            recenterEasingMode,
                            recenterEasingDuration);
-    ctx.core.EnableDeadZone(ctx.mainCameraID, true);
-    ctx.core.EnableSoftZone(ctx.mainCameraID, true);
-    ctx.SetRole(role);
+    cameraCore.EnableDeadZone(mainCameraID, true);
+    cameraCore.EnableSoftZone(mainCameraID, true);
 }
 ```
 
 ```
 // Shake
 void ShakeOnce(int cameraID) {
-    ctx.core.ShakeOnce(cameraID, shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
+    cameraCore.ShakeOnce(cameraID, shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
 }
 ```
 
 ```
 // Tick
 void LateTick(float dt) {
-    Camera2DInfra.RecordDriverPos(ctx, role.transform.position);
+    cameraCore.RecordDriverPos(mainCameraID, role.transform.position);
     var pos = Camera2DInfra.TickPos(ctx, dt);
     mainCamera.transform.position = pos;
+}
+```
+
+```
+// Clear Buff
+public void Clear() {
+    cameraCore.Clear();
 }
 ```
 

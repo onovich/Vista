@@ -87,13 +87,13 @@ The boundaries of the camera, usually the boundaries of the 2D scene. The camera
 void Start() {
     var screenSize = new Vector2(Screen.width, Screen.height);
     cameraCore = new Camera2DCore(screenSize);
-    mainCameraID = Camera2DInfra.CreateMainCamera(mainCamera.transform.position,
-                                                  mainCamera.transform.rotation.eulerAngles.z,
-                                                  mainCamera.orthographicSize,
-                                                  mainCamera.aspect,
-                                                  confinerWorldMax,
-                                                  confinerWorldMin,
-                                                  role.transform.position);
+    mainCameraID = cameraCore.CreateCamera2D(mainCamera.transform.position,
+                                             mainCamera.transform.rotation.eulerAngles.z,
+                                             mainCamera.orthographicSize,
+                                             mainCamera.aspect,
+                                             confinerWorldMax,
+                                             confinerWorldMin,
+                                             role.transform.position);
     cameraCore.SetCurrentCamera(mainCameraID);
     cameraCore.SetDeadZone(mainCameraID, deadZoneSize, Vector2.zero);
     cameraCore.SetSoftZone(mainCameraID,

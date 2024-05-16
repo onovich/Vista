@@ -42,6 +42,10 @@ An extension of DeadZone. When the Driver is between the SoftZone and DeadZone, 
 A coefficient between 0 and 1. When set to 0, the camera follows hard; when set to 1, the camera does not follow. Between 0 and 1, the camera follows smoothly, not immediately reaching the target.<br/>
 **0-1的一个系数，为0时相机的跟随表现为硬跟随，为1时相机的表现为不跟随，在0-1之间，相机会缓动跟随，不立刻抵达目标。**
 
+### Recenter
+The behavior where the camera smoothly follows the Driver to bring the character back within the SoftZone when the Driver stops moving.<br/>
+**当 Driver 停止移动时，相机通过缓动跟随，使角色重新回到 SoftZone 内的行为。**
+
 ### Constraint
 The boundaries of the camera, usually the boundaries of the 2D scene. The camera cannot move beyond the boundaries.<br/>
 **相机的边界，一般就是 2D 场景的边界。相机的移动不能超出边界。**
@@ -53,8 +57,8 @@ The boundaries of the camera, usually the boundaries of the 2D scene. The camera
   **Driver 在 DeadZone 内时，不跟随；**
 * When the Driver is within the SoftZone and the SoftZone is disabled, follow hard based on the excess of the DeadZone.<br/>
   **Driver 在 SoftZone 内时，若 SoftZone 禁用，则根据 DeadZone 的超出量执行硬跟随；**
-* When the Driver is within the SoftZone and the SoftZone is enabled, follow with damping based on the excess of the DeadZone.<br/>
-  **Driver 在 SoftZone 内时，若 SoftZone 激活，则根据 DeadZone 的超出量执行阻尼跟随；**
+* When the Driver is within the SoftZone and the SoftZone is active, the camera follows with damping based on the excess of the DeadZone. Additionally, when the Driver stops, the camera performs Recenter according to the Recenter configuration.<br/>
+  **Driver 在 SoftZone 内时，若 SoftZone 激活，则根据 DeadZone 的超出量执行阻尼跟随，并在 Driver 停止后根据 Recenter 配置执行 Recenter；**
 * When the Driver is outside the SoftZone, follow hard based on the excess of the SoftZone.<br/>
   **Driver 在 SoftZone 外时，根据 SoftZone 的超出量执行硬跟随。**
 

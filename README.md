@@ -73,7 +73,7 @@ The boundaries of the camera, usually the boundaries of the 2D scene. The camera
 * Transition Between Multiple Cameras
 
 ## Not In Plan
-* Look At Group
+* Aim Group
 * Composite Shake
 
 # Sample

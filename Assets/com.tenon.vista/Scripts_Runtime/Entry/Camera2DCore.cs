@@ -52,6 +52,10 @@ namespace TenonKit.Vista.Camera2D {
             return Camera2DDeadZoneDomain.IsDeadZoneEnable(ctx, cameraID);
         }
 
+        public bool IsCurrentCameraSet() {
+            return ctx.CurrentCamera != null;
+        }
+
         // SoftZone
         public void SetSoftZone(int cameraID,
                                 Vector2 normalizedSize,
